@@ -5,5 +5,5 @@ export const Route = createFileRoute("/")({
 });
 
 function RouteComponent() {
-  return <p className="text-red-500">Hello!!</p>;
+  return <p className="text-red-500">Test</p>;
 }
