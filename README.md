@@ -1,4 +1,6 @@
 # Technologies used:
+
+## Front-end
 - React
 - TypeScript
 - Tailwind
@@ -6,3 +8,6 @@
 - Tanstack Router
 - Shadcn UI
 - Vite
+
+## Back-end
+- Pocketbase
