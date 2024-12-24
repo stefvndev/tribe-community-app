@@ -7,7 +7,9 @@ export const Route = createRootRoute({
   component: () => (
     <>
       <Navbar />
-      <Outlet />
+      <div className="pt-16">
+        <Outlet />
+      </div>
       <TanStackRouterDevtools />
       <ReactQueryDevtools initialIsOpen={false} />
     </>

@@ -1,11 +1,14 @@
 import NavDropdown from "./NavDropdown";
+import { Link } from "@tanstack/react-router";
 
 const Navbar = () => {
   return (
     <header className="absolute top-0 left-0 right-0 w-full h-16 px-4 bg-white border-b">
       <nav className="flex items-center justify-between w-full h-full mx-auto max-w-landing">
         <div className="flex items-center gap-2">
-          <h2 className="text-4xl font-bold">tribu</h2>
+          <Link to="/" className="text-4xl font-bold">
+            tribu
+          </Link>
           <NavDropdown />
         </div>
         <button

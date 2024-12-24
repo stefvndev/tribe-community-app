@@ -7,7 +7,7 @@ export const Route = createFileRoute("/")({
 function RouteComponent() {
   return (
     <div className="w-full h-full min-h-screen bg-primary">
-      <main className="flex flex-col w-full px-4"></main>
+      <main className="flex flex-col w-full px-4">Home</main>
     </div>
   );
 }
