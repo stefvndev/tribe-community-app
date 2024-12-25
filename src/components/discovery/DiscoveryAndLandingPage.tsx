@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Input } from "@/components/ui/input";
 import { IconSearch } from "@tabler/icons-react";
+import DiscoveryFilters from "./DiscoveryFilters";
 
 const DiscoveryAndLandingPage = () => {
   return (
@@ -19,10 +20,14 @@ const DiscoveryAndLandingPage = () => {
           <div className="w-full max-w-[650px]">
             <Input
               placeholder="Search for anything"
-              className="w-full px-5 mt-8 !text-lg pl-14 font-medium bg-white h-14 shadow-custom placeholder:opacity-90 rounded-xl border"
+              className="w-full px-5 mt-8 !text-lg pl-14 font-medium bg-white h-14 !shadow-custom placeholder:opacity-90 rounded-xl border"
               icon={<IconSearch size={22} className="ml-1.5 opacity-90" />}
             />
           </div>
+        </div>
+        <div className="flex flex-col items-center justify-center w-full mt-14">
+          <DiscoveryFilters />
+          <div className="grid w-full grid-cols-3"></div>
         </div>
       </main>
     </div>

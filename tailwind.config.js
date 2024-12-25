@@ -7,6 +7,7 @@ export default {
       backgroundColor: {
         primary: "#F8F7F5",
         "light-gray": "#E4E4E4",
+        "dark-gray": "#909090",
       },
       maxWidth: {
         landing: "1075px",
