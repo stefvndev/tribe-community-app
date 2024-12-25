@@ -7,7 +7,7 @@ const Navbar = () => {
       <nav className="flex items-center justify-between w-full h-full mx-auto max-w-landing">
         <div className="flex items-center gap-2">
           <Link to="/" className="text-4xl font-bold">
-            tribu
+            tribe
           </Link>
           <NavDropdown />
         </div>
