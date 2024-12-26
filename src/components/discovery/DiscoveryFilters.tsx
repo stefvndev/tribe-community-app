@@ -1,6 +1,6 @@
-import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
-import discoveryFiltersData from "./discoveryFiltersData";
 import { useState } from "react";
+import DiscoveryFilterByPriceAndType from "./DiscoveryFilterByPriceAndType";
+import { discoveryFiltersData } from "./discoveryFiltersData";
 
 const DiscoveryFilters = () => {
   const [showAllFilters, setShowAllFIlters] = useState(false);
@@ -47,13 +47,7 @@ const DiscoveryFilters = () => {
             More...
           </button>
         )}
-        <button
-          className="h-10 text-sm bg-white border rounded-full text-grayout w-fit px-[14px] hover:text-white transition-all ease-in-out hover:bg-dark-gray flex items-center gap-1.5"
-          type="button"
-        >
-          Filter
-          <IconAdjustmentsHorizontal size={18} />
-        </button>
+        <DiscoveryFilterByPriceAndType />
       </div>
     </div>
   );
