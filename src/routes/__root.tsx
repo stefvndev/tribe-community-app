@@ -24,7 +24,7 @@ export const Route = createRootRoute({
   component: () => (
     <>
       <Navbar />
-      <div className="w-full min-h-screen pt-16 bg-primary">
+      <div className="pt-16">
         <Outlet />
       </div>
       {/* devtools */}
