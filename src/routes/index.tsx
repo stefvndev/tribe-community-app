@@ -23,8 +23,8 @@ export const Route = createFileRoute("/")({
 
 function RouteComponent() {
   return (
-    <div className="w-full h-full min-h-[calc(100vh-64px)] px-4 bg-primary">
-      <main className="flex flex-col items-center justify-center w-full py-8 mx-auto max-w-landing">
+    <div className="w-full h-full px-4">
+      <main className="flex flex-col items-center justify-center w-full py-8 mx-auto max-w-1075">
         <div className="flex flex-col items-center w-full text-center">
           <h1 className="text-[45px] font-bold text-dark-primary max-sm:leading-none">
             Discover communities

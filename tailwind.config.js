@@ -12,7 +12,7 @@ export default {
         "yellow-primary-hover": "#F1D07C",
       },
       maxWidth: {
-        landing: "1075px",
+        1075: "1075px",
       },
       colors: {
         "dark-primary": "#202124",
