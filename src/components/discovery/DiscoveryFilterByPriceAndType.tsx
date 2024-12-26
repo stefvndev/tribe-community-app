@@ -32,7 +32,7 @@ const DiscoveryFilterByPriceAndType = () => {
       </PopoverTrigger>
       <PopoverContent
         align="end"
-        className="p-6 w-[376px] h-44 shadow-custom rounded-xl"
+        className="p-6 w-[376px] max-sm:w-[300px] max-sm:ml-4 h-44 shadow-custom rounded-xl"
       >
         <div className="flex w-full h-full">
           <div className="flex flex-col w-1/2 h-full pr-6 border-r border-black/20">

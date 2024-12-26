@@ -23,7 +23,7 @@ const DiscoveryFilters = () => {
   };
 
   return (
-    <div className="flex items-center justify-between w-full">
+    <div className="flex items-center justify-between w-full max-sm:flex-col-reverse max-sm:gap-4">
       <div className="flex flex-wrap items-center w-full gap-2">
         {filtersList.map((item) => (
           <button
