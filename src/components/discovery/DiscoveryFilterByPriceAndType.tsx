@@ -1,3 +1,4 @@
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
 import {
   discoveryFiltersPrice,
@@ -8,8 +9,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Route } from "@/routes";
 
 const DiscoveryFilterByPriceAndType = () => {
+  const navigate = useNavigate({ from: Route.fullPath });
+  const { type, price } = useSearch({ from: Route.fullPath });
+
+  const handlePushQuery = (name: string, value: unknown) => {
+    navigate({ search: (prev) => ({ ...prev, [name]: value }) });
+  };
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -37,6 +46,8 @@ const DiscoveryFilterByPriceAndType = () => {
                   className="flex items-center gap-2 cursor-pointer"
                 >
                   <input
+                    checked={type === item.name}
+                    onChange={() => handlePushQuery("type", item.name)}
                     value={item.name}
                     name="filterType"
                     type="radio"
@@ -58,6 +69,8 @@ const DiscoveryFilterByPriceAndType = () => {
                   className="flex items-center gap-2 cursor-pointer"
                 >
                   <input
+                    checked={price === item.name}
+                    onChange={() => handlePushQuery("price", item.name)}
                     value={item.name}
                     name="filterPrice"
                     type="radio"

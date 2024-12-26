@@ -11,16 +11,9 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as DiscoveryImport } from './routes/discovery'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
-
-const DiscoveryRoute = DiscoveryImport.update({
-  id: '/discovery',
-  path: '/discovery',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -39,13 +32,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/discovery': {
-      id: '/discovery'
-      path: '/discovery'
-      fullPath: '/discovery'
-      preLoaderRoute: typeof DiscoveryImport
-      parentRoute: typeof rootRoute
-    }
   }
 }
 
@@ -53,37 +39,32 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/discovery': typeof DiscoveryRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/discovery': typeof DiscoveryRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/discovery': typeof DiscoveryRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/discovery'
+  fullPaths: '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/discovery'
-  id: '__root__' | '/' | '/discovery'
+  to: '/'
+  id: '__root__' | '/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DiscoveryRoute: typeof DiscoveryRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DiscoveryRoute: DiscoveryRoute,
 }
 
 export const routeTree = rootRoute
@@ -96,15 +77,11 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/",
-        "/discovery"
+        "/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
-    },
-    "/discovery": {
-      "filePath": "discovery.tsx"
     }
   }
 }

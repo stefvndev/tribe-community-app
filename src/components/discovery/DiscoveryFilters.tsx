@@ -1,9 +1,14 @@
 import { useState } from "react";
 import DiscoveryFilterByPriceAndType from "./DiscoveryFilterByPriceAndType";
 import { discoveryFiltersData } from "./discoveryFiltersData";
+import { useNavigate, useSearch } from "@tanstack/react-router";
+import { Route } from "@/routes";
+import { cn } from "@/lib/utils";
 
 const DiscoveryFilters = () => {
   const [showAllFilters, setShowAllFIlters] = useState(false);
+  const navigate = useNavigate({ from: Route.fullPath });
+  const { category } = useSearch({ from: Route.fullPath });
 
   const filtersList = showAllFilters
     ? discoveryFiltersData
@@ -13,15 +18,22 @@ const DiscoveryFilters = () => {
     setShowAllFIlters(!showAllFilters);
   };
 
+  const handlePushQuery = (name: string, value: unknown) => {
+    navigate({ search: (prev) => ({ ...prev, [name]: value }) });
+  };
+
   return (
     <div className="flex items-center justify-between w-full">
       <div className="flex flex-wrap items-center w-full gap-2">
         {filtersList.map((item) => (
           <button
             type="button"
-            className="h-10 flex items-center gap-2 text-sm bg-white border rounded-full text-grayout w-fit px-[14px] hover:text-white transition-all ease-in-out hover:bg-dark-gray active:bg-dark-gray active:text-white"
+            className={cn(
+              "h-10 flex items-center gap-2 text-sm bg-white border rounded-full text-grayout w-fit px-[14px] hover:text-white transition-all ease-in-out hover:bg-dark-gray",
+              category === item.query && "text-white bg-dark-gray"
+            )}
             key={item.id}
-            onClick={() => console.log(item.query)}
+            onClick={() => handlePushQuery("category", item.query)}
           >
             <>{item.icon}</>
             <p>{item.name}</p>
