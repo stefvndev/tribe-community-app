@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -11,7 +13,6 @@ import {
   IconSelector,
 } from "@tabler/icons-react";
 import { Input } from "@/components/ui/input";
-import { ReactNode } from "react";
 
 type TLinks = {
   id: number;
@@ -30,7 +31,7 @@ const links: TLinks[] = [
   {
     id: 2,
     name: "Discover communities",
-    url: "/discovery",
+    url: "/",
     icon: (
       <IconBrandSafari size={24} className="bg-light-gray text-neutral-500" />
     ),
@@ -59,8 +60,8 @@ const NavDropdown = () => {
           {/* Change button to link later 👇🏼 */}
           {links.map((link) => (
             <div key={link.id} className="w-full flex flex-col mt-1.5">
-              <button
-                type="button"
+              <Link
+                to={link.url}
                 className="flex items-center gap-2 p-4 transition-all ease-in-out hover:bg-light-gray"
               >
                 <div className="flex items-center justify-center size-10 rounded-xl bg-light-gray">
@@ -69,7 +70,7 @@ const NavDropdown = () => {
                 <p className="text-lg font-medium text-dark-primary">
                   {link.name}
                 </p>
-              </button>
+              </Link>
             </div>
           ))}
         </div>

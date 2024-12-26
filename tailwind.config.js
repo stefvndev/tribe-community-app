@@ -8,6 +8,8 @@ export default {
         primary: "#F8F7F5",
         "light-gray": "#E4E4E4",
         "dark-gray": "#909090",
+        "yellow-primary": "#F8D481",
+        "yellow-primary-hover": "#F1D07C",
       },
       maxWidth: {
         landing: "1075px",
