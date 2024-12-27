@@ -8,6 +8,8 @@
 - Tanstack Router
 - Shadcn UI
 - Vite
+- React Hook Form
+- Zod
 
 ## Back-end
 - Pocketbase
