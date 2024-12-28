@@ -19,7 +19,7 @@ const validationSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
-export const Route = createFileRoute("/(auth)/login")({
+export const Route = createFileRoute("/login")({
   component: RouteComponent,
 });
 

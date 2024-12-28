@@ -38,7 +38,7 @@ const SIGNUP_ERRORS = {
   VALIDATION_NOT_UNIQUE: "validation_not_unique",
 };
 
-export const Route = createFileRoute("/(auth)/signup")({
+export const Route = createFileRoute("/signup")({
   component: RouteComponent,
 });
 
