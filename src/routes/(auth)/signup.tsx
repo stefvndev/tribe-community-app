@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { IconLoader2 } from "@tabler/icons-react";
+import InputErrorMessage from "@/components/errorMessage/InputErrorMessage";
 
 type TSubmitData = {
   name: string;
@@ -132,14 +133,7 @@ function RouteComponent() {
                   className="w-full h-[52px] border text-dark-primary font-base px-4 rounded-md"
                   hasError={!!errors?.name?.message}
                 />
-                <p
-                  className={cn(
-                    !errors?.name?.message && "hidden",
-                    "flex text-xs font-medium text-red-600"
-                  )}
-                >
-                  {errors?.name?.message}
-                </p>
+                <InputErrorMessage message={errors?.name?.message} />
               </label>
               <label className="flex flex-col w-full gap-1">
                 <Input
@@ -149,14 +143,7 @@ function RouteComponent() {
                   className="w-full h-[52px] border text-dark-primary font-base px-4 rounded-md"
                   hasError={!!errors?.last_name?.message}
                 />
-                <p
-                  className={cn(
-                    !errors?.last_name?.message && "hidden",
-                    "flex text-xs font-medium text-red-600"
-                  )}
-                >
-                  {errors?.last_name?.message}
-                </p>
+                <InputErrorMessage message={errors?.last_name?.message} />
               </label>
               <label className="flex flex-col w-full gap-1">
                 <Input
@@ -166,14 +153,7 @@ function RouteComponent() {
                   className="w-full h-[52px] border text-dark-primary font-base px-4 rounded-md"
                   hasError={!!errors?.email?.message}
                 />
-                <p
-                  className={cn(
-                    !errors?.email?.message && "hidden",
-                    "flex text-xs font-medium text-red-600"
-                  )}
-                >
-                  {errors?.email?.message}
-                </p>
+                <InputErrorMessage message={errors?.email?.message} />
               </label>
               <label className="flex flex-col w-full gap-1">
                 <Input
@@ -183,14 +163,7 @@ function RouteComponent() {
                   className="w-full h-[52px] border text-dark-primary font-base px-4 rounded-md"
                   hasError={!!errors?.password?.message}
                 />
-                <p
-                  className={cn(
-                    !errors?.password?.message && "hidden",
-                    "flex text-xs font-medium text-red-600"
-                  )}
-                >
-                  {errors?.password?.message}
-                </p>
+                <InputErrorMessage message={errors?.password?.message} />
               </label>
             </div>
             <button

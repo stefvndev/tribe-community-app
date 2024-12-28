@@ -8,6 +8,7 @@ import { z } from "zod";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { IconLoader2 } from "@tabler/icons-react";
+import InputErrorMessage from "@/components/errorMessage/InputErrorMessage";
 
 type TSubmitData = {
   email: string;
@@ -80,14 +81,7 @@ function RouteComponent() {
               className="w-full h-[52px] border text-dark-primary font-base px-4 rounded-md"
               hasError={!!errors?.email?.message}
             />
-            <p
-              className={cn(
-                !errors?.email?.message && "hidden",
-                "flex text-xs font-medium text-red-600"
-              )}
-            >
-              {errors?.email?.message}
-            </p>
+            <InputErrorMessage message={errors?.email?.message} />
           </label>
           <label className="flex flex-col w-full gap-1">
             <Input
@@ -97,14 +91,7 @@ function RouteComponent() {
               className="w-full h-[52px] border text-dark-primary font-base px-4 rounded-md"
               hasError={!!errors?.password?.message}
             />
-            <p
-              className={cn(
-                !errors?.password?.message && "hidden",
-                "flex text-xs font-medium text-red-600"
-              )}
-            >
-              {errors?.password?.message}
-            </p>
+            <InputErrorMessage message={errors?.password?.message} />
           </label>
           <button
             type="submit"
