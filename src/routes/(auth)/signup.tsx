@@ -37,7 +37,7 @@ const SIGNUP_ERRORS = {
   VALIDATION_NOT_UNIQUE: "validation_not_unique",
 };
 
-export const Route = createFileRoute("/signup")({
+export const Route = createFileRoute("/(auth)/signup")({
   component: RouteComponent,
 });
 
@@ -88,7 +88,7 @@ function RouteComponent() {
   return (
     <main className="flex items-center px-4 pb-6 min-h-[calc(100vh-64px)] justify-center w-full h-full">
       <div className="flex justify-between w-full h-full gap-5 max-lg:flex-col-reverse max-lg:gap-16 max-lg:mt-14 max-lg:items-center max-w-1075">
-        <div className="flex flex-col items-start max-sm:text-center w-full max-w-[440px] max-sm:max-w-full">
+        <div className="flex flex-col items-start justify-center max-sm:text-center w-full max-w-[440px] max-sm:max-w-full">
           <Link
             to="/"
             className="text-4xl font-bold max-sm:mx-auto text-dark-primary"
@@ -119,27 +119,57 @@ function RouteComponent() {
             className="flex flex-col items-center w-full h-full gap-4"
           >
             <div className="flex flex-col w-full gap-4">
-              <Input
-                {...register("name")}
-                type="text"
-                placeholder="First name"
-                className="w-full h-[52px] border text-dark-primary font-base px-4 rounded-md"
-                hasError={!!errors?.name?.message}
-              />
-              <Input
-                {...register("last_name")}
-                type="text"
-                placeholder="Last name"
-                className="w-full h-[52px] border text-dark-primary font-base px-4 rounded-md"
-                hasError={!!errors?.last_name?.message}
-              />
-              <Input
-                {...register("email")}
-                type="email"
-                placeholder="Email"
-                className="w-full h-[52px] border text-dark-primary font-base px-4 rounded-md"
-                hasError={!!errors?.email?.message}
-              />
+              <label className="flex flex-col w-full gap-1">
+                <Input
+                  {...register("name")}
+                  type="name"
+                  placeholder="First name"
+                  className="w-full h-[52px] border text-dark-primary font-base px-4 rounded-md"
+                  hasError={!!errors?.name?.message}
+                />
+                <p
+                  className={cn(
+                    !errors?.name?.message && "hidden",
+                    "flex text-xs font-medium text-red-600"
+                  )}
+                >
+                  {errors?.name?.message}
+                </p>
+              </label>
+              <label className="flex flex-col w-full gap-1">
+                <Input
+                  {...register("last_name")}
+                  type="last_name"
+                  placeholder="Last name"
+                  className="w-full h-[52px] border text-dark-primary font-base px-4 rounded-md"
+                  hasError={!!errors?.last_name?.message}
+                />
+                <p
+                  className={cn(
+                    !errors?.last_name?.message && "hidden",
+                    "flex text-xs font-medium text-red-600"
+                  )}
+                >
+                  {errors?.last_name?.message}
+                </p>
+              </label>
+              <label className="flex flex-col w-full gap-1">
+                <Input
+                  {...register("email")}
+                  type="email"
+                  placeholder="Email"
+                  className="w-full h-[52px] border text-dark-primary font-base px-4 rounded-md"
+                  hasError={!!errors?.email?.message}
+                />
+                <p
+                  className={cn(
+                    !errors?.email?.message && "hidden",
+                    "flex text-xs font-medium text-red-600"
+                  )}
+                >
+                  {errors?.email?.message}
+                </p>
+              </label>
               <label className="flex flex-col w-full gap-1">
                 <Input
                   {...register("password")}
