@@ -1,14 +1,12 @@
-import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import PocketBase from "pocketbase";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import textListSignUp from "@/components/signup/textListLogin";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { IconLoader2 } from "@tabler/icons-react";
+import { TSignUpData, useAuth } from "@/lib/useAuth";
 
 type TSubmitData = {
   name: string;
@@ -33,22 +31,12 @@ const validationSchema = z.object({
     ),
 });
 
-const SIGNUP_ERRORS = {
-  VALIDATION_REQUIRED: "validation_required",
-  VALIDATION_NOT_UNIQUE: "validation_not_unique",
-};
-
 export const Route = createFileRoute("/signup")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const pb = useMemo(
-    () => new PocketBase(import.meta.env.VITE_API_BASE_URL),
-    []
-  );
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const { signUp, isLoading } = useAuth();
 
   const {
     register,
@@ -58,39 +46,15 @@ function RouteComponent() {
     resolver: zodResolver(validationSchema),
   });
 
-  const onSubmit = async (data: TSubmitData) => {
-    const formattedData = {
+  const onSubmit = (data: TSubmitData) => {
+    const formattedData: TSignUpData = {
       name: data?.name + " " + data?.last_name,
       email: data?.email,
       password: data?.password,
       passwordConfirm: data?.password,
       emailVisibility: true,
     };
-    try {
-      await pb.collection("users").create(formattedData);
-      toast("Account Created!", {
-        description:
-          "Your account has been created successfully! You can now log in using your credentials.",
-      });
-      setLoading(false);
-      navigate({ to: "/login" });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      const errorData = err?.data;
-      if (
-        errorData?.data?.email?.code === SIGNUP_ERRORS.VALIDATION_NOT_UNIQUE
-      ) {
-        toast.error("Email already exists", {
-          description: "The email address is already in use.",
-        });
-      } else {
-        toast.error("Error", {
-          description: "Something went wrong. Please try again later.",
-        });
-      }
-    } finally {
-      setLoading(false);
-    }
+    signUp(formattedData);
   };
 
   return (
@@ -161,14 +125,14 @@ function RouteComponent() {
               />
             </div>
             <button
-              disabled={loading}
+              disabled={isLoading}
               type="submit"
               className={cn(
                 "flex items-center justify-center w-full h-12 px-4 mt-2 font-bold uppercase rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover",
-                loading && "bg-light-gray text-gray-500 hover:bg-light-gray"
+                isLoading && "bg-light-gray text-gray-500 hover:bg-light-gray"
               )}
             >
-              {loading ? (
+              {isLoading ? (
                 <IconLoader2 className="animate-spin" size={22} />
               ) : (
                 "Sign up"

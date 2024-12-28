@@ -1,13 +1,11 @@
-import { useMemo, useState } from "react";
-import PocketBase from "pocketbase";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { IconLoader2 } from "@tabler/icons-react";
+import { useAuth } from "@/lib/useAuth";
 
 type TSubmitData = {
   email: string;
@@ -24,11 +22,7 @@ export const Route = createFileRoute("/login")({
 });
 
 function RouteComponent() {
-  const pb = useMemo(
-    () => new PocketBase(import.meta.env.VITE_API_BASE_URL),
-    []
-  );
-  const [loading, setLoading] = useState(false);
+  const { signIn, isLoading } = useAuth();
 
   const {
     register,
@@ -40,20 +34,7 @@ function RouteComponent() {
 
   const onSubmit = async (data: TSubmitData) => {
     const { email, password } = data;
-    setLoading(true);
-    try {
-      await pb.collection("users").authWithPassword(email, password);
-      toast("Login Successful!", {
-        description: "You have logged in successfully!",
-      });
-      console.log(pb.authStore);
-    } catch {
-      toast.error("Login Failed!", {
-        description: "Please check your credentials and try again.",
-      });
-    } finally {
-      setLoading(false);
-    }
+    signIn(email, password);
   };
 
   return (
@@ -89,13 +70,14 @@ function RouteComponent() {
             errorMessage={errors?.password?.message}
           />
           <button
+            disabled={isLoading}
             type="submit"
             className={cn(
               "flex items-center justify-center w-full h-12 px-4 mt-2 font-bold uppercase rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover",
-              loading && "bg-light-gray text-gray-500 hover:bg-light-gray"
+              isLoading && "bg-light-gray text-gray-500 hover:bg-light-gray"
             )}
           >
-            {loading ? (
+            {isLoading ? (
               <IconLoader2 className="animate-spin" size={22} />
             ) : (
               "Log in"
