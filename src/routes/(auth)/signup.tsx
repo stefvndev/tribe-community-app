@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import PocketBase from "pocketbase";
 import { createFileRoute, Link } from "@tanstack/react-router";
@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { IconLoader2 } from "@tabler/icons-react";
 
 type TSubmitData = {
   name: string;
@@ -46,6 +47,7 @@ function RouteComponent() {
     () => new PocketBase(import.meta.env.VITE_API_BASE_URL),
     []
   );
+  const [loading, setLoading] = useState(false);
 
   const {
     register,
@@ -68,6 +70,7 @@ function RouteComponent() {
       toast("Account created!", {
         description: "Your account has been created successfully!",
       });
+      setLoading(false);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       const errorData = err?.data;
@@ -82,6 +85,8 @@ function RouteComponent() {
           description: "Something went wrong. Please try again later.",
         });
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -189,10 +194,18 @@ function RouteComponent() {
               </label>
             </div>
             <button
+              disabled={loading}
               type="submit"
-              className="flex items-center justify-center w-full h-12 px-4 mt-2 font-bold uppercase rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover"
+              className={cn(
+                "flex items-center justify-center w-full h-12 px-4 mt-2 font-bold uppercase rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover",
+                loading && "bg-light-gray text-gray-500 hover:bg-light-gray"
+              )}
             >
-              Sign up
+              {loading ? (
+                <IconLoader2 className="animate-spin" size={22} />
+              ) : (
+                "Sign up"
+              )}
             </button>
           </form>
           <p className="mt-5">

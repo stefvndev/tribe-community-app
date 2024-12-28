@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import PocketBase from "pocketbase";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { toast } from "sonner";
@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
+import { IconLoader2 } from "@tabler/icons-react";
 
 type TSubmitData = {
   email: string;
@@ -27,6 +28,7 @@ function RouteComponent() {
     () => new PocketBase(import.meta.env.VITE_API_BASE_URL),
     []
   );
+  const [loading, setLoading] = useState(false);
 
   const {
     register,
@@ -38,6 +40,7 @@ function RouteComponent() {
 
   const onSubmit = async (data: TSubmitData) => {
     const { email, password } = data;
+    setLoading(true);
     try {
       await pb.collection("users").authWithPassword(email, password);
       toast("Login Successful!", {
@@ -48,6 +51,8 @@ function RouteComponent() {
       toast.error("Login Failed!", {
         description: "Please check your credentials and try again.",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -103,9 +108,16 @@ function RouteComponent() {
           </label>
           <button
             type="submit"
-            className="flex items-center justify-center w-full h-12 px-4 mt-2 font-bold uppercase rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover"
+            className={cn(
+              "flex items-center justify-center w-full h-12 px-4 mt-2 font-bold uppercase rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover",
+              loading && "bg-light-gray text-gray-500 hover:bg-light-gray"
+            )}
           >
-            Log in
+            {loading ? (
+              <IconLoader2 className="animate-spin" size={22} />
+            ) : (
+              "Log in"
+            )}
           </button>
         </form>
         <p className="mt-5">
