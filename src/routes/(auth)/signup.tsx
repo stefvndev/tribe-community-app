@@ -9,7 +9,6 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { IconLoader2 } from "@tabler/icons-react";
-import InputErrorMessage from "@/components/errorMessage/InputErrorMessage";
 
 type TSubmitData = {
   name: string;
@@ -124,47 +123,39 @@ function RouteComponent() {
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col items-center w-full h-full gap-4"
           >
-            <div className="flex flex-col w-full gap-4">
-              <label className="flex flex-col w-full gap-1">
-                <Input
-                  {...register("name")}
-                  type="name"
-                  placeholder="First name"
-                  className="w-full h-[52px] border text-dark-primary font-base px-4 rounded-md"
-                  hasError={!!errors?.name?.message}
-                />
-                <InputErrorMessage message={errors?.name?.message} />
-              </label>
-              <label className="flex flex-col w-full gap-1">
-                <Input
-                  {...register("last_name")}
-                  type="last_name"
-                  placeholder="Last name"
-                  className="w-full h-[52px] border text-dark-primary font-base px-4 rounded-md"
-                  hasError={!!errors?.last_name?.message}
-                />
-                <InputErrorMessage message={errors?.last_name?.message} />
-              </label>
-              <label className="flex flex-col w-full gap-1">
-                <Input
-                  {...register("email")}
-                  type="email"
-                  placeholder="Email"
-                  className="w-full h-[52px] border text-dark-primary font-base px-4 rounded-md"
-                  hasError={!!errors?.email?.message}
-                />
-                <InputErrorMessage message={errors?.email?.message} />
-              </label>
-              <label className="flex flex-col w-full gap-1">
-                <Input
-                  {...register("password")}
-                  type="password"
-                  placeholder="Password"
-                  className="w-full h-[52px] border text-dark-primary font-base px-4 rounded-md"
-                  hasError={!!errors?.password?.message}
-                />
-                <InputErrorMessage message={errors?.password?.message} />
-              </label>
+            <div className="flex flex-col w-full gap-6">
+              <Input
+                {...register("name")}
+                type="name"
+                placeholder="First name"
+                className="w-full h-[52px] border text-dark-primary font-base px-4 rounded-md"
+                hasError={!!errors?.name?.message}
+                errorMessage={errors?.name?.message}
+              />
+              <Input
+                {...register("last_name")}
+                type="last_name"
+                placeholder="Last name"
+                className="w-full h-[52px] border text-dark-primary font-base px-4 rounded-md"
+                hasError={!!errors?.last_name?.message}
+                errorMessage={errors?.last_name?.message}
+              />
+              <Input
+                {...register("email")}
+                type="email"
+                placeholder="Email"
+                className="w-full h-[52px] border text-dark-primary font-base px-4 rounded-md"
+                hasError={!!errors?.email?.message}
+                errorMessage={errors?.email?.message}
+              />
+              <Input
+                {...register("password")}
+                type="password"
+                placeholder="Password"
+                className="w-full h-[52px] border text-dark-primary font-base px-4 rounded-md"
+                hasError={!!errors?.password?.message}
+                errorMessage={errors?.password?.message}
+              />
             </div>
             <button
               disabled={loading}

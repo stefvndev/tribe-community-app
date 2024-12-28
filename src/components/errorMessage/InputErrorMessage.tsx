@@ -1,6 +1,16 @@
-const InputErrorMessage = ({ message }: { message?: string }) => {
-  if (!message) return null;
-  return <p className="flex text-xs font-medium text-red-600">{message}</p>;
+const InputErrorMessage = ({
+  error,
+  message,
+}: {
+  error?: boolean;
+  message?: string;
+}) => {
+  if (!error) return null;
+  return (
+    <p className="absolute left-0.5 flex mt-1 text-xs font-medium text-red-600 -bottom-5">
+      {message}
+    </p>
+  );
 };
 
 export default InputErrorMessage;

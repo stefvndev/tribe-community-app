@@ -1,16 +1,18 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import InputErrorMessage from "../errorMessage/InputErrorMessage";
 
 interface InputProps extends React.ComponentProps<"input"> {
   icon?: React.ReactNode;
   hasError?: boolean;
+  errorMessage?: string;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, icon, hasError, ...props }, ref) => {
+  ({ className, type, icon, hasError, errorMessage, ...props }, ref) => {
     return (
-      <div className="relative">
+      <div className="relative w-full">
         {icon && (
           <div className="absolute -translate-y-1/2 text-neutral-500 top-1/2 left-3">
             {icon}
@@ -27,6 +29,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           {...props}
         />
+        <InputErrorMessage error={hasError} message={errorMessage} />
       </div>
     );
   }

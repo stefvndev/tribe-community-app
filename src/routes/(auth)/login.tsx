@@ -8,7 +8,6 @@ import { z } from "zod";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { IconLoader2 } from "@tabler/icons-react";
-import InputErrorMessage from "@/components/errorMessage/InputErrorMessage";
 
 type TSubmitData = {
   email: string;
@@ -71,28 +70,24 @@ function RouteComponent() {
         </h2>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col items-center w-full h-full gap-4"
+          className="flex flex-col items-center w-full h-full gap-6"
         >
-          <label className="flex flex-col w-full gap-1">
-            <Input
-              {...register("email")}
-              type="email"
-              placeholder="Email"
-              className="w-full h-[52px] border text-dark-primary font-base px-4 rounded-md"
-              hasError={!!errors?.email?.message}
-            />
-            <InputErrorMessage message={errors?.email?.message} />
-          </label>
-          <label className="flex flex-col w-full gap-1">
-            <Input
-              {...register("password")}
-              type="password"
-              placeholder="Password"
-              className="w-full h-[52px] border text-dark-primary font-base px-4 rounded-md"
-              hasError={!!errors?.password?.message}
-            />
-            <InputErrorMessage message={errors?.password?.message} />
-          </label>
+          <Input
+            {...register("email")}
+            type="email"
+            placeholder="Email"
+            className="w-full h-[52px] border text-dark-primary font-base px-4 rounded-md"
+            hasError={!!errors?.email?.message}
+            errorMessage={errors?.email?.message}
+          />
+          <Input
+            {...register("password")}
+            type="password"
+            placeholder="Password"
+            className="w-full h-[52px] border text-dark-primary font-base px-4 rounded-md"
+            hasError={!!errors?.password?.message}
+            errorMessage={errors?.password?.message}
+          />
           <button
             type="submit"
             className={cn(
