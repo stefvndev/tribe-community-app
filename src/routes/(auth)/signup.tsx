@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import PocketBase from "pocketbase";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import textListSignUp from "@/components/signup/textListLogin";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -48,6 +48,7 @@ function RouteComponent() {
     []
   );
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -67,10 +68,12 @@ function RouteComponent() {
     };
     try {
       await pb.collection("users").create(formattedData);
-      toast("Account created!", {
-        description: "Your account has been created successfully!",
+      toast("Account Created!", {
+        description:
+          "Your account has been created successfully! You can now log in using your credentials.",
       });
       setLoading(false);
+      navigate({ to: "/login" });
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       const errorData = err?.data;
