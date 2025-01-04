@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
-import PocketBase from "pocketbase";
-import { toast } from "sonner";
 import { useNavigate } from "@tanstack/react-router";
+import PocketBase from "pocketbase";
+import Cookies from "js-cookie";
+import { toast } from "sonner";
 
 export type TSignUpData = {
   name: string;
@@ -28,6 +29,8 @@ export const useAuth = () => {
     setIsLoading(true);
     try {
       await pb.collection("users").authWithPassword(email, password);
+      const authToken = pb?.authStore?.token;
+      Cookies.set("token", authToken);
       toast("Login Successful!", {
         description: "You have logged in successfully!",
       });
@@ -38,7 +41,6 @@ export const useAuth = () => {
     } finally {
       setIsLoading(false);
     }
-    console.log(pb.authStore);
   };
 
   const signUp = async (data: TSignUpData) => {
