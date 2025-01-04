@@ -29,8 +29,9 @@ export const useAuth = () => {
     setIsLoading(true);
     try {
       await pb.collection("users").authWithPassword(email, password);
-      const authToken = pb?.authStore?.token;
-      Cookies.set("token", authToken);
+      const userId = pb?.authStore?.record?.id;
+      Cookies.set("userId", userId as string);
+      navigate({ to: "/" });
       toast("Login Successful!", {
         description: "You have logged in successfully!",
       });
@@ -71,11 +72,7 @@ export const useAuth = () => {
     }
   };
 
-  const signOut = () => {};
-
-  const isLogged = () => {};
-
-  return { signIn, signUp, signOut, isLogged, isLoading };
+  return { signIn, signUp, isLoading };
 };
 
 export type AuthContext = ReturnType<typeof useAuth>;

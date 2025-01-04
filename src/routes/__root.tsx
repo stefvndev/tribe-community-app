@@ -1,7 +1,13 @@
 import React from "react";
-import { createRootRoute, Outlet } from "@tanstack/react-router";
-import Navbar from "../components/navbar/Navbar";
+import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { Toaster } from "@/components/ui/sonner";
+import { AuthContext } from "@/lib/useLoggedState";
+import { QueryClient } from "@tanstack/react-query";
+
+type RouterContext = {
+  authentication: AuthContext;
+  queryClient: QueryClient;
+};
 
 const TanStackRouterDevtools =
   process.env.NODE_ENV === "production"
@@ -21,11 +27,10 @@ const ReactQueryDevtools =
         }))
       );
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
     <>
-      <Navbar />
-      <div className="w-full min-h-screen pt-16 bg-primary">
+      <div className="w-full min-h-screen bg-primary">
         <Outlet />
         <Toaster />
       </div>

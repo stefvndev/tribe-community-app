@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 
 const DefaultNotFoundComponent = () => {
   return (
-    <div className="flex items-center justify-center w-full h-full min-h-[calc(100vh-64px)] p-4">
+    <div className="flex items-center justify-center w-full h-full min-h-screen p-4">
       <div className="max-w-[454px] p-8 w-full bg-white shadow border h-[277px] rounded-xl flex flex-col items-center">
         <Link className="mb-6 text-3xl font-bold text-dark-primary" to="/">
           tribe

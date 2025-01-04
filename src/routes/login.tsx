@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -18,6 +18,12 @@ const validationSchema = z.object({
 });
 
 export const Route = createFileRoute("/login")({
+  beforeLoad: async ({ context }) => {
+    const { isLogged } = context.authentication;
+    if (isLogged()) {
+      throw redirect({ to: "/" });
+    }
+  },
   component: RouteComponent,
 });
 
@@ -38,7 +44,7 @@ function RouteComponent() {
   };
 
   return (
-    <main className="flex items-center px-4 pb-6 min-h-[calc(100vh-64px)] justify-center w-full h-full">
+    <main className="flex items-center justify-center w-full h-full min-h-screen px-4 pb-6">
       <div className="flex flex-col items-center p-8  max-sm:w-full max-sm:text-center w-[452px] h-full bg-white rounded-xl shadow-custom">
         <Link
           to="/"

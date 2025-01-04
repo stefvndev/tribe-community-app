@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import textListSignUp from "@/components/signup/textListLogin";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -32,6 +32,12 @@ const validationSchema = z.object({
 });
 
 export const Route = createFileRoute("/signup")({
+  beforeLoad: async ({ context }) => {
+    const { isLogged } = context.authentication;
+    if (isLogged()) {
+      throw redirect({ to: "/" });
+    }
+  },
   component: RouteComponent,
 });
 
@@ -58,7 +64,7 @@ function RouteComponent() {
   };
 
   return (
-    <main className="flex items-center px-4 pb-6 min-h-[calc(100vh-64px)] justify-center w-full h-full">
+    <main className="flex items-center justify-center w-full h-full min-h-screen px-4 pb-6">
       <div className="flex justify-between w-full h-full gap-5 max-lg:flex-col-reverse max-lg:gap-16 max-lg:mt-14 max-lg:items-center max-w-1075">
         <div className="flex flex-col items-start justify-center max-sm:text-center w-full max-w-[440px] max-sm:max-w-full">
           <Link

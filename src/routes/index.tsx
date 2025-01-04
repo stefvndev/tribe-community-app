@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { Input } from "@/components/ui/input";
 import { IconSearch } from "@tabler/icons-react";
 import DiscoveryFilters from "@/components/discovery/DiscoveryFilters";
+import AppLayout from "@/components/layout/AppLayout";
 
 type TQueries = {
   category?: string;
@@ -11,7 +12,11 @@ type TQueries = {
 };
 
 export const Route = createFileRoute("/")({
-  component: RouteComponent,
+  component: () => (
+    <AppLayout>
+      <RouteComponent />
+    </AppLayout>
+  ),
   validateSearch: (search: Record<string, unknown>): TQueries => {
     return {
       category: search.category as string,
