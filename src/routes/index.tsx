@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { IconSearch } from "@tabler/icons-react";
 import DiscoveryFilters from "@/components/discovery/DiscoveryFilters";
 import AppLayout from "@/components/layout/AppLayout";
+import CommunitiesList from "@/components/home/CommunitiesList";
 
 type TQueries = {
   category?: string;
@@ -48,9 +49,9 @@ function RouteComponent() {
             />
           </div>
         </div>
-        <div className="flex flex-col items-center justify-center w-full mt-14">
+        <div className="flex flex-col items-center justify-center w-full gap-7 mt-14">
           <DiscoveryFilters />
-          <div className="grid w-full grid-cols-3"></div>
+          <CommunitiesList />
         </div>
       </main>
     </div>

@@ -1,8 +1,10 @@
+import { ECommunityCategory } from "@/lib/enums";
+
 type TFilterList = {
   id: number;
   name: string;
   icon?: string;
-  query: string;
+  query: ECommunityCategory;
 };
 
 type TFilterTypesAndPrice = {
@@ -14,133 +16,133 @@ const discoveryFiltersData: TFilterList[] = [
   {
     id: 1,
     name: "All",
-    query: "all",
+    query: ECommunityCategory.ALL,
   },
   {
     id: 2,
     name: "Business",
     icon: "💰",
-    query: "business",
+    query: ECommunityCategory.BUSINESS,
   },
   {
     id: 3,
     name: "Health & fitness",
     icon: "🍎",
-    query: "health-fitness",
+    query: ECommunityCategory.HEALTH_FITNESS,
   },
   {
     id: 4,
     name: "Personal development",
     icon: "📚",
-    query: "personal-development",
+    query: ECommunityCategory.PERSONAL_DEVELOPMENT,
   },
   {
     id: 5,
     name: "Arts & crafts",
     icon: "🎨",
-    query: "arts-crafts",
+    query: ECommunityCategory.ARTS_CRAFTS,
   },
   {
     id: 6,
     name: "Music",
     icon: "🎸",
-    query: "music",
+    query: ECommunityCategory.MUSIC,
   },
   {
     id: 7,
     name: "Photo & Video",
     icon: "📹",
-    query: "photo-video",
+    query: ECommunityCategory.PHOTO_VIDEO,
   },
   {
     id: 8,
     name: "E-commerce",
     icon: "🛍️",
-    query: "e-commerce",
+    query: ECommunityCategory.E_COMMERCE,
   },
   {
     id: 9,
     name: "Love",
     icon: "❤️",
-    query: "love",
+    query: ECommunityCategory.LOVE,
   },
   {
     id: 10,
     name: "Sales & Marketing",
     icon: "🚀",
-    query: "sales-marketing",
+    query: ECommunityCategory.SALES_MARKETING,
   },
   {
     id: 11,
     name: "Tech",
     icon: "💻",
-    query: "tech",
+    query: ECommunityCategory.TECH,
   },
   {
     id: 12,
     name: "Spirituality",
     icon: "🙏",
-    query: "spirituality",
+    query: ECommunityCategory.SPIRITUALITY,
   },
   {
     id: 13,
     name: "Finance",
     icon: "📈",
-    query: "finance",
+    query: ECommunityCategory.FINANCE,
   },
   {
     id: 14,
     name: "Beauty & fashion",
     icon: "👠",
-    query: "beauty-fashion",
+    query: ECommunityCategory.BEAUTY_FASHION,
   },
   {
     id: 15,
     name: "Real estate",
     icon: "🏠",
-    query: "real-estate",
+    query: ECommunityCategory.REAL_ESTATE,
   },
   {
     id: 16,
     name: "Gaming",
     icon: "🎮",
-    query: "gaming",
+    query: ECommunityCategory.GAMING,
   },
   {
     id: 17,
     name: "Sports",
     icon: "⚽",
-    query: "sports",
+    query: ECommunityCategory.SPORTS,
   },
   {
     id: 18,
     name: "Productivity",
     icon: "⌛",
-    query: "productivity",
+    query: ECommunityCategory.PRODUCTIVITY,
   },
   {
     id: 19,
     name: "Cars",
     icon: "🚗",
-    query: "cars",
+    query: ECommunityCategory.CARS,
   },
   {
     id: 20,
     name: "Pets",
     icon: "🐶",
-    query: "pets",
+    query: ECommunityCategory.PETS,
   },
   {
     id: 21,
     name: "Languages",
     icon: "🌎",
-    query: "languages",
+    query: ECommunityCategory.LANGUAGES,
   },
   {
     id: 22,
     name: "Travel",
     icon: "✈️",
-    query: "travel",
+    query: ECommunityCategory.TRAVEL,
   },
 ];
 
