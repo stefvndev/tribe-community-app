@@ -8,6 +8,7 @@ import {
   ECommunityType,
 } from "@/lib/enums";
 import CommunitiesLoader from "./CommunitiesLoader";
+import { getInitials } from "@/lib/getInitials";
 
 type TCommunities = {
   id: string;
@@ -54,7 +55,7 @@ const CommunitiesList = () => {
       </p>
     );
   }
-
+  console.log(allCommunitiesData);
   return (
     <div className="grid items-center w-full grid-cols-3 gap-5 max-lg:grid-cols-2 max-md:grid-cols-1">
       {allCommunitiesData?.map((item) => (
@@ -62,24 +63,36 @@ const CommunitiesList = () => {
           key={item?.id}
           className="flex bg-white flex-col w-full overflow-hidden max-lg:max-w-full border max-w-[335px] h-96 rounded-xl hover:shadow-custom"
         >
-          <img
-            className="w-full h-[177px] object-cover"
-            src={getPocketBaseFileUrl({
-              recordId: item?.id,
-              filename: item?.banner,
-              collectionName: item?.collectionName,
-            })}
-          />
+          {item?.banner ? (
+            <img
+              className="w-full h-[177px] object-cover"
+              src={getPocketBaseFileUrl({
+                recordId: item?.id,
+                filename: item?.banner,
+                collectionName: item?.collectionName,
+              })}
+            />
+          ) : (
+            <div className="w-full h-[360px] flex items-center justify-center bg-grayout/50 text-xl font-medium">
+              <p>{item?.name}</p>
+            </div>
+          )}
           <div className="flex flex-col justify-between w-full h-full gap-4 p-4">
             <div className="flex items-center gap-3">
-              <img
-                className="object-cover rounded-lg size-10"
-                src={getPocketBaseFileUrl({
-                  recordId: item?.id,
-                  filename: item?.pfp,
-                  collectionName: item?.collectionName,
-                })}
-              />
+              {item?.pfp ? (
+                <img
+                  className="object-cover rounded-lg size-10"
+                  src={getPocketBaseFileUrl({
+                    recordId: item?.id,
+                    filename: item?.pfp,
+                    collectionName: item?.collectionName,
+                  })}
+                />
+              ) : (
+                <div className="flex items-center justify-center font-medium bg-blue-300 rounded-lg size-10">
+                  <p>{getInitials(item?.name)}</p>
+                </div>
+              )}
               <h3 className="truncate">{item?.name}</h3>
             </div>
             <p className="max-h-[72px] h-full w-full line-clamp-3">
