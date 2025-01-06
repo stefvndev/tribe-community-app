@@ -1,4 +1,4 @@
-import { ECommunityCategory } from "@/lib/enums";
+import { ECommunityCategory } from "@/enums/enums";
 
 type TFilterList = {
   id: number;

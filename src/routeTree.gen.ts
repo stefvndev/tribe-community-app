@@ -16,6 +16,12 @@ import { Route as LoginImport } from './routes/login'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthenticatedProfileImport } from './routes/_authenticated/profile'
+import { Route as CommunitypreviewIdPreviewImport } from './routes/_community_preview/$id/preview'
+import { Route as AuthenticatedCommunityIdIndexImport } from './routes/_authenticated/_community/$id/index'
+import { Route as AuthenticatedCommunityIdMembersImport } from './routes/_authenticated/_community/$id/members'
+import { Route as AuthenticatedCommunityIdClassroomImport } from './routes/_authenticated/_community/$id/classroom'
+import { Route as AuthenticatedCommunityIdCalendarImport } from './routes/_authenticated/_community/$id/calendar'
+import { Route as AuthenticatedCommunityIdAboutImport } from './routes/_authenticated/_community/$id/about'
 
 // Create/Update Routes
 
@@ -47,6 +53,47 @@ const AuthenticatedProfileRoute = AuthenticatedProfileImport.update({
   path: '/profile',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+
+const CommunitypreviewIdPreviewRoute = CommunitypreviewIdPreviewImport.update({
+  id: '/_community_preview/$id/preview',
+  path: '/$id/preview',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AuthenticatedCommunityIdIndexRoute =
+  AuthenticatedCommunityIdIndexImport.update({
+    id: '/_community/$id/',
+    path: '/$id/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+
+const AuthenticatedCommunityIdMembersRoute =
+  AuthenticatedCommunityIdMembersImport.update({
+    id: '/_community/$id/members',
+    path: '/$id/members',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+
+const AuthenticatedCommunityIdClassroomRoute =
+  AuthenticatedCommunityIdClassroomImport.update({
+    id: '/_community/$id/classroom',
+    path: '/$id/classroom',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+
+const AuthenticatedCommunityIdCalendarRoute =
+  AuthenticatedCommunityIdCalendarImport.update({
+    id: '/_community/$id/calendar',
+    path: '/$id/calendar',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+
+const AuthenticatedCommunityIdAboutRoute =
+  AuthenticatedCommunityIdAboutImport.update({
+    id: '/_community/$id/about',
+    path: '/$id/about',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -87,6 +134,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProfileImport
       parentRoute: typeof AuthenticatedImport
     }
+    '/_community_preview/$id/preview': {
+      id: '/_community_preview/$id/preview'
+      path: '/$id/preview'
+      fullPath: '/$id/preview'
+      preLoaderRoute: typeof CommunitypreviewIdPreviewImport
+      parentRoute: typeof rootRoute
+    }
+    '/_authenticated/_community/$id/about': {
+      id: '/_authenticated/_community/$id/about'
+      path: '/$id/about'
+      fullPath: '/$id/about'
+      preLoaderRoute: typeof AuthenticatedCommunityIdAboutImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/_community/$id/calendar': {
+      id: '/_authenticated/_community/$id/calendar'
+      path: '/$id/calendar'
+      fullPath: '/$id/calendar'
+      preLoaderRoute: typeof AuthenticatedCommunityIdCalendarImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/_community/$id/classroom': {
+      id: '/_authenticated/_community/$id/classroom'
+      path: '/$id/classroom'
+      fullPath: '/$id/classroom'
+      preLoaderRoute: typeof AuthenticatedCommunityIdClassroomImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/_community/$id/members': {
+      id: '/_authenticated/_community/$id/members'
+      path: '/$id/members'
+      fullPath: '/$id/members'
+      preLoaderRoute: typeof AuthenticatedCommunityIdMembersImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/_community/$id/': {
+      id: '/_authenticated/_community/$id/'
+      path: '/$id'
+      fullPath: '/$id'
+      preLoaderRoute: typeof AuthenticatedCommunityIdIndexImport
+      parentRoute: typeof AuthenticatedImport
+    }
   }
 }
 
@@ -94,10 +183,21 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteChildren {
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedCommunityIdAboutRoute: typeof AuthenticatedCommunityIdAboutRoute
+  AuthenticatedCommunityIdCalendarRoute: typeof AuthenticatedCommunityIdCalendarRoute
+  AuthenticatedCommunityIdClassroomRoute: typeof AuthenticatedCommunityIdClassroomRoute
+  AuthenticatedCommunityIdMembersRoute: typeof AuthenticatedCommunityIdMembersRoute
+  AuthenticatedCommunityIdIndexRoute: typeof AuthenticatedCommunityIdIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedCommunityIdAboutRoute: AuthenticatedCommunityIdAboutRoute,
+  AuthenticatedCommunityIdCalendarRoute: AuthenticatedCommunityIdCalendarRoute,
+  AuthenticatedCommunityIdClassroomRoute:
+    AuthenticatedCommunityIdClassroomRoute,
+  AuthenticatedCommunityIdMembersRoute: AuthenticatedCommunityIdMembersRoute,
+  AuthenticatedCommunityIdIndexRoute: AuthenticatedCommunityIdIndexRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
@@ -110,6 +210,12 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/$id/preview': typeof CommunitypreviewIdPreviewRoute
+  '/$id/about': typeof AuthenticatedCommunityIdAboutRoute
+  '/$id/calendar': typeof AuthenticatedCommunityIdCalendarRoute
+  '/$id/classroom': typeof AuthenticatedCommunityIdClassroomRoute
+  '/$id/members': typeof AuthenticatedCommunityIdMembersRoute
+  '/$id': typeof AuthenticatedCommunityIdIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -118,6 +224,12 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/$id/preview': typeof CommunitypreviewIdPreviewRoute
+  '/$id/about': typeof AuthenticatedCommunityIdAboutRoute
+  '/$id/calendar': typeof AuthenticatedCommunityIdCalendarRoute
+  '/$id/classroom': typeof AuthenticatedCommunityIdClassroomRoute
+  '/$id/members': typeof AuthenticatedCommunityIdMembersRoute
+  '/$id': typeof AuthenticatedCommunityIdIndexRoute
 }
 
 export interface FileRoutesById {
@@ -127,13 +239,41 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_community_preview/$id/preview': typeof CommunitypreviewIdPreviewRoute
+  '/_authenticated/_community/$id/about': typeof AuthenticatedCommunityIdAboutRoute
+  '/_authenticated/_community/$id/calendar': typeof AuthenticatedCommunityIdCalendarRoute
+  '/_authenticated/_community/$id/classroom': typeof AuthenticatedCommunityIdClassroomRoute
+  '/_authenticated/_community/$id/members': typeof AuthenticatedCommunityIdMembersRoute
+  '/_authenticated/_community/$id/': typeof AuthenticatedCommunityIdIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '' | '/login' | '/signup' | '/profile'
+  fullPaths:
+    | '/'
+    | ''
+    | '/login'
+    | '/signup'
+    | '/profile'
+    | '/$id/preview'
+    | '/$id/about'
+    | '/$id/calendar'
+    | '/$id/classroom'
+    | '/$id/members'
+    | '/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/login' | '/signup' | '/profile'
+  to:
+    | '/'
+    | ''
+    | '/login'
+    | '/signup'
+    | '/profile'
+    | '/$id/preview'
+    | '/$id/about'
+    | '/$id/calendar'
+    | '/$id/classroom'
+    | '/$id/members'
+    | '/$id'
   id:
     | '__root__'
     | '/'
@@ -141,6 +281,12 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/_authenticated/profile'
+    | '/_community_preview/$id/preview'
+    | '/_authenticated/_community/$id/about'
+    | '/_authenticated/_community/$id/calendar'
+    | '/_authenticated/_community/$id/classroom'
+    | '/_authenticated/_community/$id/members'
+    | '/_authenticated/_community/$id/'
   fileRoutesById: FileRoutesById
 }
 
@@ -149,6 +295,7 @@ export interface RootRouteChildren {
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
+  CommunitypreviewIdPreviewRoute: typeof CommunitypreviewIdPreviewRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -156,6 +303,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
+  CommunitypreviewIdPreviewRoute: CommunitypreviewIdPreviewRoute,
 }
 
 export const routeTree = rootRoute
@@ -171,7 +319,8 @@ export const routeTree = rootRoute
         "/",
         "/_authenticated",
         "/login",
-        "/signup"
+        "/signup",
+        "/_community_preview/$id/preview"
       ]
     },
     "/": {
@@ -180,7 +329,12 @@ export const routeTree = rootRoute
     "/_authenticated": {
       "filePath": "_authenticated.tsx",
       "children": [
-        "/_authenticated/profile"
+        "/_authenticated/profile",
+        "/_authenticated/_community/$id/about",
+        "/_authenticated/_community/$id/calendar",
+        "/_authenticated/_community/$id/classroom",
+        "/_authenticated/_community/$id/members",
+        "/_authenticated/_community/$id/"
       ]
     },
     "/login": {
@@ -191,6 +345,29 @@ export const routeTree = rootRoute
     },
     "/_authenticated/profile": {
       "filePath": "_authenticated/profile.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_community_preview/$id/preview": {
+      "filePath": "_community_preview/$id/preview.tsx"
+    },
+    "/_authenticated/_community/$id/about": {
+      "filePath": "_authenticated/_community/$id/about.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/_community/$id/calendar": {
+      "filePath": "_authenticated/_community/$id/calendar.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/_community/$id/classroom": {
+      "filePath": "_authenticated/_community/$id/classroom.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/_community/$id/members": {
+      "filePath": "_authenticated/_community/$id/members.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/_community/$id/": {
+      "filePath": "_authenticated/_community/$id/index.tsx",
       "parent": "/_authenticated"
     }
   }

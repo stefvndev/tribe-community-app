@@ -1,17 +1,11 @@
-import { useMemo } from "react";
+import { pb } from "@/api/get";
 import { useLoggedState } from "@/lib/useLoggedState";
-import NavDropdown from "./NavDropdown";
 import { Link, useNavigate } from "@tanstack/react-router";
-import PocketBase from "pocketbase";
+import NavDropdown from "./NavDropdown";
 
 const Navbar = () => {
   const { isLogged } = useLoggedState();
   const navigate = useNavigate();
-
-  const pb = useMemo(
-    () => new PocketBase(import.meta.env.VITE_API_BASE_URL),
-    []
-  );
 
   const signOut = () => {
     navigate({ to: "/login" });

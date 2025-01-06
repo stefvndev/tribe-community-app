@@ -1,47 +1,13 @@
-import { useMemo } from "react";
-import PocketBase from "pocketbase";
-import { useQuery } from "@tanstack/react-query";
-import { getPocketBaseFileUrl } from "@/lib/getPocketBaseFileUrl";
-import {
-  ECommunityCategory,
-  ECommunityPrice,
-  ECommunityType,
-} from "@/lib/enums";
-import CommunitiesLoader from "./CommunitiesLoader";
+import { Link } from "@tanstack/react-router";
+import { useListOfAllCommunities } from "@/api/get";
 import { getInitials } from "@/lib/getInitials";
-
-type TCommunities = {
-  id: string;
-  name: string;
-  category: ECommunityCategory;
-  price: ECommunityPrice;
-  type: ECommunityType;
-  description: string;
-  members: number;
-  banner: string;
-  pfp: string;
-  collectionName: string;
-};
+import { getPocketBaseFileUrl } from "@/lib/getPocketBaseFileUrl";
+import CommunitiesLoader from "./CommunitiesLoader";
+import { useLoggedState } from "@/lib/useLoggedState";
 
 const CommunitiesList = () => {
-  const pb = useMemo(
-    () => new PocketBase(import.meta.env.VITE_API_BASE_URL),
-    []
-  );
-
-  const {
-    data: allCommunitiesData,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ["all_communities"],
-    queryFn: async () => {
-      const data: TCommunities[] = await pb
-        .collection("all_communities")
-        .getFullList();
-      return data;
-    },
-  });
+  const { data, isLoading, isError } = useListOfAllCommunities();
+  const { isLogged } = useLoggedState();
 
   if (isLoading) {
     return <CommunitiesLoader />;
@@ -55,11 +21,23 @@ const CommunitiesList = () => {
       </p>
     );
   }
-  console.log(allCommunitiesData);
+
+  if (data?.length === 0) {
+    return (
+      <p className="mt-4 font-medium">
+        Nothing here... your chance to shine starts now! ⭐
+      </p>
+    );
+  }
+
   return (
     <div className="grid items-center w-full grid-cols-3 gap-5 max-lg:grid-cols-2 max-md:grid-cols-1">
-      {allCommunitiesData?.map((item) => (
-        <article
+      {data?.map((item) => (
+        <Link
+          to={isLogged() ? "/$id/about" : "/$id/preview"}
+          params={{
+            id: item?.id,
+          }}
           key={item?.id}
           className="flex bg-white flex-col w-full overflow-hidden max-lg:max-w-full border max-w-[335px] h-96 rounded-xl hover:shadow-custom"
         >
@@ -73,7 +51,7 @@ const CommunitiesList = () => {
               })}
             />
           ) : (
-            <div className="w-full h-[360px] flex items-center justify-center bg-grayout/50 text-xl font-medium">
+            <div className="w-full h-[360px] flex items-center justify-center bg-grayout/40 text-xl font-medium">
               <p>{item?.name}</p>
             </div>
           )}
@@ -106,7 +84,7 @@ const CommunitiesList = () => {
               <p className="font-medium">{item?.price}</p>
             </div>
           </div>
-        </article>
+        </Link>
       ))}
     </div>
   );
