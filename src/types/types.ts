@@ -13,6 +13,19 @@ export type TCommunities = {
   description: string;
   members: number;
   banner: string;
-  pfp: string;
+  avatar: string;
   collectionName: string;
+};
+
+export type TUserData = {
+  avatar: string;
+  collectionId: string;
+  collectionName: string;
+  created: string;
+  email: string;
+  emailVisibility: boolean;
+  id: string;
+  name: string;
+  updated: string;
+  verified: boolean;
 };

@@ -2,6 +2,7 @@ import { pb } from "@/api/pocketbase";
 import { useLoggedState } from "@/lib/useLoggedState";
 import { Link, useNavigate } from "@tanstack/react-router";
 import NavDropdown from "./NavDropdown";
+import Cookies from "js-cookie";
 
 const Navbar = () => {
   const { isLogged } = useLoggedState();
@@ -10,6 +11,7 @@ const Navbar = () => {
   const signOut = () => {
     navigate({ to: "/login" });
     pb.authStore.clear();
+    Cookies.remove("userId");
   };
 
   return (

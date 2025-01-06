@@ -1,11 +1,16 @@
-import { createFileRoute } from '@tanstack/react-router'
+import CommunityLayout from "@/components/layout/CommunityLayout";
+import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute(
-  '/_authenticated/_community/$id/classroom',
+  "/_authenticated/_community/$id/classroom"
 )({
-  component: RouteComponent,
-})
+  component: () => (
+    <CommunityLayout>
+      <RouteComponent />
+    </CommunityLayout>
+  ),
+});
 
 function RouteComponent() {
-  return <div>Hello "/_community/$id/classroom"!</div>
+  return <div>Hello "/_community/$id/classroom"!</div>;
 }

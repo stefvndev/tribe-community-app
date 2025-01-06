@@ -15,15 +15,11 @@ function RouteComponent() {
   const { id } = Route.useParams();
   const { data, isError } = useCommunityData(id);
 
-  console.log(data);
-
   if (isError) return <DefaultNotFoundComponent />;
 
   return (
-    <main className="w-full h-full">
-      <div className="flex items-center justify-center p-4 mx-auto max-w-1075">
-        {data?.name}
-      </div>
+    <main className="flex items-center justify-center p-4 mx-auto max-w-1075">
+      {data?.name}
     </main>
   );
 }

@@ -51,23 +51,23 @@ const CommunitiesList = () => {
               })}
             />
           ) : (
-            <div className="w-full h-[360px] flex items-center justify-center bg-grayout/40 text-xl font-medium">
+            <div className="w-full h-[360px] flex items-center justify-center bg-light-gray text-xl font-medium">
               <p>{item?.name}</p>
             </div>
           )}
           <div className="flex flex-col justify-between w-full h-full gap-4 p-4">
             <div className="flex items-center gap-3">
-              {item?.pfp ? (
+              {item?.avatar ? (
                 <img
                   className="object-cover rounded-lg size-10"
                   src={getPocketBaseFileUrl({
                     recordId: item?.id,
-                    filename: item?.pfp,
+                    filename: item?.avatar,
                     collectionName: item?.collectionName,
                   })}
                 />
               ) : (
-                <div className="flex items-center justify-center font-medium bg-blue-300 rounded-lg size-10">
+                <div className="flex items-center justify-center font-medium rounded-lg bg-light-gray size-10">
                   <p>{getInitials(item?.name)}</p>
                 </div>
               )}

@@ -1,6 +1,16 @@
-import { TCommunities } from "@/types/types";
+import { TCommunities, TUserData } from "@/types/types";
 import { useQuery } from "@tanstack/react-query";
 import { pb } from "./pocketbase";
+
+export const useGetUserData = (id: string) => {
+  return useQuery({
+    queryKey: ["user_data"],
+    queryFn: async () => {
+      const data: TUserData = await pb.collection("users").getOne(id);
+      return data;
+    },
+  });
+};
 
 export const useCommunityData = (id: string) => {
   return useQuery({

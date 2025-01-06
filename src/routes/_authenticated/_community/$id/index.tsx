@@ -1,18 +1,18 @@
-import { useCommunityData } from '@/api/get'
-import DefaultNotFoundComponent from '@/components/notFound/DefaultNotFoundComponent'
-import { createFileRoute } from '@tanstack/react-router'
+import { useCommunityData } from "@/api/get";
+import CommunityLayout from "@/components/layout/CommunityLayout";
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/_authenticated/_community/$id/')({
-  component: () => <RouteComponent />,
-})
+export const Route = createFileRoute("/_authenticated/_community/$id/")({
+  component: () => (
+    <CommunityLayout>
+      <RouteComponent />
+    </CommunityLayout>
+  ),
+});
 
 function RouteComponent() {
-  const { id } = Route.useParams()
-  const { data, isError } = useCommunityData(id)
-
-  console.log(data)
-
-  if (isError) return <DefaultNotFoundComponent />
+  const { id } = Route.useParams();
+  const { data } = useCommunityData(id);
 
   return (
     <main className="w-full h-full">
@@ -20,5 +20,5 @@ function RouteComponent() {
         {data?.name}
       </div>
     </main>
-  )
+  );
 }
