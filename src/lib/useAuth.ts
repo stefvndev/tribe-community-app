@@ -1,6 +1,6 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
+import { pb } from "@/api/pocketbase";
 import { useNavigate } from "@tanstack/react-router";
-import PocketBase from "pocketbase";
 import Cookies from "js-cookie";
 import { toast } from "sonner";
 
@@ -18,10 +18,6 @@ const SIGNUP_ERRORS = {
 };
 
 export const useAuth = () => {
-  const pb = useMemo(
-    () => new PocketBase(import.meta.env.VITE_API_BASE_URL),
-    []
-  );
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 

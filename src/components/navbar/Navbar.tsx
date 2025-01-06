@@ -1,4 +1,4 @@
-import { pb } from "@/api/get";
+import { pb } from "@/api/pocketbase";
 import { useLoggedState } from "@/lib/useLoggedState";
 import { Link, useNavigate } from "@tanstack/react-router";
 import NavDropdown from "./NavDropdown";

@@ -1,8 +1,6 @@
 import { TCommunities } from "@/types/types";
 import { useQuery } from "@tanstack/react-query";
-import PocketBase from "pocketbase";
-
-export const pb = new PocketBase(import.meta.env.VITE_API_BASE_URL);
+import { pb } from "./pocketbase";
 
 export const useCommunityData = (id: string) => {
   return useQuery({
