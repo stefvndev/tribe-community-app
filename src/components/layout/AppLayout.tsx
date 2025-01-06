@@ -6,7 +6,7 @@ type TLayout = {
 
 const AppLayout = ({ children }: TLayout) => {
   return (
-    <div className="pt-16">
+    <div className="w-full h-full px-4 pt-16">
       <Navbar />
       {children}
     </div>
