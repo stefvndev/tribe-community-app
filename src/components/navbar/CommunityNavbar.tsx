@@ -1,8 +1,8 @@
-import { useCommunityData } from "@/api/get";
-import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
 import { IconSearch } from "@tabler/icons-react";
 import { Link, useLocation, useParams } from "@tanstack/react-router";
+import { useCommunityData } from "@/api/get";
+import { cn } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
 import { Skeleton } from "../ui/skeleton";
 import NavbarAvatar from "./NavbarAvatar";
 import NavbarMessagesDropdown from "./NavbarMessagesDropdown";
