@@ -30,7 +30,7 @@ const CommunityNavbar = () => {
       )}
     >
       <nav className="flex items-center justify-between w-full h-full mx-auto max-w-1075">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center w-full gap-4 max-w-72">
           {id ? (
             <div className="flex items-center gap-4">
               {!isLoading ? (
@@ -41,13 +41,13 @@ const CommunityNavbar = () => {
                     id={data?.id || ""}
                     collectionName={data?.collectionName || ""}
                   />
-                  <h1 className="w-full text-lg font-medium truncate text-dark-primary whitespace-nowrap max-w-52">
+                  <h1 className="w-full text-lg font-medium truncate text-dark-primary">
                     {data?.name}
                   </h1>
                 </>
               ) : (
                 <div className="flex items-center gap-4">
-                  <Skeleton className="w-10 min-h-10 min-w-10" />
+                  <Skeleton className="w-10 h-10" />
                   <Skeleton className="h-5 w-28" />
                 </div>
               )}
@@ -66,7 +66,7 @@ const CommunityNavbar = () => {
             placeholder="Search"
           />
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center w-40 gap-2">
           <NavbarMessagesDropdown />
           <NavbarNotificationsDropdown />
           <NavbarUserMenuDropdown />

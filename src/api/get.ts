@@ -14,7 +14,7 @@ export const useGetUserData = (id: string) => {
 
 export const useCommunityData = (id: string) => {
   return useQuery({
-    queryKey: ["community_data"],
+    queryKey: ["community_data", id],
     queryFn: async () => {
       const data: TCommunities = await pb
         .collection("all_communities")

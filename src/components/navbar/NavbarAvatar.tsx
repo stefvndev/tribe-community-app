@@ -14,7 +14,7 @@ const NavbarAvatar = ({
 }) => {
   return avatar ? (
     <img
-      className="object-cover rounded-lg min-w-10 min-h-10 size-10"
+      className="object-cover rounded-lg size-10"
       src={getPocketBaseFileUrl({
         recordId: id,
         filename: avatar,
@@ -23,7 +23,7 @@ const NavbarAvatar = ({
       alt="avatar"
     />
   ) : (
-    <div className="flex items-center justify-center font-medium rounded-lg bg-light-gray min-w-10 min-h-10 size-10">
+    <div className="flex items-center justify-center font-medium rounded-lg bg-light-gray size-10">
       <p>{getInitials(name)}</p>
     </div>
   );
