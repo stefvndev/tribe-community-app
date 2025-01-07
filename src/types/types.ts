@@ -4,6 +4,12 @@ import {
   ECommunityType,
 } from "@/enums/enums";
 
+export type TDiscoveryQueries = {
+  category?: string;
+  type?: string;
+  price?: string;
+};
+
 export type TCommunities = {
   id: string;
   name: string;

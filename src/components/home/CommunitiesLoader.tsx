@@ -12,19 +12,19 @@ const CommunitiesLoader = () => {
           <div className="flex flex-col justify-between w-full h-full gap-4 p-4">
             <div className="flex items-center gap-4">
               <Skeleton className="rounded-lg size-10" />
-              <Skeleton className="w-20 h-2" />
+              <Skeleton className="w-20 h-3" />
             </div>
             <div className="max-h-[72px] h-full w-full flex flex-col gap-3">
-              <Skeleton className="w-full h-2" />
-              <Skeleton className="w-full h-2" />
-              <Skeleton className="w-full h-2" />
+              <Skeleton className="w-full h-3" />
+              <Skeleton className="w-full h-3" />
+              <Skeleton className="w-full h-3" />
             </div>
             <div className="flex items-center self-end w-full gap-2">
-              <Skeleton className="h-2 w-14" />
+              <Skeleton className="h-3 w-14" />
               <Skeleton className="rounded-full size-2" />
-              <Skeleton className="h-2 w-14" />
+              <Skeleton className="h-3 w-14" />
               <Skeleton className="rounded-full size-2" />
-              <Skeleton className="h-2 w-14" />
+              <Skeleton className="h-3 w-14" />
             </div>
           </div>
         </article>

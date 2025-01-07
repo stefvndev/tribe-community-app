@@ -10,20 +10,61 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Route } from "@/routes";
+import { useEffect, useState } from "react";
+import { ECommunityPrice, ECommunityType } from "@/enums/enums";
+import { TDiscoveryQueries } from "@/types/types";
+import { cn } from "@/lib/utils";
 
 const DiscoveryFilterByPriceAndType = () => {
   const navigate = useNavigate({ from: Route.fullPath });
   const { type, price } = useSearch({ from: Route.fullPath });
 
-  const handlePushQuery = (name: string, value: unknown) => {
-    navigate({ search: (prev) => ({ ...prev, [name]: value }) });
+  const [selectedType, setSelectedType] = useState<string>(
+    type || ECommunityType.ALL
+  );
+  const [selectedPrice, setSelectedPrice] = useState<string>(
+    price || ECommunityPrice.ALL
+  );
+
+  const handleTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setSelectedType(value);
+    handlePushQuery("type", value);
+  };
+
+  const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setSelectedPrice(value);
+    handlePushQuery("price", value);
+  };
+
+  useEffect(() => {
+    setSelectedType(type || ECommunityType.ALL);
+    setSelectedPrice(price || ECommunityPrice.ALL);
+  }, [type, price]);
+
+  const handlePushQuery = (name: keyof TDiscoveryQueries, value: unknown) => {
+    navigate({
+      search: (prev) => {
+        const newSearch = { ...prev } as TDiscoveryQueries;
+        if ((name === "type" || name === "price") && value === "all") {
+          delete newSearch[name];
+        } else {
+          newSearch[name] = value as string;
+        }
+        return newSearch;
+      },
+    });
   };
 
   return (
     <Popover>
       <PopoverTrigger asChild>
         <button
-          className="h-10 text-sm bg-white border rounded-full text-grayout w-fit px-[14px] hover:text-white transition-all ease-in-out hover:bg-dark-gray flex items-center gap-1.5"
+          className={cn(
+            "h-10 text-sm bg-white border rounded-full text-grayout w-fit px-[14px] hover:text-white transition-all ease-in-out hover:bg-dark-gray flex items-center gap-1.5",
+            (type || price) && "text-white bg-dark-gray"
+          )}
           type="button"
         >
           Filter
@@ -46,8 +87,8 @@ const DiscoveryFilterByPriceAndType = () => {
                   className="flex items-center gap-2 cursor-pointer"
                 >
                   <input
-                    checked={type === item.name}
-                    onChange={() => handlePushQuery("type", item.name)}
+                    checked={selectedType === item.name}
+                    onChange={handleTypeChange}
                     value={item.name}
                     name="filterType"
                     type="radio"
@@ -69,8 +110,8 @@ const DiscoveryFilterByPriceAndType = () => {
                   className="flex items-center gap-2 cursor-pointer"
                 >
                   <input
-                    checked={price === item.name}
-                    onChange={() => handlePushQuery("price", item.name)}
+                    checked={selectedPrice === item.name}
+                    onChange={handlePriceChange}
                     value={item.name}
                     name="filterPrice"
                     type="radio"

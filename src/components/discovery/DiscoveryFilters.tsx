@@ -4,6 +4,7 @@ import { discoveryFiltersData } from "./discoveryFiltersData";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { Route } from "@/routes";
 import { cn } from "@/lib/utils";
+import { TDiscoveryQueries } from "@/types/types";
 
 const DiscoveryFilters = () => {
   const [showAllFilters, setShowAllFIlters] = useState(false);
@@ -18,8 +19,18 @@ const DiscoveryFilters = () => {
     setShowAllFIlters(!showAllFilters);
   };
 
-  const handlePushQuery = (name: string, value: unknown) => {
-    navigate({ search: (prev) => ({ ...prev, [name]: value }) });
+  const handlePushQuery = (name: keyof TDiscoveryQueries, value: unknown) => {
+    navigate({
+      search: (prev) => {
+        const newSearch = { ...prev } as TDiscoveryQueries;
+        if (name === "category" && value === "all") {
+          delete newSearch[name];
+        } else {
+          newSearch[name] = value as string;
+        }
+        return newSearch;
+      },
+    });
   };
 
   return (
@@ -30,7 +41,8 @@ const DiscoveryFilters = () => {
             type="button"
             className={cn(
               "h-10 flex items-center gap-2 text-sm bg-white border rounded-full text-grayout w-fit px-[14px] hover:text-white transition-all ease-in-out hover:bg-dark-gray",
-              category === item.query && "text-white bg-dark-gray"
+              category === item.query && "text-white bg-dark-gray",
+              !category && item.query === "all" && "text-white bg-dark-gray"
             )}
             key={item.id}
             onClick={() => handlePushQuery("category", item.query)}

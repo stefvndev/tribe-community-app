@@ -5,12 +5,7 @@ import { IconSearch } from "@tabler/icons-react";
 import DiscoveryFilters from "@/components/discovery/DiscoveryFilters";
 import AppLayout from "@/components/layout/AppLayout";
 import CommunitiesList from "@/components/home/CommunitiesList";
-
-type TQueries = {
-  category?: string;
-  type?: string;
-  price?: string;
-};
+import { TDiscoveryQueries } from "@/types/types";
 
 export const Route = createFileRoute("/")({
   component: () => (
@@ -18,7 +13,7 @@ export const Route = createFileRoute("/")({
       <RouteComponent />
     </AppLayout>
   ),
-  validateSearch: (search: Record<string, unknown>): TQueries => {
+  validateSearch: (search: Record<string, unknown>): TDiscoveryQueries => {
     return {
       category: search.category as string,
       type: search.type as string,

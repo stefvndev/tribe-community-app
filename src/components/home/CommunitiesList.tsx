@@ -1,13 +1,23 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useSearch } from "@tanstack/react-router";
 import { useListOfAllCommunities } from "@/api/get";
 import { getInitials } from "@/lib/getInitials";
 import { getPocketBaseFileUrl } from "@/lib/getPocketBaseFileUrl";
 import CommunitiesLoader from "./CommunitiesLoader";
 import { useLoggedState } from "@/lib/useLoggedState";
+import { Route } from "@/routes";
 
 const CommunitiesList = () => {
   const { data, isLoading, isError } = useListOfAllCommunities();
   const { isLogged } = useLoggedState();
+  const { category, type, price } = useSearch({ from: Route.fullPath });
+
+  const filteredList = data?.filter((item) => {
+    return (
+      (!category || item?.category === category) &&
+      (!type || item?.type === type) &&
+      (!price || item?.price === price)
+    );
+  });
 
   if (isLoading) {
     return <CommunitiesLoader />;
@@ -22,7 +32,7 @@ const CommunitiesList = () => {
     );
   }
 
-  if (data?.length === 0) {
+  if (filteredList?.length === 0) {
     return (
       <p className="mt-4 font-medium">
         Nothing here... your chance to shine starts now! ⭐
@@ -32,7 +42,7 @@ const CommunitiesList = () => {
 
   return (
     <div className="grid items-center w-full grid-cols-3 gap-5 max-lg:grid-cols-2 max-md:grid-cols-1">
-      {data?.map((item) => (
+      {filteredList?.map((item) => (
         <Link
           to={isLogged() ? "/$id/about" : "/$id/preview"}
           params={{
@@ -77,11 +87,11 @@ const CommunitiesList = () => {
               {item?.description}
             </p>
             <div className="flex items-center self-end w-full gap-2">
-              <p>{item?.type}</p>
+              <p className="capitalize">{item?.type}</p>
               <span>•</span>
               <p>{item?.members} Members</p>
               <span>•</span>
-              <p className="font-medium">{item?.price}</p>
+              <p className="font-medium capitalize">{item?.price}</p>
             </div>
           </div>
         </Link>
