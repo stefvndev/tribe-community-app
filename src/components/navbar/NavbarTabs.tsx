@@ -12,7 +12,7 @@ const TABS = [
 const NavbarTabs = ({ selectedTab }: { selectedTab: string }) => (
   <ul className="flex items-center w-full gap-8">
     {TABS.map((tab) => (
-      <li key={tab.id}>
+      <li key={tab.id} className="relative">
         <Link
           className={cn(
             "text-base font-medium text-grayout transition-all ease-out hover:text-dark-primary",
@@ -22,6 +22,12 @@ const NavbarTabs = ({ selectedTab }: { selectedTab: string }) => (
         >
           {tab.name}
         </Link>
+        <hr
+          className={cn(
+            "absolute w-full bg-none h-1 hidden -bottom-[21px]",
+            selectedTab === tab.name.toLowerCase() && "bg-dark-primary flex"
+          )}
+        ></hr>
       </li>
     ))}
   </ul>
