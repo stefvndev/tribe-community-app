@@ -10,6 +10,7 @@ import { getPocketBaseFileUrl } from "@/lib/getPocketBaseFileUrl";
 import Cookies from "js-cookie";
 import { Link } from "@tanstack/react-router";
 import { Skeleton } from "../ui/skeleton";
+import useSignOut from "@/lib/useSignOut";
 
 const mainLinks = [
   {
@@ -40,6 +41,7 @@ const secondaryLinks = [
 const NavbarUserMenuDropdown = () => {
   const userId = Cookies.get("userId");
   const { data, isLoading } = useGetUserData(userId as string);
+  const { signOut } = useSignOut();
 
   return (
     <Popover>
@@ -96,6 +98,13 @@ const NavbarUserMenuDropdown = () => {
               </Link>
             </div>
           ))}
+          <button
+            type="button"
+            onClick={signOut}
+            className="flex items-center p-4 text-red-500 transition-all ease-in-out hover:text-red-600 hover:bg-light-gray"
+          >
+            <p className="font-medium">Sign out</p>
+          </button>
         </div>
       </PopoverContent>
     </Popover>

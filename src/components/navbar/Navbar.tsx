@@ -1,18 +1,11 @@
-import { pb } from "@/api/pocketbase";
+import { Link } from "@tanstack/react-router";
 import { useLoggedState } from "@/lib/useLoggedState";
-import { Link, useNavigate } from "@tanstack/react-router";
+import useSignOut from "@/lib/useSignOut";
 import NavDropdown from "./NavDropdown";
-import Cookies from "js-cookie";
 
 const Navbar = () => {
   const { isLogged } = useLoggedState();
-  const navigate = useNavigate();
-
-  const signOut = () => {
-    navigate({ to: "/login" });
-    pb.authStore.clear();
-    Cookies.remove("userId");
-  };
+  const { signOut } = useSignOut();
 
   return (
     <header className="absolute top-0 left-0 right-0 w-full h-16 px-4 bg-white border-b">
