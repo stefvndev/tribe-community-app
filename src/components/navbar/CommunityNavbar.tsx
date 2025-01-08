@@ -10,6 +10,7 @@ import NavbarNotificationsDropdown from "./NavbarNotificationsDropdown";
 import NavbarTabs from "./NavbarTabs";
 import NavbarUserMenuDropdown from "./NavbarUserMenuDropdown";
 import NavDropdown from "./NavDropdown";
+import { useLoggedState } from "@/lib/useLoggedState";
 
 const getSelectedTab = (pathname: string, id: string) => {
   const basePath = pathname.split(`/${id}/`)[1];
@@ -19,6 +20,7 @@ const getSelectedTab = (pathname: string, id: string) => {
 const CommunityNavbar = () => {
   const { id } = useParams({ strict: false });
   const { data, isLoading } = useCommunityData(id as string);
+  const { isLogged } = useLoggedState();
   const location = useLocation();
   const selectedTab = getSelectedTab(location.pathname, id || "");
 
@@ -26,11 +28,11 @@ const CommunityNavbar = () => {
     <header
       className={cn(
         "absolute top-0 left-0 right-0 flex flex-col w-full px-4 bg-white border-b",
-        id ? "h-32" : "h-16"
+        id && isLogged() ? "h-28 pt-2" : "h-16"
       )}
     >
       <nav className="flex items-center justify-between w-full h-full mx-auto max-w-1075">
-        <div className="flex items-center w-full gap-4 max-w-72">
+        <div className="flex items-center gap-4 max-w-72">
           {id ? (
             <div className="flex items-center gap-4">
               {!isLoading ? (
@@ -66,13 +68,22 @@ const CommunityNavbar = () => {
             placeholder="Search"
           />
         </div>
-        <div className="flex items-center w-40 gap-2">
-          <NavbarMessagesDropdown />
-          <NavbarNotificationsDropdown />
-          <NavbarUserMenuDropdown />
-        </div>
+        {isLogged() ? (
+          <div className="flex items-center w-40 gap-2">
+            <NavbarMessagesDropdown />
+            <NavbarNotificationsDropdown />
+            <NavbarUserMenuDropdown />
+          </div>
+        ) : (
+          <Link
+            to="/login"
+            className="flex items-center justify-center px-5 py-[11px] border font-bold w-[116px] text-grayout rounded-md hover:text-black transition-opacity uppercase whitespace-nowrap"
+          >
+            log in
+          </Link>
+        )}
       </nav>
-      {id && (
+      {id && isLogged() && (
         <div className="flex items-center w-full h-full mx-auto max-w-1075">
           <NavbarTabs selectedTab={selectedTab} />
         </div>

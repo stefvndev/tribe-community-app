@@ -24,7 +24,7 @@ const NavbarTabs = ({ selectedTab }: { selectedTab: string }) => (
         </Link>
         <hr
           className={cn(
-            "absolute w-full bg-none h-1 hidden -bottom-[21px]",
+            "absolute w-full bg-none h-1 hidden -bottom-[15px]",
             selectedTab === tab.name.toLowerCase() && "bg-dark-primary flex"
           )}
         ></hr>
