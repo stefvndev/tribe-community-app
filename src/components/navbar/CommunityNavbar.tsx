@@ -78,7 +78,7 @@ const CommunityNavbar = () => {
         ) : (
           <Link
             to="/login"
-            className="flex items-center justify-center px-5 py-[11px] border font-bold w-[116px] text-grayout rounded-md hover:text-black transition-opacity uppercase whitespace-nowrap"
+            className="flex items-center justify-center px-5 py-[11px] border font-bold min-w-[116px] text-grayout rounded-md hover:text-black transition-opacity uppercase whitespace-nowrap"
           >
             log in
           </Link>

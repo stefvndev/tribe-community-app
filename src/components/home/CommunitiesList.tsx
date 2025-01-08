@@ -59,6 +59,7 @@ const CommunitiesList = () => {
                 filename: item?.banner,
                 collectionName: item?.collectionName,
               })}
+              alt="Community Banner"
             />
           ) : (
             <div className="w-full h-[360px] flex items-center justify-center bg-light-gray text-xl font-medium">
@@ -75,6 +76,7 @@ const CommunitiesList = () => {
                     filename: item?.avatar,
                     collectionName: item?.collectionName,
                   })}
+                  alt="Community Avatar"
                 />
               ) : (
                 <div className="flex items-center justify-center font-medium rounded-lg bg-light-gray size-10">

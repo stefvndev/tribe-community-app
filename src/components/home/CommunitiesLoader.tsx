@@ -3,9 +3,9 @@ import { Skeleton } from "../ui/skeleton";
 const CommunitiesLoader = () => {
   return (
     <div className="grid items-center w-full grid-cols-3 gap-5 max-lg:grid-cols-2 max-md:grid-cols-1">
-      {[1, 2, 3]?.map((item) => (
+      {[...Array(3)].map((_, index) => (
         <article
-          key={item}
+          key={index}
           className="flex bg-white flex-col w-full overflow-hidden max-lg:max-w-full border max-w-[335px] h-96 rounded-xl hover:shadow-custom"
         >
           <Skeleton className="w-full h-[380px]" />

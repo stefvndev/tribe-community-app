@@ -18,7 +18,9 @@ export const useCommunityData = (id: string) => {
     queryFn: async () => {
       const data: TCommunities = await pb
         .collection("all_communities")
-        .getOne(id);
+        .getOne(id, {
+          expand: "createdBy",
+        });
       return data;
     },
     retry: 0,

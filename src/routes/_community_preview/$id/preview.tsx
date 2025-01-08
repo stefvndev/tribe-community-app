@@ -1,4 +1,5 @@
 import { useCommunityData } from "@/api/get";
+import AboutAndPreviewPage from "@/components/about/AboutAndPreviewPage";
 import CommunityLayout from "@/components/layout/CommunityLayout";
 import DefaultNotFoundComponent from "@/components/notFound/DefaultNotFoundComponent";
 import { createFileRoute } from "@tanstack/react-router";
@@ -13,13 +14,9 @@ export const Route = createFileRoute("/_community_preview/$id/preview")({
 
 function RouteComponent() {
   const { id } = Route.useParams();
-  const { data, isError } = useCommunityData(id);
+  const { data, isError, isLoading } = useCommunityData(id);
 
   if (isError) return <DefaultNotFoundComponent />;
 
-  return (
-    <main className="flex items-center justify-center p-4 mx-auto max-w-1075">
-      {data?.name}
-    </main>
-  );
+  return <AboutAndPreviewPage data={data} isLoading={isLoading} />;
 }
