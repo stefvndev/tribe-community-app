@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { IconLoader2 } from "@tabler/icons-react";
 import { TSignUpData, useAuth } from "@/lib/useAuth";
+import Logo from "@/assets/tribe-logo.png";
 
 type TSubmitData = {
   name: string;
@@ -71,7 +72,7 @@ function RouteComponent() {
             to="/"
             className="text-4xl font-bold max-sm:mx-auto text-dark-primary"
           >
-            Tribe
+            <img src={Logo} alt="Tribe" width={170} />
           </Link>
           <h1 className="text-2xl font-bold my-7 text-dark-text">
             Everything you need to build community and make money online.

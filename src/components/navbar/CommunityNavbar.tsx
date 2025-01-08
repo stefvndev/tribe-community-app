@@ -11,6 +11,7 @@ import NavbarTabs from "./NavbarTabs";
 import NavbarUserMenuDropdown from "./NavbarUserMenuDropdown";
 import NavDropdown from "./NavDropdown";
 import { useLoggedState } from "@/lib/useLoggedState";
+import Logo from "@/assets/tribe-logo.png";
 
 const getSelectedTab = (pathname: string, id: string) => {
   const basePath = pathname.split(`/${id}/`)[1];
@@ -56,7 +57,7 @@ const CommunityNavbar = () => {
             </div>
           ) : (
             <Link to="/" className="text-4xl font-bold">
-              tribe
+              <img src={Logo} alt="Tribe" width={220} />
             </Link>
           )}
           <NavDropdown />

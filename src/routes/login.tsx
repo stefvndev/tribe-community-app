@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { IconLoader2 } from "@tabler/icons-react";
 import { useAuth } from "@/lib/useAuth";
+import Logo from "@/assets/tribe-logo.png";
 
 type TSubmitData = {
   email: string;
@@ -50,11 +51,8 @@ function RouteComponent() {
           to="/"
           className="mb-6 text-3xl font-bold max-sm:mx-auto text-dark-primary"
         >
-          Tribe
+          <img src={Logo} alt="Tribe" width={150} />
         </Link>
-        <h2 className="mb-8 text-2xl font-bold text-dark-primary">
-          Log in to Tribe
-        </h2>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col items-center w-full h-full gap-6"
