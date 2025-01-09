@@ -8,6 +8,7 @@ export type TDiscoveryQueries = {
   category?: string;
   type?: string;
   price?: string;
+  search?: string;
 };
 
 export type TCommunities = {

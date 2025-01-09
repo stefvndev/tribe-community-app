@@ -9,13 +9,14 @@ import { Route } from "@/routes";
 const CommunitiesList = () => {
   const { data, isLoading, isError } = useListOfAllCommunities();
   const { isLogged } = useLoggedState();
-  const { category, type, price } = useSearch({ from: Route.fullPath });
+  const { category, type, price, search } = useSearch({ from: Route.fullPath });
 
   const filteredList = data?.filter((item) => {
     return (
       (!category || item?.category === category) &&
       (!type || item?.type === type) &&
-      (!price || item?.price === price)
+      (!price || item?.price === price) &&
+      (!search || item?.name.toLowerCase().includes(search.toLowerCase()))
     );
   });
 
