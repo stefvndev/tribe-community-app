@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { ECommunityType } from "@/enums/enums";
 import { getInitials } from "@/lib/getInitials";
 import { getPocketBaseFileUrl } from "@/lib/getPocketBaseFileUrl";
@@ -12,7 +13,6 @@ import {
   IconTag,
   IconUsers,
 } from "@tabler/icons-react";
-import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { Skeleton } from "../ui/skeleton";
 import Cookies from "js-cookie";
 import { useCommunityData } from "@/api/get";
@@ -33,14 +33,13 @@ const AboutAndPreviewPage = ({
   const { data: communityData } = useCommunityData(data?.id as string);
   const { mutateAsync: mutateAsyncJoinCommunity, isPending: isJoiningPending } =
     useMutateJoinCommunity();
-  const location = useLocation();
-  const isAbout = location.pathname.includes("about");
   const userId = Cookies.get("userId");
   const navigate = useNavigate({ from: Route.fullPath });
   const descriptionRef = useRef<HTMLParagraphElement>(null);
   const [showFullText, setShowFullText] = useState(false);
   const [isOverflowing, setIsOverflowing] = useState(false);
   const { isLogged } = useLoggedState();
+  const isMember = communityData?.members?.includes(userId as string);
 
   const handleJoinToCommunity = async (communityId: string) => {
     if (!isLogged()) {
@@ -185,95 +184,95 @@ const AboutAndPreviewPage = ({
         </div>
       </div>
 
-      {!isAbout && (
-        <div className="max-w-[272px] max-md:max-w-full h-[510px] max-md:h-full w-full bg-white border rounded-xl overflow-hidden">
+      <div className="max-w-[272px] max-md:max-w-full h-[510px] max-md:h-full w-full bg-white border rounded-xl overflow-hidden">
+        {isLoading ? (
+          <Skeleton className="w-full rounded-none h-36 max-md:h-48" />
+        ) : (
+          <>
+            {data?.avatar ? (
+              <img
+                src={getPocketBaseFileUrl({
+                  recordId: data?.id,
+                  filename: data?.avatar,
+                  collectionName: data?.collectionName,
+                })}
+                alt="Community Banner"
+                className="object-cover w-full h-36 max-md:h-48"
+              />
+            ) : (
+              <div className="flex items-center justify-center w-full bg-light-gray h-36 max-md:h-48">
+                <p className="text-xl font-medium">{data?.name}</p>
+              </div>
+            )}
+          </>
+        )}
+        <div className="flex flex-col p-4">
           {isLoading ? (
-            <Skeleton className="w-full rounded-none h-36 max-md:h-48" />
+            <Skeleton className="w-32 h-4 mb-2" />
           ) : (
-            <>
-              {data?.avatar ? (
-                <img
-                  src={getPocketBaseFileUrl({
-                    recordId: data?.id,
-                    filename: data?.avatar,
-                    collectionName: data?.collectionName,
-                  })}
-                  alt="Community Banner"
-                  className="object-cover w-full h-36 max-md:h-48"
-                />
-              ) : (
-                <div className="flex items-center justify-center w-full bg-light-gray h-36 max-md:h-48">
-                  <p className="text-xl font-medium">{data?.name}</p>
-                </div>
-              )}
-            </>
+            <h2 className="text-lg font-medium truncate text-dark-primary max-w-56">
+              {data?.name}
+            </h2>
           )}
-          <div className="flex flex-col p-4">
-            {isLoading ? (
-              <Skeleton className="w-32 h-4 mb-2" />
-            ) : (
-              <h2 className="text-lg font-medium truncate text-dark-primary max-w-56">
-                {data?.name}
-              </h2>
-            )}
 
-            {isLoading ? (
-              <Skeleton className="w-28 h-2.5" />
-            ) : (
-              <p className="text-[13px] flex items-center text-grayout font-bold whitespace-nowrap truncate max-w-56">
-                tribe/{data?.id}
-              </p>
-            )}
+          {isLoading ? (
+            <Skeleton className="w-28 h-2.5" />
+          ) : (
+            <p className="text-[13px] flex items-center text-grayout font-bold whitespace-nowrap truncate max-w-56">
+              tribe/{data?.id}
+            </p>
+          )}
 
-            {isLoading ? (
-              <div className="my-3">
-                {[...Array(4)].map((_, index) => (
-                  <Skeleton key={index} className="w-full h-3 mb-2" />
-                ))}
-              </div>
-            ) : (
-              <p className="my-3 text-base break-words text-dark-primary line-clamp-4">
-                {data?.description}
-              </p>
-            )}
-            <Link
-              to="/signup"
-              className="flex items-center gap-1.5 text-sm text-grayout truncate hover:text-dark-primary hover:underline transition-all ease-in-out"
-            >
-              <IconLink size={16} /> Lead Your Own Community
-            </Link>
-            <hr className="w-full mt-4 mb-2" />
-            <div className="flex items-center justify-between w-full">
-              <div className="flex flex-col items-center w-20">
-                {isLoading ? (
-                  <Skeleton className="w-10 h-5 mb-1" />
-                ) : (
-                  <p className="text-lg font-medium text-dark-primary">
-                    {data?.members?.length}
-                  </p>
-                )}
-                <p className="text-[13px] text-grayout">
-                  {(data?.members?.length as number) > 1 ? "Members" : "Member"}
-                </p>
-              </div>
-              <div className="flex flex-col items-center w-20 border-gray-200 border-x">
-                {isLoading ? (
-                  <Skeleton className="w-10 h-5 mb-1" />
-                ) : (
-                  <p className="text-lg font-medium text-dark-primary">N/A</p>
-                )}
-                <p className="text-[13px] text-grayout">Online</p>
-              </div>
-              <div className="flex flex-col items-center w-20">
-                {isLoading ? (
-                  <Skeleton className="w-10 h-5 mb-1" />
-                ) : (
-                  <p className="text-lg font-medium text-dark-primary">1</p>
-                )}
-                <p className="text-[13px] text-grayout">Admins</p>
-              </div>
+          {isLoading ? (
+            <div className="my-3">
+              {[...Array(4)].map((_, index) => (
+                <Skeleton key={index} className="w-full h-3 mb-2" />
+              ))}
             </div>
-            <hr className="w-full mt-2" />
+          ) : (
+            <p className="my-3 text-base break-words text-dark-primary line-clamp-4">
+              {data?.description}
+            </p>
+          )}
+          <Link
+            to="/signup"
+            className="flex items-center gap-1.5 text-sm text-grayout truncate hover:text-dark-primary hover:underline transition-all ease-in-out"
+          >
+            <IconLink size={16} /> Lead Your Own Community
+          </Link>
+          <hr className="w-full mt-4 mb-2" />
+          <div className="flex items-center justify-between w-full">
+            <div className="flex flex-col items-center w-20">
+              {isLoading ? (
+                <Skeleton className="w-10 h-5 mb-1" />
+              ) : (
+                <p className="text-lg font-medium text-dark-primary">
+                  {data?.members?.length}
+                </p>
+              )}
+              <p className="text-[13px] text-grayout">
+                {(data?.members?.length as number) > 1 ? "Members" : "Member"}
+              </p>
+            </div>
+            <div className="flex flex-col items-center w-20 border-gray-200 border-x">
+              {isLoading ? (
+                <Skeleton className="w-10 h-5 mb-1" />
+              ) : (
+                <p className="text-lg font-medium text-dark-primary">N/A</p>
+              )}
+              <p className="text-[13px] text-grayout">Online</p>
+            </div>
+            <div className="flex flex-col items-center w-20">
+              {isLoading ? (
+                <Skeleton className="w-10 h-5 mb-1" />
+              ) : (
+                <p className="text-lg font-medium text-dark-primary">1</p>
+              )}
+              <p className="text-[13px] text-grayout">Admins</p>
+            </div>
+          </div>
+          <hr className="w-full mt-2" />
+          {!isMember && (
             <button
               onClick={() => handleJoinToCommunity(data?.id as string)}
               disabled={isJoiningPending}
@@ -290,9 +289,9 @@ const AboutAndPreviewPage = ({
                 "Join Group"
               )}
             </button>
-          </div>
+          )}
         </div>
-      )}
+      </div>
     </main>
   );
 };
