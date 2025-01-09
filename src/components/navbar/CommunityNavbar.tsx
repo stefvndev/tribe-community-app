@@ -1,5 +1,6 @@
-import { IconSearch } from "@tabler/icons-react";
+import { useState } from "react";
 import { Link, useLocation, useParams } from "@tanstack/react-router";
+import { IconMenu2, IconSearch, IconX } from "@tabler/icons-react";
 import { useCommunityData } from "@/api/get";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
@@ -12,6 +13,7 @@ import NavbarUserMenuDropdown from "./NavbarUserMenuDropdown";
 import NavDropdown from "./NavDropdown";
 import { useLoggedState } from "@/lib/useLoggedState";
 import Logo from "@/assets/tribe-logo.png";
+import { mobileMenuLinks } from "./mobileMenuLinks";
 
 const getSelectedTab = (pathname: string, id: string) => {
   const basePath = pathname.split(`/${id}/`)[1];
@@ -24,6 +26,11 @@ const CommunityNavbar = () => {
   const { isLogged } = useLoggedState();
   const location = useLocation();
   const selectedTab = getSelectedTab(location.pathname, id || "");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const handleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
 
   return (
     <header
@@ -60,35 +67,75 @@ const CommunityNavbar = () => {
               <img src={Logo} alt="Tribe" width={220} />
             </Link>
           )}
-          <NavDropdown />
-        </div>
-        <div className="items-center w-full mx-4">
-          <Input
-            icon={<IconSearch size={20} />}
-            className="h-12 bg-light-gray placeholder:text-grayout !text-base"
-            placeholder="Search"
-          />
-        </div>
-        {isLogged() ? (
-          <div className="flex items-center w-40 gap-2">
-            <NavbarMessagesDropdown />
-            <NavbarNotificationsDropdown />
-            <NavbarUserMenuDropdown />
+          <div className="max-md:hidden">
+            <NavDropdown />
           </div>
-        ) : (
-          <Link
-            to="/login"
-            className="flex items-center justify-center px-5 py-[11px] border font-bold min-w-[116px] text-grayout rounded-md hover:text-black transition-opacity uppercase whitespace-nowrap"
-          >
-            log in
-          </Link>
-        )}
+        </div>
+
+        <div className="flex items-center w-full gap-4 max-md:hidden">
+          <div className="items-center w-full ml-4">
+            <Input
+              icon={<IconSearch size={20} />}
+              className="h-12 bg-light-gray placeholder:text-grayout !text-base"
+              placeholder="Search"
+            />
+          </div>
+          {isLogged() ? (
+            <div className="flex items-center w-40 gap-2">
+              <NavbarMessagesDropdown />
+              <NavbarNotificationsDropdown />
+              <NavbarUserMenuDropdown />
+            </div>
+          ) : (
+            <Link
+              to="/login"
+              className="flex items-center justify-center px-5 py-[11px] border font-bold min-w-[116px] text-grayout rounded-md hover:text-black transition-opacity uppercase whitespace-nowrap"
+            >
+              log in
+            </Link>
+          )}
+        </div>
+
+        {/* mobile menu button */}
+        <button
+          onClick={handleMobileMenu}
+          type="button"
+          className="hidden max-md:flex"
+        >
+          {isMobileMenuOpen ? (
+            <IconX size={28} className="text-dark-primary" />
+          ) : (
+            <IconMenu2 size={28} className="text-dark-primary" />
+          )}
+        </button>
       </nav>
+
       {id && isLogged() && (
         <div className="flex items-center w-full h-full mx-auto max-w-1075">
           <NavbarTabs selectedTab={selectedTab} />
         </div>
       )}
+
+      {/* mobile menu */}
+      <nav
+        className={cn(
+          "absolute h-[calc(100vh-112px)] flex flex-col w-full bg-white top-28 transition-all ease-in-out z-50 duration-300",
+          isMobileMenuOpen ? "left-0" : "-left-full"
+        )}
+      >
+        <ul className="flex flex-col w-full h-full">
+          {mobileMenuLinks.map((link) => (
+            <li key={link.id} className="flex w-full">
+              <Link
+                to={link.url}
+                className="flex items-center w-full px-4 font-medium h-14 text-dark-primary hover:bg-light-gray"
+              >
+                <p>{link.name}</p>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
     </header>
   );
 };

@@ -10,7 +10,7 @@ const TABS = [
 ];
 
 const NavbarTabs = ({ selectedTab }: { selectedTab: string }) => (
-  <ul className="flex items-center w-full gap-8">
+  <ul className="flex items-center w-full h-full gap-8 scrollbar-hide whitespace-nowrap max-md:overflow-x-auto">
     {TABS.map((tab) => (
       <li key={tab.id} className="relative">
         <Link
