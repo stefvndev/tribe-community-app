@@ -1,4 +1,8 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  useNavigate,
+  useSearch,
+} from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import { Input } from "@/components/ui/input";
 import { IconSearch } from "@tabler/icons-react";
@@ -25,6 +29,7 @@ export const Route = createFileRoute("/")({
 
 function RouteComponent() {
   const navigate = useNavigate({ from: Route.fullPath });
+  const { search } = useSearch({ from: Route.fullPath });
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -55,6 +60,7 @@ function RouteComponent() {
         </span>
         <div className="w-full max-w-[650px]">
           <Input
+            defaultValue={search}
             onChange={handleSearch}
             placeholder="Search for anything"
             className="w-full px-5 mt-8 !text-lg pl-14 font-medium bg-white h-14 !shadow-custom placeholder:opacity-90 rounded-xl border"
