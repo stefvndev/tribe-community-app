@@ -65,7 +65,7 @@ const AboutAndPreviewPage = ({
           </>
         )}
         <div className="flex flex-wrap items-center w-full gap-10 mt-10 mb-6 max-md:gap-4">
-          <p className="flex items-center gap-2 text-base font-medium capitalize max-md:text-sm whitespace-nowrap text-dark-primary">
+          <span className="flex items-center gap-2 text-base font-medium capitalize max-md:text-sm whitespace-nowrap text-dark-primary">
             {data?.type === ECommunityType.PRIVATE ? (
               <IconLock size={26} />
             ) : (
@@ -76,23 +76,23 @@ const AboutAndPreviewPage = ({
             ) : (
               <span>{data?.type} group</span>
             )}
-          </p>
-          <p className="flex items-center gap-2 text-base font-medium capitalize max-md:text-sm whitespace-nowrap text-dark-primary">
+          </span>
+          <span className="flex items-center gap-2 text-base font-medium capitalize max-md:text-sm whitespace-nowrap text-dark-primary">
             <IconUsers size={26} />
             {isLoading ? (
               <Skeleton className="h-4 w-28" />
             ) : (
               <span>{data?.members} members</span>
             )}
-          </p>
-          <p className="flex items-center gap-2 text-base font-medium capitalize max-md:text-sm whitespace-nowrap text-dark-primary">
+          </span>
+          <span className="flex items-center gap-2 text-base font-medium capitalize max-md:text-sm whitespace-nowrap text-dark-primary">
             <IconTag size={26} />
             {isLoading ? (
               <Skeleton className="h-4 w-28" />
             ) : (
               <span>{data?.price}</span>
             )}
-          </p>
+          </span>
           <div className="flex items-center gap-2 text-base font-medium capitalize max-md:text-sm whitespace-nowrap text-dark-primary">
             {data?.avatar ? (
               <img
