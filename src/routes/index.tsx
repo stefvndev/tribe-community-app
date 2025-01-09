@@ -68,7 +68,7 @@ function RouteComponent() {
           />
         </div>
       </div>
-      <div className="flex flex-col items-center justify-center w-full gap-7 mt-14">
+      <div className="flex flex-col items-center justify-center w-full gap-7 mt-14 max-md:mt-8">
         <DiscoveryFilters />
         <CommunitiesList />
       </div>
