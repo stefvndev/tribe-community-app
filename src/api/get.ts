@@ -4,7 +4,7 @@ import { pb } from "./pocketbase";
 
 export const useGetUserData = (id: string) => {
   return useQuery({
-    queryKey: ["user_data"],
+    queryKey: ["user_data", id],
     queryFn: async () => {
       const data: TUserData = await pb.collection("users").getOne(id);
       return data;
@@ -19,7 +19,7 @@ export const useCommunityData = (id: string) => {
       const data: TCommunities = await pb
         .collection("all_communities")
         .getOne(id, {
-          expand: "createdBy",
+          expand: "createdBy, members",
         });
       return data;
     },

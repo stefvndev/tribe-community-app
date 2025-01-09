@@ -1,15 +1,17 @@
+import { Route } from "@/routes";
 import { Link, useSearch } from "@tanstack/react-router";
+import Cookies from "js-cookie";
 import { useListOfAllCommunities } from "@/api/get";
 import { getInitials } from "@/lib/getInitials";
 import { getPocketBaseFileUrl } from "@/lib/getPocketBaseFileUrl";
 import CommunitiesLoader from "./CommunitiesLoader";
 import { useLoggedState } from "@/lib/useLoggedState";
-import { Route } from "@/routes";
 
 const CommunitiesList = () => {
   const { data, isLoading, isError } = useListOfAllCommunities();
   const { isLogged } = useLoggedState();
   const { category, type, price, search } = useSearch({ from: Route.fullPath });
+  const userId = Cookies.get("userId");
 
   const filteredList = data?.filter((item) => {
     return (
@@ -19,6 +21,14 @@ const CommunitiesList = () => {
       (!search || item?.name.toLowerCase().includes(search.toLowerCase()))
     );
   });
+
+  const communityRedirection = (members: string[]) => {
+    if (members.includes(userId as string)) return "/$id";
+
+    if (isLogged()) return "/$id/about";
+
+    return "/$id/preview";
+  };
 
   if (isLoading) {
     return <CommunitiesLoader />;
@@ -45,7 +55,7 @@ const CommunitiesList = () => {
     <div className="grid items-center w-full grid-cols-3 gap-5 max-lg:grid-cols-2 max-md:grid-cols-1">
       {filteredList?.map((item) => (
         <Link
-          to={isLogged() ? "/$id/about" : "/$id/preview"}
+          to={communityRedirection(item?.members)}
           params={{
             id: item?.id,
           }}
@@ -92,7 +102,10 @@ const CommunitiesList = () => {
             <div className="flex items-center self-end w-full gap-2">
               <p className="capitalize">{item?.type}</p>
               <span>•</span>
-              <p>{item?.members} Members</p>
+              <p>
+                {item?.members?.length}{" "}
+                {item?.members?.length > 1 ? "Members" : "Member"}
+              </p>
               <span>•</span>
               <p className="font-medium capitalize">{item?.price}</p>
             </div>

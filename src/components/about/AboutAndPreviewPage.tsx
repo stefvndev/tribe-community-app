@@ -6,13 +6,20 @@ import { cn } from "@/lib/utils";
 import { TCommunities } from "@/types/types";
 import {
   IconLink,
+  IconLoader2,
   IconLock,
   IconLockOpen2,
   IconTag,
   IconUsers,
 } from "@tabler/icons-react";
-import { Link, useLocation } from "@tanstack/react-router";
+import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { Skeleton } from "../ui/skeleton";
+import Cookies from "js-cookie";
+import { useCommunityData } from "@/api/get";
+import { toast } from "sonner";
+import { useMutateJoinCommunity } from "@/api/patch";
+import { Route } from "@/routes/_community_preview/$id/preview";
+import { useLoggedState } from "@/lib/useLoggedState";
 
 type TAboutAndPreviewPageProps = {
   data?: TCommunities;
@@ -23,11 +30,45 @@ const AboutAndPreviewPage = ({
   data,
   isLoading,
 }: TAboutAndPreviewPageProps) => {
-  const [showFullText, setShowFullText] = useState(false);
-  const [isOverflowing, setIsOverflowing] = useState(false);
-  const descriptionRef = useRef<HTMLParagraphElement>(null);
+  const { data: communityData } = useCommunityData(data?.id as string);
+  const { mutateAsync: mutateAsyncJoinCommunity, isPending: isJoiningPending } =
+    useMutateJoinCommunity();
   const location = useLocation();
   const isAbout = location.pathname.includes("about");
+  const userId = Cookies.get("userId");
+  const navigate = useNavigate({ from: Route.fullPath });
+  const descriptionRef = useRef<HTMLParagraphElement>(null);
+  const [showFullText, setShowFullText] = useState(false);
+  const [isOverflowing, setIsOverflowing] = useState(false);
+  const { isLogged } = useLoggedState();
+
+  const handleJoinToCommunity = async (communityId: string) => {
+    if (!isLogged()) {
+      navigate({ to: "/signup" });
+      toast.error("You need to be logged in to join the Community!", {
+        description: "Please sign in or create an account.",
+      });
+      return;
+    }
+    try {
+      const updatedMembers = [
+        ...(communityData?.members || []),
+        userId,
+      ] as string[];
+
+      await mutateAsyncJoinCommunity({ communityId, updatedMembers });
+
+      toast.success(`Welcome to the "${data?.name}" community!`, {
+        description: "You have successfully joined the community.",
+      });
+
+      navigate({ to: "/$id" });
+    } catch {
+      toast.error("Failed to join the Community!", {
+        description: "Please try again later.",
+      });
+    }
+  };
 
   useEffect(() => {
     if (descriptionRef.current) {
@@ -82,7 +123,10 @@ const AboutAndPreviewPage = ({
             {isLoading ? (
               <Skeleton className="h-4 w-28" />
             ) : (
-              <span>{data?.members} members</span>
+              <span>
+                {data?.members?.length}{" "}
+                {(data?.members?.length as number) > 1 ? "members" : "member"}
+              </span>
             )}
           </span>
           <span className="flex items-center gap-2 text-base font-medium capitalize max-md:text-sm whitespace-nowrap text-dark-primary">
@@ -205,10 +249,12 @@ const AboutAndPreviewPage = ({
                   <Skeleton className="w-10 h-5 mb-1" />
                 ) : (
                   <p className="text-lg font-medium text-dark-primary">
-                    {data?.members}
+                    {data?.members?.length}
                   </p>
                 )}
-                <p className="text-[13px] text-grayout">Members</p>
+                <p className="text-[13px] text-grayout">
+                  {(data?.members?.length as number) > 1 ? "Members" : "Member"}
+                </p>
               </div>
               <div className="flex flex-col items-center w-20 border-gray-200 border-x">
                 {isLoading ? (
@@ -229,12 +275,20 @@ const AboutAndPreviewPage = ({
             </div>
             <hr className="w-full mt-2" />
             <button
+              onClick={() => handleJoinToCommunity(data?.id as string)}
+              disabled={isJoiningPending}
               type="submit"
               className={cn(
-                "flex items-center justify-center w-full h-12 px-4 mt-4 font-bold uppercase rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover"
+                "flex items-center justify-center w-full h-12 px-4 mt-4 font-bold uppercase rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover",
+                isJoiningPending &&
+                  "bg-light-gray text-gray-500 hover:bg-light-gray"
               )}
             >
-              Join Group
+              {isJoiningPending ? (
+                <IconLoader2 className="animate-spin" size={22} />
+              ) : (
+                "Join Group"
+              )}
             </button>
           </div>
         </div>

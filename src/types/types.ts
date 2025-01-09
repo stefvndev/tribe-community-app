@@ -18,7 +18,7 @@ export type TCommunities = {
   price: ECommunityPrice;
   type: ECommunityType;
   description: string;
-  members: number;
+  members: string[];
   banner: string;
   avatar: string;
   collectionName: string;
@@ -36,6 +36,7 @@ export type TCommunities = {
       updated: string;
       verified: boolean;
     };
+    members: TUserData[];
   };
 };
 
