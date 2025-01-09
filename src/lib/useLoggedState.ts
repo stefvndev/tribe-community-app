@@ -1,7 +1,9 @@
 import { pb } from "@/api/pocketbase";
+import Cookies from "js-cookie";
 
 export const useLoggedState = () => {
-  const isLogged = () => pb.authStore.isValid;
+  const userId = Cookies.get("userId");
+  const isLogged = () => pb.authStore.isValid && !!userId;
 
   return { isLogged };
 };
