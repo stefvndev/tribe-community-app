@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { pb } from "@/api/pocketbase";
 import { useNavigate } from "@tanstack/react-router";
-import Cookies from "js-cookie";
 import { toast } from "sonner";
 
 export type TSignUpData = {
@@ -25,8 +24,6 @@ export const useAuth = () => {
     setIsLoading(true);
     try {
       await pb.collection("users").authWithPassword(email, password);
-      const userId = pb?.authStore?.record?.id;
-      Cookies.set("userId", userId as string);
       navigate({ to: "/" });
       toast("Login Successful!", {
         description: "You have logged in successfully!",

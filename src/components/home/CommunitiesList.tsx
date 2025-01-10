@@ -1,17 +1,17 @@
 import { Route } from "@/routes";
 import { Link, useSearch } from "@tanstack/react-router";
-import Cookies from "js-cookie";
 import { useListOfAllCommunities } from "@/api/get";
 import { getInitials } from "@/lib/getInitials";
 import { getPocketBaseFileUrl } from "@/lib/getPocketBaseFileUrl";
 import CommunitiesLoader from "./CommunitiesLoader";
 import { useLoggedState } from "@/lib/useLoggedState";
+import { pb } from "@/api/pocketbase";
 
 const CommunitiesList = () => {
   const { data, isLoading, isError } = useListOfAllCommunities();
   const { isLogged } = useLoggedState();
   const { category, type, price, search } = useSearch({ from: Route.fullPath });
-  const userId = Cookies.get("userId");
+  const userId = pb.authStore.record?.id;
 
   const filteredList = data?.filter((item) => {
     return (

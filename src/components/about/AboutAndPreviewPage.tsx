@@ -14,12 +14,12 @@ import {
   IconUsers,
 } from "@tabler/icons-react";
 import { Skeleton } from "../ui/skeleton";
-import Cookies from "js-cookie";
 import { useCommunityData } from "@/api/get";
 import { toast } from "sonner";
 import { useMutateJoinCommunity } from "@/api/patch";
 import { Route } from "@/routes/_community_preview/$id/preview";
 import { useLoggedState } from "@/lib/useLoggedState";
+import { pb } from "@/api/pocketbase";
 
 type TAboutAndPreviewPageProps = {
   data?: TCommunities;
@@ -33,7 +33,7 @@ const AboutAndPreviewPage = ({
   const { data: communityData } = useCommunityData(data?.id as string);
   const { mutateAsync: mutateAsyncJoinCommunity, isPending: isJoiningPending } =
     useMutateJoinCommunity();
-  const userId = Cookies.get("userId");
+  const userId = pb.authStore.record?.id;
   const navigate = useNavigate({ from: Route.fullPath });
   const descriptionRef = useRef<HTMLParagraphElement>(null);
   const [showFullText, setShowFullText] = useState(false);

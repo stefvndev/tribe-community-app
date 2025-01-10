@@ -7,10 +7,10 @@ import {
 } from "@/components/ui/popover";
 import { getInitials } from "@/lib/getInitials";
 import { getPocketBaseFileUrl } from "@/lib/getPocketBaseFileUrl";
-import Cookies from "js-cookie";
 import { Link } from "@tanstack/react-router";
 import { Skeleton } from "../ui/skeleton";
 import useSignOut from "@/lib/useSignOut";
+import { pb } from "@/api/pocketbase";
 
 const mainLinks = [
   {
@@ -39,7 +39,7 @@ const secondaryLinks = [
 ];
 
 const NavbarUserMenuDropdown = () => {
-  const userId = Cookies.get("userId");
+  const userId = pb.authStore.record?.id;
   const { data, isLoading } = useGetUserData(userId as string);
   const { signOut } = useSignOut();
 

@@ -1,10 +1,10 @@
 import { useCallback, useEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useCommunityData } from "@/api/get";
-import Cookies from "js-cookie";
 import AboutAndPreviewPage from "@/components/about/AboutAndPreviewPage";
 import CommunityLayout from "@/components/layout/CommunityLayout";
 import DefaultNotFoundComponent from "@/components/notFound/DefaultNotFoundComponent";
+import { pb } from "@/api/pocketbase";
 
 export const Route = createFileRoute("/_community_preview/$id/preview")({
   component: () => (
@@ -16,7 +16,7 @@ export const Route = createFileRoute("/_community_preview/$id/preview")({
 
 function RouteComponent() {
   const { id } = Route.useParams();
-  const userId = Cookies.get("userId");
+  const userId = pb.authStore.record?.id;
   const { data, isError, isLoading } = useCommunityData(id);
   const navigate = Route.useNavigate();
 
