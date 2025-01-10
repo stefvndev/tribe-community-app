@@ -184,7 +184,7 @@ const AboutAndPreviewPage = ({
         </div>
       </div>
 
-      <div className="max-w-[272px] max-md:max-w-full h-[510px] max-md:h-full w-full bg-white border rounded-xl overflow-hidden">
+      <div className="max-w-[272px] max-md:max-w-full h-full max-md:h-full w-full bg-white border rounded-xl overflow-hidden">
         {isLoading ? (
           <Skeleton className="w-full rounded-none h-36 max-md:h-48" />
         ) : (

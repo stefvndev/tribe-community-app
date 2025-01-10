@@ -16,6 +16,7 @@ import { Route as LoginImport } from './routes/login'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthenticatedProfileImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedCreateCommunityImport } from './routes/_authenticated/create-community'
 import { Route as CommunitypreviewIdPreviewImport } from './routes/_community_preview/$id/preview'
 import { Route as AuthenticatedCommunityIdIndexImport } from './routes/_authenticated/_community/$id/index'
 import { Route as AuthenticatedCommunityIdMembersImport } from './routes/_authenticated/_community/$id/members'
@@ -53,6 +54,13 @@ const AuthenticatedProfileRoute = AuthenticatedProfileImport.update({
   path: '/profile',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+
+const AuthenticatedCreateCommunityRoute =
+  AuthenticatedCreateCommunityImport.update({
+    id: '/create-community',
+    path: '/create-community',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 const CommunitypreviewIdPreviewRoute = CommunitypreviewIdPreviewImport.update({
   id: '/_community_preview/$id/preview',
@@ -127,6 +135,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupImport
       parentRoute: typeof rootRoute
     }
+    '/_authenticated/create-community': {
+      id: '/_authenticated/create-community'
+      path: '/create-community'
+      fullPath: '/create-community'
+      preLoaderRoute: typeof AuthenticatedCreateCommunityImport
+      parentRoute: typeof AuthenticatedImport
+    }
     '/_authenticated/profile': {
       id: '/_authenticated/profile'
       path: '/profile'
@@ -182,6 +197,7 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface AuthenticatedRouteChildren {
+  AuthenticatedCreateCommunityRoute: typeof AuthenticatedCreateCommunityRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedCommunityIdAboutRoute: typeof AuthenticatedCommunityIdAboutRoute
   AuthenticatedCommunityIdCalendarRoute: typeof AuthenticatedCommunityIdCalendarRoute
@@ -191,6 +207,7 @@ interface AuthenticatedRouteChildren {
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedCreateCommunityRoute: AuthenticatedCreateCommunityRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedCommunityIdAboutRoute: AuthenticatedCommunityIdAboutRoute,
   AuthenticatedCommunityIdCalendarRoute: AuthenticatedCommunityIdCalendarRoute,
@@ -209,6 +226,7 @@ export interface FileRoutesByFullPath {
   '': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/create-community': typeof AuthenticatedCreateCommunityRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/$id/preview': typeof CommunitypreviewIdPreviewRoute
   '/$id/about': typeof AuthenticatedCommunityIdAboutRoute
@@ -223,6 +241,7 @@ export interface FileRoutesByTo {
   '': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/create-community': typeof AuthenticatedCreateCommunityRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/$id/preview': typeof CommunitypreviewIdPreviewRoute
   '/$id/about': typeof AuthenticatedCommunityIdAboutRoute
@@ -238,6 +257,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/_authenticated/create-community': typeof AuthenticatedCreateCommunityRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_community_preview/$id/preview': typeof CommunitypreviewIdPreviewRoute
   '/_authenticated/_community/$id/about': typeof AuthenticatedCommunityIdAboutRoute
@@ -254,6 +274,7 @@ export interface FileRouteTypes {
     | ''
     | '/login'
     | '/signup'
+    | '/create-community'
     | '/profile'
     | '/$id/preview'
     | '/$id/about'
@@ -267,6 +288,7 @@ export interface FileRouteTypes {
     | ''
     | '/login'
     | '/signup'
+    | '/create-community'
     | '/profile'
     | '/$id/preview'
     | '/$id/about'
@@ -280,6 +302,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/login'
     | '/signup'
+    | '/_authenticated/create-community'
     | '/_authenticated/profile'
     | '/_community_preview/$id/preview'
     | '/_authenticated/_community/$id/about'
@@ -329,6 +352,7 @@ export const routeTree = rootRoute
     "/_authenticated": {
       "filePath": "_authenticated.tsx",
       "children": [
+        "/_authenticated/create-community",
         "/_authenticated/profile",
         "/_authenticated/_community/$id/about",
         "/_authenticated/_community/$id/calendar",
@@ -342,6 +366,10 @@ export const routeTree = rootRoute
     },
     "/signup": {
       "filePath": "signup.tsx"
+    },
+    "/_authenticated/create-community": {
+      "filePath": "_authenticated/create-community.tsx",
+      "parent": "/_authenticated"
     },
     "/_authenticated/profile": {
       "filePath": "_authenticated/profile.tsx",

@@ -54,7 +54,10 @@ function RouteComponent() {
         </h1>
         <span className="flex max-sm:mt-4 items-center gap-1.5 text-xl font-medium text-dark-primary">
           <p>or</p>
-          <Link to="/signup" className="text-link-blue hover:underline">
+          <Link
+            to="/create-community"
+            className="text-link-blue hover:underline"
+          >
             create your own
           </Link>
         </span>

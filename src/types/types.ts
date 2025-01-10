@@ -52,3 +52,13 @@ export type TUserData = {
   updated: string;
   verified: boolean;
 };
+
+export type TCreateCommunitySubmitData = {
+  name: string;
+  description: string;
+  category: string;
+  type: string;
+  price: string;
+  banner: File | null;
+  avatar: File | null;
+};
