@@ -14,12 +14,12 @@ import {
   IconUsers,
 } from "@tabler/icons-react";
 import { Skeleton } from "../ui/skeleton";
-import { useCommunityData } from "@/api/get";
 import { toast } from "sonner";
 import { useMutateJoinCommunity } from "@/api/patch";
 import { Route } from "@/routes/_community_preview/$id/preview";
 import { useLoggedState } from "@/lib/useLoggedState";
 import { pb } from "@/api/pocketbase";
+import DeleteCommunityModal from "../modals/DeleteCommunityModal";
 
 type TAboutAndPreviewPageProps = {
   data?: TCommunities;
@@ -30,16 +30,16 @@ const AboutAndPreviewPage = ({
   data,
   isLoading,
 }: TAboutAndPreviewPageProps) => {
-  const { data: communityData } = useCommunityData(data?.id as string);
-  const { mutateAsync: mutateAsyncJoinCommunity, isPending: isJoiningPending } =
-    useMutateJoinCommunity();
-  const userId = pb.authStore.record?.id;
-  const navigate = useNavigate({ from: Route.fullPath });
-  const descriptionRef = useRef<HTMLParagraphElement>(null);
+  const { isLogged } = useLoggedState();
   const [showFullText, setShowFullText] = useState(false);
   const [isOverflowing, setIsOverflowing] = useState(false);
-  const { isLogged } = useLoggedState();
-  const isMember = communityData?.members?.includes(userId as string);
+  const descriptionRef = useRef<HTMLParagraphElement>(null);
+  const userId = pb.authStore.record?.id;
+  const navigate = useNavigate({ from: Route.fullPath });
+  const isMember = data?.members?.includes(userId as string);
+  const isOwner = data?.createdBy === userId;
+  const { mutateAsync: mutateAsyncJoinCommunity, isPending: isJoiningPending } =
+    useMutateJoinCommunity();
 
   const handleJoinToCommunity = async (communityId: string) => {
     if (!isLogged()) {
@@ -50,10 +50,7 @@ const AboutAndPreviewPage = ({
       return;
     }
     try {
-      const updatedMembers = [
-        ...(communityData?.members || []),
-        userId,
-      ] as string[];
+      const updatedMembers = [...(data?.members || []), userId] as string[];
 
       await mutateAsyncJoinCommunity({ communityId, updatedMembers });
 
@@ -272,23 +269,33 @@ const AboutAndPreviewPage = ({
             </div>
           </div>
           <hr className="w-full mt-2" />
-          {!isMember && (
-            <button
-              onClick={() => handleJoinToCommunity(data?.id as string)}
-              disabled={isJoiningPending}
-              type="submit"
-              className={cn(
-                "flex items-center justify-center w-full h-12 px-4 mt-4 font-bold uppercase rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover",
-                isJoiningPending &&
-                  "bg-light-gray text-gray-500 hover:bg-light-gray"
+          {isLoading ? (
+            <Skeleton className="w-full h-12 mt-4" />
+          ) : (
+            <>
+              {!isMember && (
+                <button
+                  onClick={() => handleJoinToCommunity(data?.id as string)}
+                  disabled={isJoiningPending}
+                  type="submit"
+                  className={cn(
+                    "flex items-center justify-center w-full h-12 px-4 mt-4 font-bold uppercase rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover",
+                    isJoiningPending &&
+                      "bg-light-gray text-gray-500 hover:bg-light-gray"
+                  )}
+                >
+                  {isJoiningPending ? (
+                    <IconLoader2 className="animate-spin" size={22} />
+                  ) : (
+                    "Join Group"
+                  )}
+                </button>
               )}
-            >
-              {isJoiningPending ? (
-                <IconLoader2 className="animate-spin" size={22} />
-              ) : (
-                "Join Group"
+
+              {isOwner && (
+                <DeleteCommunityModal data={data} isOwner={isOwner} />
               )}
-            </button>
+            </>
           )}
         </div>
       </div>
