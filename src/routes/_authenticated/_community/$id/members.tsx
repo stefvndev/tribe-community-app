@@ -84,7 +84,10 @@ function RouteComponent() {
                       <p className="font-medium text-dark-primary">
                         {member.name}
                       </p>
-                      <Link className="text-xs font-medium w-fit text-grayout hover:underline hover:text-dark-primary">
+                      <Link
+                        to={`/profile/${member.id}`}
+                        className="text-xs font-medium w-fit text-grayout hover:underline hover:text-dark-primary"
+                      >
                         @{member.id}
                       </Link>
                       <p className="w-full my-3 truncate max-w-96">

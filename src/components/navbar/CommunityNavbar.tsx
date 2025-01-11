@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { pb } from "@/api/pocketbase";
 import { Link, useLocation, useParams } from "@tanstack/react-router";
 import { IconMenu2, IconSearch, IconX } from "@tabler/icons-react";
 import { useCommunityData } from "@/api/get";
@@ -27,6 +28,10 @@ const CommunityNavbar = () => {
   const location = useLocation();
   const selectedTab = getSelectedTab(location.pathname, id || "");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const userId = pb.authStore.record?.id;
+
+  const profileUrl = (link: { name: string; url: string }) =>
+    link.name === "Profile" ? `${link.url}/${userId}` : `${link.url}`;
 
   const handleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -127,7 +132,7 @@ const CommunityNavbar = () => {
           {mobileMenuLinks.map((link) => (
             <li key={link.id} className="flex w-full">
               <Link
-                to={link.url}
+                to={profileUrl(link)}
                 className="flex items-center w-full px-4 font-medium h-14 text-dark-primary hover:bg-light-gray"
               >
                 <p>{link.name}</p>

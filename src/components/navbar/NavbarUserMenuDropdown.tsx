@@ -12,19 +12,6 @@ import { Skeleton } from "../ui/skeleton";
 import useSignOut from "@/lib/useSignOut";
 import { pb } from "@/api/pocketbase";
 
-const mainLinks = [
-  {
-    id: 1,
-    name: "Profile",
-    url: "/profile",
-  },
-  {
-    id: 2,
-    name: "Settings",
-    url: "/settings",
-  },
-];
-
 const secondaryLinks = [
   {
     id: 1,
@@ -42,6 +29,19 @@ const NavbarUserMenuDropdown = () => {
   const userId = pb.authStore.record?.id;
   const { data, isLoading } = useGetUserData(userId as string);
   const { signOut } = useSignOut();
+
+  const mainLinks = [
+    {
+      id: 1,
+      name: "Profile",
+      url: `/profile/${userId}`,
+    },
+    {
+      id: 2,
+      name: "Settings",
+      url: "/settings",
+    },
+  ];
 
   return (
     <Popover>

@@ -15,9 +15,9 @@ import { Route as SignupImport } from './routes/signup'
 import { Route as LoginImport } from './routes/login'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as IndexImport } from './routes/index'
-import { Route as AuthenticatedProfileImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedCreateCommunityImport } from './routes/_authenticated/create-community'
 import { Route as CommunitypreviewIdPreviewImport } from './routes/_community_preview/$id/preview'
+import { Route as AuthenticatedProfileIdIndexImport } from './routes/_authenticated/profile/$id/index'
 import { Route as AuthenticatedCommunityIdIndexImport } from './routes/_authenticated/_community/$id/index'
 import { Route as AuthenticatedCommunityIdMembersImport } from './routes/_authenticated/_community/$id/members'
 import { Route as AuthenticatedCommunityIdClassroomImport } from './routes/_authenticated/_community/$id/classroom'
@@ -49,12 +49,6 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AuthenticatedProfileRoute = AuthenticatedProfileImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-
 const AuthenticatedCreateCommunityRoute =
   AuthenticatedCreateCommunityImport.update({
     id: '/create-community',
@@ -67,6 +61,13 @@ const CommunitypreviewIdPreviewRoute = CommunitypreviewIdPreviewImport.update({
   path: '/$id/preview',
   getParentRoute: () => rootRoute,
 } as any)
+
+const AuthenticatedProfileIdIndexRoute =
+  AuthenticatedProfileIdIndexImport.update({
+    id: '/profile/$id/',
+    path: '/profile/$id/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 const AuthenticatedCommunityIdIndexRoute =
   AuthenticatedCommunityIdIndexImport.update({
@@ -142,13 +143,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCreateCommunityImport
       parentRoute: typeof AuthenticatedImport
     }
-    '/_authenticated/profile': {
-      id: '/_authenticated/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof AuthenticatedProfileImport
-      parentRoute: typeof AuthenticatedImport
-    }
     '/_community_preview/$id/preview': {
       id: '/_community_preview/$id/preview'
       path: '/$id/preview'
@@ -191,6 +185,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCommunityIdIndexImport
       parentRoute: typeof AuthenticatedImport
     }
+    '/_authenticated/profile/$id/': {
+      id: '/_authenticated/profile/$id/'
+      path: '/profile/$id'
+      fullPath: '/profile/$id'
+      preLoaderRoute: typeof AuthenticatedProfileIdIndexImport
+      parentRoute: typeof AuthenticatedImport
+    }
   }
 }
 
@@ -198,23 +199,23 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteChildren {
   AuthenticatedCreateCommunityRoute: typeof AuthenticatedCreateCommunityRoute
-  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedCommunityIdAboutRoute: typeof AuthenticatedCommunityIdAboutRoute
   AuthenticatedCommunityIdCalendarRoute: typeof AuthenticatedCommunityIdCalendarRoute
   AuthenticatedCommunityIdClassroomRoute: typeof AuthenticatedCommunityIdClassroomRoute
   AuthenticatedCommunityIdMembersRoute: typeof AuthenticatedCommunityIdMembersRoute
   AuthenticatedCommunityIdIndexRoute: typeof AuthenticatedCommunityIdIndexRoute
+  AuthenticatedProfileIdIndexRoute: typeof AuthenticatedProfileIdIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedCreateCommunityRoute: AuthenticatedCreateCommunityRoute,
-  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedCommunityIdAboutRoute: AuthenticatedCommunityIdAboutRoute,
   AuthenticatedCommunityIdCalendarRoute: AuthenticatedCommunityIdCalendarRoute,
   AuthenticatedCommunityIdClassroomRoute:
     AuthenticatedCommunityIdClassroomRoute,
   AuthenticatedCommunityIdMembersRoute: AuthenticatedCommunityIdMembersRoute,
   AuthenticatedCommunityIdIndexRoute: AuthenticatedCommunityIdIndexRoute,
+  AuthenticatedProfileIdIndexRoute: AuthenticatedProfileIdIndexRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
@@ -227,13 +228,13 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/create-community': typeof AuthenticatedCreateCommunityRoute
-  '/profile': typeof AuthenticatedProfileRoute
   '/$id/preview': typeof CommunitypreviewIdPreviewRoute
   '/$id/about': typeof AuthenticatedCommunityIdAboutRoute
   '/$id/calendar': typeof AuthenticatedCommunityIdCalendarRoute
   '/$id/classroom': typeof AuthenticatedCommunityIdClassroomRoute
   '/$id/members': typeof AuthenticatedCommunityIdMembersRoute
   '/$id': typeof AuthenticatedCommunityIdIndexRoute
+  '/profile/$id': typeof AuthenticatedProfileIdIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -242,13 +243,13 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/create-community': typeof AuthenticatedCreateCommunityRoute
-  '/profile': typeof AuthenticatedProfileRoute
   '/$id/preview': typeof CommunitypreviewIdPreviewRoute
   '/$id/about': typeof AuthenticatedCommunityIdAboutRoute
   '/$id/calendar': typeof AuthenticatedCommunityIdCalendarRoute
   '/$id/classroom': typeof AuthenticatedCommunityIdClassroomRoute
   '/$id/members': typeof AuthenticatedCommunityIdMembersRoute
   '/$id': typeof AuthenticatedCommunityIdIndexRoute
+  '/profile/$id': typeof AuthenticatedProfileIdIndexRoute
 }
 
 export interface FileRoutesById {
@@ -258,13 +259,13 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/_authenticated/create-community': typeof AuthenticatedCreateCommunityRoute
-  '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_community_preview/$id/preview': typeof CommunitypreviewIdPreviewRoute
   '/_authenticated/_community/$id/about': typeof AuthenticatedCommunityIdAboutRoute
   '/_authenticated/_community/$id/calendar': typeof AuthenticatedCommunityIdCalendarRoute
   '/_authenticated/_community/$id/classroom': typeof AuthenticatedCommunityIdClassroomRoute
   '/_authenticated/_community/$id/members': typeof AuthenticatedCommunityIdMembersRoute
   '/_authenticated/_community/$id/': typeof AuthenticatedCommunityIdIndexRoute
+  '/_authenticated/profile/$id/': typeof AuthenticatedProfileIdIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -275,13 +276,13 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/create-community'
-    | '/profile'
     | '/$id/preview'
     | '/$id/about'
     | '/$id/calendar'
     | '/$id/classroom'
     | '/$id/members'
     | '/$id'
+    | '/profile/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -289,13 +290,13 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/create-community'
-    | '/profile'
     | '/$id/preview'
     | '/$id/about'
     | '/$id/calendar'
     | '/$id/classroom'
     | '/$id/members'
     | '/$id'
+    | '/profile/$id'
   id:
     | '__root__'
     | '/'
@@ -303,13 +304,13 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/_authenticated/create-community'
-    | '/_authenticated/profile'
     | '/_community_preview/$id/preview'
     | '/_authenticated/_community/$id/about'
     | '/_authenticated/_community/$id/calendar'
     | '/_authenticated/_community/$id/classroom'
     | '/_authenticated/_community/$id/members'
     | '/_authenticated/_community/$id/'
+    | '/_authenticated/profile/$id/'
   fileRoutesById: FileRoutesById
 }
 
@@ -353,12 +354,12 @@ export const routeTree = rootRoute
       "filePath": "_authenticated.tsx",
       "children": [
         "/_authenticated/create-community",
-        "/_authenticated/profile",
         "/_authenticated/_community/$id/about",
         "/_authenticated/_community/$id/calendar",
         "/_authenticated/_community/$id/classroom",
         "/_authenticated/_community/$id/members",
-        "/_authenticated/_community/$id/"
+        "/_authenticated/_community/$id/",
+        "/_authenticated/profile/$id/"
       ]
     },
     "/login": {
@@ -369,10 +370,6 @@ export const routeTree = rootRoute
     },
     "/_authenticated/create-community": {
       "filePath": "_authenticated/create-community.tsx",
-      "parent": "/_authenticated"
-    },
-    "/_authenticated/profile": {
-      "filePath": "_authenticated/profile.tsx",
       "parent": "/_authenticated"
     },
     "/_community_preview/$id/preview": {
@@ -396,6 +393,10 @@ export const routeTree = rootRoute
     },
     "/_authenticated/_community/$id/": {
       "filePath": "_authenticated/_community/$id/index.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/profile/$id/": {
+      "filePath": "_authenticated/profile/$id/index.tsx",
       "parent": "/_authenticated"
     }
   }
