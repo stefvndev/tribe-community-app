@@ -88,11 +88,11 @@ const AboutAndPreviewPage = ({
           <Skeleton className="w-full rounded-xl h-96 max-md:h-48" />
         ) : (
           <>
-            {data?.avatar ? (
+            {data?.banner ? (
               <img
                 src={getPocketBaseFileUrl({
                   recordId: data?.id,
-                  filename: data?.avatar,
+                  filename: data?.banner,
                   collectionName: data?.collectionName,
                 })}
                 className="object-cover w-full rounded-xl h-96 max-md:h-48"
