@@ -54,9 +54,7 @@ const DeleteCommunityModal = ({ data, isOwner }: TModalProps) => {
           disabled={isDeletingPending}
           type="submit"
           className={cn(
-            "flex items-center justify-center w-full h-12 px-4 mt-4 font-bold uppercase rounded-md bg-red-600 text-white hover:bg-red-700",
-            isDeletingPending &&
-              "bg-light-gray text-gray-500 hover:bg-light-gray"
+            "flex items-center justify-center w-full h-12 px-4 mt-4 font-bold uppercase rounded-md bg-light-gray text-gray-500 hover:bg-gray-300"
           )}
         >
           {isDeletingPending ? (

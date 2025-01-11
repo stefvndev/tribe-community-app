@@ -4,6 +4,7 @@ import { useParams } from "@tanstack/react-router";
 import DefaultNotFoundComponent from "../notFound/DefaultNotFoundComponent";
 import { cn } from "@/lib/utils";
 import { useLoggedState } from "@/lib/useLoggedState";
+import CommunityInfoBox from "./CommunityInfoBox";
 
 type TLayout = {
   children: React.ReactNode;
@@ -11,7 +12,7 @@ type TLayout = {
 
 const CommunityLayout = ({ children }: TLayout) => {
   const { id } = useParams({ strict: false });
-  const { isError } = useCommunityData(id as string);
+  const { data, isLoading, isError } = useCommunityData(id as string);
   const { isLogged } = useLoggedState();
 
   if (id && isError) return <DefaultNotFoundComponent />;
@@ -24,7 +25,10 @@ const CommunityLayout = ({ children }: TLayout) => {
       )}
     >
       <CommunityNavbar />
-      {children}
+      <div className="flex w-full gap-6 py-6 mx-auto max-w-1075 max-md:flex-col">
+        <div className="w-full">{children}</div>
+        <CommunityInfoBox data={data} isLoading={isLoading} />
+      </div>
     </div>
   );
 };

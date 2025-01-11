@@ -1,11 +1,11 @@
-import CommunityLayout from "@/components/layout/CommunityLayout";
+import AppLayout from "@/components/layout/AppLayout";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_authenticated/profile")({
   component: () => (
-    <CommunityLayout>
+    <AppLayout>
       <RouteComponent />
-    </CommunityLayout>
+    </AppLayout>
   ),
 });
 
