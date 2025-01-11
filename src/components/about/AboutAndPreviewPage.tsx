@@ -137,7 +137,7 @@ const AboutAndPreviewPage = ({
             )}
           </span>
           <div className="flex items-center gap-2 text-base font-medium capitalize max-md:text-sm whitespace-nowrap text-dark-primary">
-            {data?.avatar ? (
+            {data?.expand?.createdBy?.avatar ? (
               <img
                 src={getPocketBaseFileUrl({
                   recordId: data?.expand?.createdBy?.id,
