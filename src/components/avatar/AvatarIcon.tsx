@@ -1,20 +1,26 @@
 import { getInitials } from "@/lib/getInitials";
 import { getPocketBaseFileUrl } from "@/lib/getPocketBaseFileUrl";
+import { cn } from "@/lib/utils";
 
-const NavbarAvatar = ({
+const AvatarIcon = ({
   avatar,
   name,
   id,
   collectionName,
+  className,
 }: {
   avatar?: string;
   name: string;
   id: string;
   collectionName: string;
+  className?: string;
 }) => {
   return avatar ? (
     <img
-      className="object-cover rounded-lg min-w-10 min-h-10 size-10"
+      className={cn(
+        "object-cover rounded-lg min-w-10 min-h-10 size-10",
+        className
+      )}
       src={getPocketBaseFileUrl({
         recordId: id,
         filename: avatar,
@@ -23,10 +29,15 @@ const NavbarAvatar = ({
       alt="avatar"
     />
   ) : (
-    <div className="flex items-center justify-center font-medium rounded-lg bg-light-gray min-w-10 min-h-10 size-10">
+    <div
+      className={cn(
+        "flex items-center justify-center font-medium rounded-lg bg-light-gray min-w-10 min-h-10 size-10",
+        className
+      )}
+    >
       <p>{getInitials(name)}</p>
     </div>
   );
 };
 
-export default NavbarAvatar;
+export default AvatarIcon;

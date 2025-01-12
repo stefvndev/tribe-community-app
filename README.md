@@ -10,6 +10,7 @@
 - Vite
 - React Hook Form
 - Zod
+- Vercel
 
 ## Back-end
 - Pocketbase

@@ -6,7 +6,6 @@ import { useCommunityData } from "@/api/get";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "../ui/skeleton";
-import NavbarAvatar from "./NavbarAvatar";
 import NavbarMessagesDropdown from "./NavbarMessagesDropdown";
 import NavbarNotificationsDropdown from "./NavbarNotificationsDropdown";
 import NavbarTabs from "./NavbarTabs";
@@ -15,6 +14,7 @@ import NavDropdown from "./NavDropdown";
 import { useLoggedState } from "@/lib/useLoggedState";
 import Logo from "@/assets/tribe-logo.png";
 import { mobileMenuLinks } from "./mobileMenuLinks";
+import AvatarIcon from "../avatar/AvatarIcon";
 
 const getSelectedTab = (pathname: string, id: string) => {
   const basePath = pathname.split(`/${id}/`)[1];
@@ -50,7 +50,7 @@ const CommunityNavbar = () => {
             <div className="flex items-center gap-4">
               {!isLoading ? (
                 <>
-                  <NavbarAvatar
+                  <AvatarIcon
                     avatar={data?.avatar}
                     name={data?.name || ""}
                     id={data?.id || ""}
