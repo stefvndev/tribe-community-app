@@ -17,7 +17,7 @@ export const Route = createFileRoute("/_authenticated/_community/$id/members")({
 const membersLoader = () => {
   return (
     <>
-      {Array(5)
+      {Array(3)
         .fill(null)
         .map((_, index) => (
           <div

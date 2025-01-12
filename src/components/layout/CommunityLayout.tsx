@@ -1,6 +1,7 @@
+import { useEffect } from "react";
+import { useParams } from "@tanstack/react-router";
 import { useCommunityData } from "@/api/get";
 import CommunityNavbar from "../navbar/CommunityNavbar";
-import { useParams } from "@tanstack/react-router";
 import DefaultNotFoundComponent from "../notFound/DefaultNotFoundComponent";
 import { cn } from "@/lib/utils";
 import { useLoggedState } from "@/lib/useLoggedState";
@@ -14,6 +15,10 @@ const CommunityLayout = ({ children }: TLayout) => {
   const { id } = useParams({ strict: false });
   const { data, isLoading, isError } = useCommunityData(id as string);
   const { isLogged } = useLoggedState();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   if (id && isError) return <DefaultNotFoundComponent />;
 
