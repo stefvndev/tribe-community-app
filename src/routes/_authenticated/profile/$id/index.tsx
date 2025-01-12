@@ -1,5 +1,6 @@
 import { useGetUserData, useListOfAllCommunities } from "@/api/get";
 import AvatarIcon from "@/components/avatar/AvatarIcon";
+import BackButton from "@/components/buttons/BackButton";
 import AppLayout from "@/components/layout/AppLayout";
 import { Skeleton } from "@/components/ui/skeleton";
 import { IconCalendar, IconMapPin } from "@tabler/icons-react";
@@ -25,7 +26,10 @@ function RouteComponent() {
     <main className="flex flex-col items-center justify-center w-full py-8 mx-auto max-w-1075">
       <div className="flex justify-between w-full h-full gap-6 max-md:flex-col-reverse">
         <div className="w-full h-full">
-          <p className="mb-4 font-medium text-dark-primary">Memberships</p>
+          <div className="flex items-end justify-between w-full mb-4">
+            <p className="font-medium text-dark-primary">Memberships</p>
+            <BackButton />
+          </div>
           <div className="flex flex-col w-full gap-5 p-6 bg-white border rounded-xl">
             {usersCommunities?.length !== 0 ? (
               usersCommunities?.map((item) => (
