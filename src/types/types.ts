@@ -51,6 +51,8 @@ export type TUserData = {
   name: string;
   updated: string;
   verified: boolean;
+  description: string;
+  location: string;
 };
 
 export type TCreateCommunitySubmitData = {

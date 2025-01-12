@@ -3,8 +3,9 @@ import { useCommunityData } from "@/api/get";
 import CommunityLayout from "@/components/layout/CommunityLayout";
 import { getInitials } from "@/lib/getInitials";
 import { getPocketBaseFileUrl } from "@/lib/getPocketBaseFileUrl";
-import { IconMessage } from "@tabler/icons-react";
+import { IconCalendar, IconMapPin, IconMessage } from "@tabler/icons-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import dayjs from "dayjs";
 
 export const Route = createFileRoute("/_authenticated/_community/$id/members")({
   component: () => (
@@ -90,22 +91,32 @@ function RouteComponent() {
                       >
                         @{member.id}
                       </Link>
-                      <p className="w-full my-3 truncate max-w-96">
-                        No description yet.
+                      <p className="w-full pr-10 my-3 line-clamp-2">
+                        {member.description !== ""
+                          ? member.description
+                          : "No description yet."}
                       </p>
-                      {/* <div className="flex flex-col w-full gap-2">
-                    <span className="flex items-center gap-4">
-                      <IconCalendar
-                        size={20}
-                        className="mb-0.5 text-gray-500"
-                      />
-                      <p>Joined Dec 17, 2024</p>
-                    </span>
-                    <span className="flex items-center gap-4">
-                      <IconMapPin size={20} className="mb-0.5 text-gray-500" />
-                      <p>Serbia</p>
-                    </span>
-                  </div> */}
+                      <div className="flex flex-col w-full gap-2 mt-1">
+                        <span className="flex items-center gap-4">
+                          <IconCalendar
+                            size={20}
+                            className="mb-0.5 text-gray-500"
+                          />
+                          <p>
+                            Joined{" "}
+                            {dayjs(member.created).format("MMM DD, YYYY")}
+                          </p>
+                        </span>
+                        {member.location && (
+                          <span className="flex items-center gap-4">
+                            <IconMapPin
+                              size={20}
+                              className="mb-0.5 text-gray-500"
+                            />
+                            <p>{member.location}</p>
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
                   <Link
