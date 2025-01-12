@@ -1,12 +1,11 @@
 import { Link } from "@tanstack/react-router";
 import { useLoggedState } from "@/lib/useLoggedState";
-import useSignOut from "@/lib/useSignOut";
 import NavDropdown from "./NavDropdown";
 import Logo from "@/assets/tribe-logo.png";
+import NavbarUserMenuDropdown from "./NavbarUserMenuDropdown";
 
 const Navbar = () => {
   const { isLogged } = useLoggedState();
-  const { signOut } = useSignOut();
 
   return (
     <header className="absolute top-0 left-0 right-0 w-full h-16 px-4 bg-white border-b">
@@ -25,13 +24,7 @@ const Navbar = () => {
             log in
           </Link>
         ) : (
-          <button
-            type="button"
-            onClick={signOut}
-            className="flex items-center justify-center px-5 py-[11px] border font-bold w-[116px] text-grayout rounded-md hover:text-black transition-opacity uppercase"
-          >
-            sign out
-          </button>
+          <NavbarUserMenuDropdown />
         )}
       </nav>
     </header>
