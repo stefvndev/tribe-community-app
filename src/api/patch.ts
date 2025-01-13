@@ -25,3 +25,24 @@ export const useMutateJoinCommunity = () => {
     },
   });
 };
+
+export const useMutateUpdateLikes = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      updatedLikes,
+      postId,
+    }: {
+      updatedLikes: string[];
+      postId: string;
+    }) => {
+      await pb.collection("posts").update(postId, {
+        likes: updatedLikes,
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries("all_posts" as InvalidateQueryFilters);
+    },
+  });
+};

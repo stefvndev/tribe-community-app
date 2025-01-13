@@ -1,4 +1,4 @@
-import { TCommunities, TUserData } from "@/types/types";
+import { TCommunities, TPost, TUserData } from "@/types/types";
 import { useQuery } from "@tanstack/react-query";
 import { pb } from "./pocketbase";
 
@@ -34,6 +34,20 @@ export const useListOfAllCommunities = () => {
       const data: TCommunities[] = await pb
         .collection("all_communities")
         .getFullList();
+      return data;
+    },
+  });
+};
+
+export const useListOfAllPosts = (id: string) => {
+  return useQuery({
+    queryKey: ["all_posts", id],
+    queryFn: async () => {
+      const data: TPost[] = await pb.collection("posts").getFullList({
+        sort: "-created",
+        filter: `community="${id}"`,
+        expand: "user",
+      });
       return data;
     },
   });

@@ -51,7 +51,7 @@ const CommunityInfoBox = ({ data, isLoading }: TInfoBoxProps) => {
   };
 
   return (
-    <div className="w-[372px] max-md:w-full h-full max-md:h-full bg-white border rounded-xl overflow-hidden">
+    <div className="w-[385px] max-md:w-full h-full max-md:h-full bg-white border rounded-xl overflow-hidden">
       {isLoading ? (
         <Skeleton className="w-full rounded-none h-36 max-md:h-48" />
       ) : (

@@ -19,6 +19,7 @@ export default {
         grayout: "#909090",
         "light-gray": "#E4E4E4",
         "link-blue": "#2E6Ef5",
+        "yellow-primary": "#F8D481",
       },
       borderRadius: {
         lg: "var(--radius)",

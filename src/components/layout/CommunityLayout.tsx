@@ -30,8 +30,8 @@ const CommunityLayout = ({ children }: TLayout) => {
       )}
     >
       <CommunityNavbar />
-      <div className="flex w-full gap-6 py-6 mx-auto max-w-1075 max-md:flex-col">
-        <div className="w-full">{children}</div>
+      <div className="flex w-full h-full gap-10 py-6 mx-auto max-w-1075 max-md:flex-col">
+        <div className="w-full h-full">{children}</div>
         <CommunityInfoBox data={data} isLoading={isLoading} />
       </div>
     </div>

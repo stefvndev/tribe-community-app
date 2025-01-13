@@ -64,3 +64,30 @@ export type TCreateCommunitySubmitData = {
   banner: File | null;
   avatar: File | null;
 };
+
+export type TPost = {
+  collectionId: string;
+  collectionName: string;
+  community: string;
+  content: string;
+  created: string;
+  id: string;
+  title: string;
+  updated: string;
+  user: string;
+  likes: string[];
+  expand: {
+    user: {
+      avatar: string;
+      collectionId: string;
+      collectionName: string;
+      created: string;
+      email: string;
+      emailVisibility: boolean;
+      id: string;
+      name: string;
+      updated: string;
+      verified: boolean;
+    };
+  };
+};

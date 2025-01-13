@@ -20,3 +20,32 @@ export const useMutateCreateCommunity = () => {
     },
   });
 };
+
+export const useMutatePublishPost = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      content,
+      title,
+      user,
+      community,
+    }: {
+      content: string;
+      title: string;
+      user: string;
+      community: string;
+    }) => {
+      const response = await pb.collection("posts").create({
+        content,
+        title,
+        user,
+        community,
+      });
+      return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries("all_posts" as InvalidateQueryFilters);
+    },
+  });
+};
