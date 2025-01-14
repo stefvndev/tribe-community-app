@@ -15,7 +15,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { useListOfAllCommunities } from "@/api/get";
 import { pb } from "@/api/pocketbase";
-import { getPocketBaseFileUrl } from "@/lib/getPocketBaseFileUrl";
 import { cn } from "@/lib/utils";
 import AvatarIcon from "../avatar/AvatarIcon";
 

@@ -5,12 +5,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { getInitials } from "@/lib/getInitials";
-import { getPocketBaseFileUrl } from "@/lib/getPocketBaseFileUrl";
 import { Link } from "@tanstack/react-router";
 import { Skeleton } from "../ui/skeleton";
 import useSignOut from "@/lib/useSignOut";
 import { pb } from "@/api/pocketbase";
+import AvatarIcon from "../avatar/AvatarIcon";
 
 const secondaryLinks = [
   {
@@ -48,22 +47,13 @@ const NavbarUserMenuDropdown = () => {
       <PopoverTrigger asChild>
         <Button size="icon" variant="ghost" className="p-6 rounded-full">
           {!isLoading ? (
-            <>
-              {data?.avatar ? (
-                <img
-                  src={getPocketBaseFileUrl({
-                    recordId: data?.id,
-                    filename: data?.avatar,
-                    collectionName: data?.collectionName,
-                  })}
-                  className="object-cover rounded-full size-9 min-h-9 min-w-9"
-                />
-              ) : (
-                <div className="flex items-center justify-center font-medium rounded-full min-h-9 min-w-9 bg-light-gray size-9">
-                  <p>{getInitials(data?.name as string)}</p>
-                </div>
-              )}
-            </>
+            <AvatarIcon
+              avatar={data?.avatar}
+              name={data?.name || ""}
+              id={data?.id || ""}
+              collectionName={data?.collectionName || ""}
+              className="rounded-full size-9 min-w-9 min-h-9"
+            />
           ) : (
             <Skeleton className="rounded-full size-9 min-w-9 min-h-9" />
           )}
