@@ -1,14 +1,16 @@
 import { useListOfAllCommentsForSelectedPost } from "@/api/get";
 import AvatarIcon from "@/components/avatar/AvatarIcon";
+import PostCommentsLoader from "@/components/loaders/PostCommentsLoader";
 
 type TPostComments = {
   post_id?: string;
 };
 
 const PostComments = ({ post_id }: TPostComments) => {
-  const { data: selectedPostComments } = useListOfAllCommentsForSelectedPost(
-    post_id as string
-  );
+  const { data: selectedPostComments, isLoading } =
+    useListOfAllCommentsForSelectedPost(post_id as string);
+
+  if (isLoading) return <PostCommentsLoader />;
 
   return (
     <div className="flex flex-col w-full gap-6 px-8 pt-8 pb-28">

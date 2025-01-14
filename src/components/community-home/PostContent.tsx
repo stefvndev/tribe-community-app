@@ -16,6 +16,7 @@ import {
 import { toast } from "sonner";
 import { useCommunityData, useGetSelectedPost } from "@/api/get";
 import { useParams } from "@tanstack/react-router";
+import PostContentLoader from "../loaders/PostContentLoader";
 
 type TPostContent = {
   userId?: string;
@@ -31,14 +32,19 @@ const PostContent = ({
   commentsLength,
 }: TPostContent) => {
   const { id } = useParams({ from: "/_authenticated/_community/$id/" });
-  const { data: selectedPostData } = useGetSelectedPost(post_id as string);
-  const { data: communityData } = useCommunityData(id);
+  const { data: selectedPostData, isLoading: isPostDataLoading } =
+    useGetSelectedPost(post_id as string);
+  const { data: communityData, isLoading: isCommunityDataLoading } =
+    useCommunityData(id);
+  const isLoading = isPostDataLoading || isCommunityDataLoading;
 
   const handleCopyPostLink = () => {
     const currentUrl = window.location.href;
     navigator.clipboard.writeText(currentUrl);
     toast.success("Link copied!");
   };
+
+  if (isLoading) return <PostContentLoader />;
 
   return (
     <div className="flex flex-col w-full p-8 pb-4">
