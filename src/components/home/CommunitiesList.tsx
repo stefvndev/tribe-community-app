@@ -45,7 +45,7 @@ const CommunitiesList = () => {
 
   if (filteredList?.length === 0) {
     return (
-      <p className="mt-4 font-medium">
+      <p className="mt-4 font-medium text-grayout">
         Nothing here... your chance to shine starts now! ⭐
       </p>
     );

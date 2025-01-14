@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useMemo, useState } from "react";
 import { Link, useParams } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import {
@@ -50,6 +50,18 @@ const NavDropdown = () => {
     item?.members?.includes(userId as string)
   );
 
+  const [searchCommunity, setSearchCommunity] = useState("");
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchCommunity(e?.target?.value);
+  };
+
+  const filteredCommunities = useMemo(() => {
+    return usersCommunities?.filter((community) =>
+      community?.name?.toLowerCase()?.includes(searchCommunity.toLowerCase())
+    );
+  }, [usersCommunities, searchCommunity]);
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -61,6 +73,7 @@ const NavDropdown = () => {
         <div className="flex flex-col w-full">
           <div className="w-full px-4">
             <Input
+              onChange={(e) => handleSearch(e)}
               icon={<IconSearch size={20} />}
               type="text"
               placeholder="Search"
@@ -84,7 +97,7 @@ const NavDropdown = () => {
                 </Link>
               </div>
             ))}
-            {usersCommunities?.map((community) => (
+            {filteredCommunities?.map((community) => (
               <div key={community.id} className="w-full flex flex-col mt-1.5">
                 <Link
                   to={`/${community.id}`}
