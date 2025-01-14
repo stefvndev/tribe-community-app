@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import {
   IconMessageCircle,
   IconThumbUp,
@@ -5,18 +6,18 @@ import {
 } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import dayjs from "dayjs";
 import AvatarIcon from "@/components/avatar/AvatarIcon";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TCommunities, TPost } from "@/types/types";
-import { useMutateUpdateLikes } from "@/api/patch";
-import { toast } from "sonner";
 
 type TAllPosts = {
   allPostsData?: TPost[];
   isUserDataLoading: boolean;
   communityData?: TCommunities;
   userId?: string;
+  handleOpenComments: (e: string) => void;
+  handleLikePost: (likes: string[], id: string) => void;
+  commentsLength: (post_id: string) => number | undefined;
 };
 
 const AllPosts = ({
@@ -24,23 +25,10 @@ const AllPosts = ({
   communityData,
   isUserDataLoading,
   userId,
+  handleOpenComments,
+  handleLikePost,
+  commentsLength,
 }: TAllPosts) => {
-  const { mutateAsync: mutateAsyncUpdateLikes } = useMutateUpdateLikes();
-
-  const handleLikePost = async (currentLikes: string[], postId: string) => {
-    try {
-      const updatedLikes = (currentLikes || []).includes(userId as string)
-        ? (currentLikes || []).filter((id) => id !== userId)
-        : ([...(currentLikes || []), userId] as string[]);
-
-      await mutateAsyncUpdateLikes({ updatedLikes, postId });
-    } catch {
-      toast.error("Error!", {
-        description: "Error, please try again.",
-      });
-    }
-  };
-
   return (
     <div className="w-full h-full">
       {isUserDataLoading ? (
@@ -56,8 +44,9 @@ const AllPosts = ({
           {allPostsData?.length !== 0 ? (
             allPostsData?.map((post) => (
               <div
+                onClick={() => handleOpenComments(post?.id)}
                 key={post?.id}
-                className="flex flex-col w-full p-6 transition-all bg-white border rounded-lg hover:shadow-custom"
+                className="flex flex-col w-full p-6 transition-all bg-white border rounded-lg cursor-pointer hover:shadow-custom"
               >
                 <div className="flex items-center gap-2">
                   <AvatarIcon
@@ -84,7 +73,10 @@ const AllPosts = ({
                 <div className="flex items-center w-full gap-5 mt-2 -ml-2">
                   <div className="flex items-center gap-1">
                     <Button
-                      onClick={() => handleLikePost(post?.likes, post?.id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleLikePost(post?.likes, post?.id);
+                      }}
                       variant="ghost"
                       type="button"
                       className={cn(
@@ -111,7 +103,9 @@ const AllPosts = ({
                     <button type="button" className="text-grayout">
                       <IconMessageCircle size={22} />
                     </button>
-                    <p className="font-medium text-grayout">123</p>
+                    <p className="font-medium text-grayout">
+                      {commentsLength(post?.id) || "0"}
+                    </p>
                   </div>
                 </div>
               </div>

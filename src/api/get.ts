@@ -46,8 +46,45 @@ export const useListOfAllPosts = (id: string) => {
       const data: TPost[] = await pb.collection("posts").getFullList({
         sort: "-created",
         filter: `community="${id}"`,
+        expand: "user, comments",
+      });
+      return data;
+    },
+  });
+};
+
+export const useGetSelectedPost = (id: string) => {
+  return useQuery({
+    queryKey: ["selected_post", id],
+    queryFn: async () => {
+      const data: TPost = await pb.collection("posts").getOne(id, {
         expand: "user",
       });
+      return data;
+    },
+  });
+};
+
+export const useListOfAllCommentsForSelectedPost = (post_id?: string) => {
+  return useQuery({
+    queryKey: ["selected_post_comments", post_id],
+    queryFn: async () => {
+      if (!post_id) return null;
+      const data: TPost[] = await pb.collection("comments").getFullList({
+        sort: "-created",
+        filter: `post="${post_id}"`,
+        expand: "user",
+      });
+      return data;
+    },
+  });
+};
+
+export const useListOfAllComments = () => {
+  return useQuery({
+    queryKey: ["all_comments"],
+    queryFn: async () => {
+      const data: TPost[] = await pb.collection("comments").getFullList();
       return data;
     },
   });

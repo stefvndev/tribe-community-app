@@ -72,6 +72,7 @@ export type TPost = {
   content: string;
   created: string;
   id: string;
+  post: string;
   title: string;
   updated: string;
   user: string;
@@ -90,4 +91,15 @@ export type TPost = {
       verified: boolean;
     };
   };
+};
+
+export type TComment = {
+  collectionId: string;
+  collectionName: string;
+  content: string;
+  created: string;
+  id: string;
+  post: string;
+  updated: string;
+  user: string;
 };
