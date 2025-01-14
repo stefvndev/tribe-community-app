@@ -88,7 +88,7 @@ const CommunityNavbar = () => {
           {isLogged() ? (
             <div className="flex items-center w-40 gap-2">
               <NavbarMessagesDropdown />
-              <NavbarNotificationsDropdown />
+              {/* <NavbarNotificationsDropdown /> */}
               <NavbarUserMenuDropdown />
             </div>
           ) : (
