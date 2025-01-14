@@ -22,13 +22,13 @@ const getSelectedTab = (pathname: string, id: string) => {
 };
 
 const CommunityNavbar = () => {
+  const userId = pb.authStore.record?.id;
   const { id } = useParams({ strict: false });
   const { data, isLoading } = useCommunityData(id as string);
   const { isLogged } = useLoggedState();
   const location = useLocation();
   const selectedTab = getSelectedTab(location.pathname, id || "");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const userId = pb.authStore.record?.id;
 
   const profileUrl = (link: { name: string; url: string }) =>
     link.name === "Profile" ? `${link.url}/${userId}` : `${link.url}`;

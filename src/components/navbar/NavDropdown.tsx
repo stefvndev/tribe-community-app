@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useParams } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -13,6 +13,10 @@ import {
   IconSelector,
 } from "@tabler/icons-react";
 import { Input } from "@/components/ui/input";
+import { useListOfAllCommunities } from "@/api/get";
+import { pb } from "@/api/pocketbase";
+import { getPocketBaseFileUrl } from "@/lib/getPocketBaseFileUrl";
+import { cn } from "@/lib/utils";
 
 type TLinks = {
   id: number;
@@ -39,6 +43,13 @@ const links: TLinks[] = [
 ];
 
 const NavDropdown = () => {
+  const { id: communityId } = useParams({ strict: false });
+  const userId = pb.authStore.record?.id;
+  const { data } = useListOfAllCommunities();
+  const usersCommunities = data?.filter((item) =>
+    item?.members?.includes(userId as string)
+  );
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -57,22 +68,48 @@ const NavDropdown = () => {
             />
           </div>
 
-          {/* Change button to link later 👇🏼 */}
-          {links.map((link) => (
-            <div key={link.id} className="w-full flex flex-col mt-1.5">
-              <Link
-                to={link.url}
-                className="flex items-center gap-2 p-4 transition-all ease-in-out hover:bg-light-gray"
-              >
-                <div className="flex items-center justify-center size-10 rounded-xl bg-light-gray">
-                  {link.icon}
-                </div>
-                <p className="text-lg font-medium text-dark-primary">
-                  {link.name}
-                </p>
-              </Link>
-            </div>
-          ))}
+          <div className="flex flex-col w-full max-h-[500px] overflow-y-auto">
+            {links.map((link) => (
+              <div key={link.id} className="w-full flex flex-col mt-1.5">
+                <Link
+                  to={link.url}
+                  className="flex items-center gap-2 p-4 transition-all ease-in-out hover:bg-light-gray"
+                >
+                  <div className="flex items-center justify-center size-10 rounded-xl bg-light-gray">
+                    {link.icon}
+                  </div>
+                  <p className="text-lg font-medium text-dark-primary">
+                    {link.name}
+                  </p>
+                </Link>
+              </div>
+            ))}
+            {usersCommunities?.map((community) => (
+              <div key={community.id} className="w-full flex flex-col mt-1.5">
+                <Link
+                  to={`/${community.id}`}
+                  className={cn(
+                    "flex items-center gap-2 p-4 transition-all ease-in-out hover:bg-light-gray",
+                    communityId === community?.id &&
+                      "bg-yellow-primary hover:bg-yellow-primary-hover"
+                  )}
+                >
+                  <img
+                    src={getPocketBaseFileUrl({
+                      recordId: community?.id,
+                      filename: community?.avatar,
+                      collectionName: community?.collectionName,
+                    })}
+                    alt="Community Banner"
+                    className="object-cover rounded-lg size-10"
+                  />
+                  <p className="text-lg font-medium truncate text-dark-primary">
+                    {community.name}
+                  </p>
+                </Link>
+              </div>
+            ))}
+          </div>
         </div>
       </PopoverContent>
     </Popover>
