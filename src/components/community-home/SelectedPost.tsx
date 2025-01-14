@@ -37,13 +37,14 @@ const SelectedPost = ({
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-white relative overflow-y-auto w-full h-[calc(100vh-64px)] mx-auto max-w-[790px] mt-16 rounded-b-none rounded-lg"
+        className="bg-white relative overflow-y-auto w-full max-md:mt-0 max-md:rounded-none h-[calc(100vh-64px)] mx-auto max-w-[790px] mt-16 rounded-b-none rounded-lg"
       >
         <PostContent
           post_id={post_id}
           userId={userId}
           handleLikePost={handleLikePost}
           commentsLength={commentsLength}
+          handleCloseComment={handleCloseComment}
         />
         <hr className="w-full" />
         <PostComments post_id={post_id} />

@@ -23,6 +23,7 @@ type TPostContent = {
   post_id?: string;
   handleLikePost: (likes: string[], id: string) => void;
   commentsLength: (post_id: string) => number | undefined;
+  handleCloseComment: () => void;
 };
 
 const PostContent = ({
@@ -30,6 +31,7 @@ const PostContent = ({
   userId,
   handleLikePost,
   commentsLength,
+  handleCloseComment,
 }: TPostContent) => {
   const { id } = useParams({ from: "/_authenticated/_community/$id/" });
   const { data: selectedPostData, isLoading: isPostDataLoading } =
@@ -81,6 +83,13 @@ const PostContent = ({
                 className="flex items-center transition-all ease-in-out hover:bg-light-gray"
               >
                 <p className="p-4 font-bold text-dark-primary">Copy link</p>
+              </button>
+              <button
+                onClick={handleCloseComment}
+                type="button"
+                className="flex items-center transition-all ease-in-out hover:bg-light-gray"
+              >
+                <p className="p-4 font-bold text-dark-primary">Exit post</p>
               </button>
             </div>
           </PopoverContent>
