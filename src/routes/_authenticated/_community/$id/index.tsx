@@ -85,7 +85,6 @@ function RouteComponent() {
         <SelectedPost
           userId={userId}
           post_id={post_id}
-          communityData={communityData}
           handleLikePost={handleLikePost}
           commentsLength={commentsLength}
         />

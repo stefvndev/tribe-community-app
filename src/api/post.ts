@@ -49,3 +49,23 @@ export const useMutatePublishPost = () => {
     },
   });
 };
+
+export const useMutateCommentOnPost = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      formData,
+    }: {
+      formData: { content: string; post?: string; user?: string };
+    }) => {
+      const response = await pb.collection("comments").create(formData);
+      return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(
+        "selected_post_comments" as InvalidateQueryFilters
+      );
+    },
+  });
+};

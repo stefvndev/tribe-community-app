@@ -94,10 +94,7 @@ function RouteComponent() {
                     </div>
                   </div>
                 </div>
-                <Link
-                  className="flex items-center self-start justify-center h-10 gap-1 px-4 font-bold rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover max-sm:w-full max-sm:mt-2"
-                  type="button"
-                >
+                <Link className="flex items-center self-start justify-center h-10 gap-1 px-4 font-bold rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover max-sm:w-full max-sm:mt-2">
                   <IconMessage size={20} />
                   Chat
                 </Link>
