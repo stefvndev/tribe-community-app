@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useParams } from "@tanstack/react-router";
+import { useLocation, useParams } from "@tanstack/react-router";
 import { useCommunityData } from "@/api/get";
 import CommunityNavbar from "../navbar/CommunityNavbar";
 import DefaultNotFoundComponent from "../notFound/DefaultNotFoundComponent";
@@ -15,6 +15,8 @@ const CommunityLayout = ({ children }: TLayout) => {
   const { id } = useParams({ strict: false });
   const { data, isLoading, isError } = useCommunityData(id as string);
   const { isLogged } = useLoggedState();
+  const location = useLocation();
+  const isCalendarPage = location?.href?.includes("calendar");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -32,7 +34,9 @@ const CommunityLayout = ({ children }: TLayout) => {
       <CommunityNavbar />
       <div className="flex w-full h-full gap-10 py-6 mx-auto max-w-1075 max-md:flex-col">
         <div className="w-full h-full">{children}</div>
-        <CommunityInfoBox data={data} isLoading={isLoading} />
+        {!isCalendarPage && (
+          <CommunityInfoBox data={data} isLoading={isLoading} />
+        )}
       </div>
     </div>
   );
