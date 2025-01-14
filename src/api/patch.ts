@@ -46,3 +46,26 @@ export const useMutateUpdateLikes = () => {
     },
   });
 };
+
+export const useMutateLeaveCommunity = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      communityId,
+      newMembers,
+    }: {
+      communityId: string;
+      newMembers: string[];
+    }) => {
+      await pb.collection("all_communities").update(communityId, {
+        members: newMembers,
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(
+        "all_communities" as InvalidateQueryFilters
+      );
+    },
+  });
+};

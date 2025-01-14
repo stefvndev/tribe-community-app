@@ -10,6 +10,7 @@ import { IconLink, IconLoader2 } from "@tabler/icons-react";
 import { toast } from "sonner";
 import DeleteCommunityModal from "../modals/DeleteCommunityModal";
 import { Skeleton } from "@/components/ui/skeleton";
+import LeaveCommunityModal from "../modals/LeaveCommunityModal";
 
 type TInfoBoxProps = {
   data?: TCommunities;
@@ -163,6 +164,10 @@ const CommunityInfoBox = ({ data, isLoading }: TInfoBoxProps) => {
             )}
 
             {isOwner && <DeleteCommunityModal data={data} isOwner={isOwner} />}
+
+            {isMember && !isOwner && (
+              <LeaveCommunityModal data={data} userId={userId} />
+            )}
           </>
         )}
       </div>

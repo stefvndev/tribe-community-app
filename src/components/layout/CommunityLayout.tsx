@@ -16,7 +16,10 @@ const CommunityLayout = ({ children }: TLayout) => {
   const { data, isLoading, isError } = useCommunityData(id as string);
   const { isLogged } = useLoggedState();
   const location = useLocation();
-  const isCalendarPage = location?.href?.includes("calendar");
+  const hideInfoBox = !(
+    location?.href?.includes("calendar") ||
+    location?.href?.includes("classroom")
+  );
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -34,9 +37,7 @@ const CommunityLayout = ({ children }: TLayout) => {
       <CommunityNavbar />
       <div className="flex w-full h-full gap-10 py-6 mx-auto max-w-1075 max-md:flex-col">
         <div className="w-full h-full">{children}</div>
-        {!isCalendarPage && (
-          <CommunityInfoBox data={data} isLoading={isLoading} />
-        )}
+        {hideInfoBox && <CommunityInfoBox data={data} isLoading={isLoading} />}
       </div>
     </div>
   );
