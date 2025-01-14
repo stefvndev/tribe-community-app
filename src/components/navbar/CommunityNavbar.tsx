@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "../ui/skeleton";
 import NavbarMessagesDropdown from "./NavbarMessagesDropdown";
-import NavbarNotificationsDropdown from "./NavbarNotificationsDropdown";
+// import NavbarNotificationsDropdown from "./NavbarNotificationsDropdown";
 import NavbarTabs from "./NavbarTabs";
 import NavbarUserMenuDropdown from "./NavbarUserMenuDropdown";
 import NavDropdown from "./NavDropdown";
