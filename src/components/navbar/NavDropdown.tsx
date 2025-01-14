@@ -17,6 +17,7 @@ import { useListOfAllCommunities } from "@/api/get";
 import { pb } from "@/api/pocketbase";
 import { getPocketBaseFileUrl } from "@/lib/getPocketBaseFileUrl";
 import { cn } from "@/lib/utils";
+import AvatarIcon from "../avatar/AvatarIcon";
 
 type TLinks = {
   id: number;
@@ -107,14 +108,12 @@ const NavDropdown = () => {
                       "bg-yellow-primary hover:bg-yellow-primary-hover"
                   )}
                 >
-                  <img
-                    src={getPocketBaseFileUrl({
-                      recordId: community?.id,
-                      filename: community?.avatar,
-                      collectionName: community?.collectionName,
-                    })}
-                    alt="Community Banner"
-                    className="object-cover rounded-lg size-10"
+                  <AvatarIcon
+                    avatar={community?.avatar}
+                    name={community?.name || ""}
+                    id={community?.id || ""}
+                    collectionName={community?.collectionName || ""}
+                    className="rounded-lg size-10"
                   />
                   <p className="text-lg font-medium truncate text-dark-primary">
                     {community.name}
