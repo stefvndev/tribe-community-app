@@ -1,7 +1,10 @@
+import ProfileCommunitiesList from "@/components/profile-community-list/ProfileCommunitiesList";
+
 const SettingsCommunities = () => {
   return (
     <div className="flex flex-col w-full p-8 bg-white border rounded-lg">
-      <h1 className="text-xl font-bold">Communities</h1>
+      <h1 className="mb-6 text-xl font-bold">Communities</h1>
+      <ProfileCommunitiesList />
     </div>
   );
 };
