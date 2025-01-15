@@ -4,6 +4,8 @@ import { pb } from "@/api/pocketbase";
 import AppLayout from "@/components/layout/AppLayout";
 import SettingsProfile from "@/components/settings/SettingsProfile";
 import { cn } from "@/lib/utils";
+import SettingsPassword from "@/components/settings/SettingsPassword";
+import SettingsCommunities from "@/components/settings/SettingsCommunities";
 
 type TQueries = {
   page?: string;
@@ -77,13 +79,9 @@ function RouteComponent() {
         <SettingsProfile userData={userData} userId={userId} />
       )}
 
-      {page === "password" && (
-        <div className="flex flex-col w-full p-8 bg-white border rounded-lg"></div>
-      )}
+      {page === "password" && <SettingsPassword userId={userId} />}
 
-      {page === "communities" && (
-        <div className="flex flex-col w-full p-8 bg-white border rounded-lg"></div>
-      )}
+      {page === "communities" && <SettingsCommunities />}
     </div>
   );
 }

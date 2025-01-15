@@ -78,7 +78,9 @@ export const useMutateUpdateUserProfile = () => {
       formData,
       userId,
     }: {
-      formData: FormData;
+      formData:
+        | FormData
+        | { oldPassword: string; password: string; passwordConfirm: string };
       userId?: string;
     }) => {
       const response = await pb
