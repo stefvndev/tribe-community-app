@@ -148,93 +148,99 @@ function RouteComponent() {
           </button>
         ))}
       </div>
-      <div className="flex flex-col w-full gap-8 p-8 bg-white border rounded-lg">
-        <h1 className="text-xl font-bold">Profile</h1>
-        <div className="relative flex items-center gap-3">
-          {avatar ? (
-            <Avatar className="size-12">
-              <AvatarImage
-                className="object-cover rounded-full size-12"
-                src={URL.createObjectURL(avatar)}
-              />
-            </Avatar>
-          ) : (
-            <AvatarIcon
-              avatar={userData?.avatar}
-              name={userData?.name || ""}
-              id={userData?.id || ""}
-              collectionName={userData?.collectionName || ""}
-              className="rounded-full !size-12"
-            />
-          )}
-          <input
-            onChange={handleAvatarChange}
-            accept="image/*"
-            type="file"
-            className="absolute bottom-0 left-0 right-0 z-10 w-full h-full -translate-y-1/2 opacity-0 cursor-pointer top-1/2"
-          />
-          <button className="text-base font-bold text-link-blue" type="submit">
-            Change profile photo
-          </button>
-        </div>
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col w-full gap-8"
-        >
-          <div className="flex flex-col w-full gap-5">
-            <label className="w-full">
-              <p className="text-sm font-medium text-grayout mb-0.5">
-                Full name
-              </p>
-              <Input
-                {...register("name")}
-                defaultValue={userData?.name}
-                className="w-full border h-[52px] !text-base border-grayout/50"
-                placeholder="Full name"
-              />
-            </label>
-            <label className="w-full">
-              <p className="text-sm font-medium text-grayout mb-0.5">Bio</p>
-              <Textarea
-                {...register("description")}
-                defaultValue={userData?.description}
-                className="w-full border h-20 !text-base border-grayout/50"
-                placeholder="Bio"
-              />
-            </label>
-            <label className="w-full">
-              <p className="text-sm font-medium text-grayout mb-0.5">
-                Location
-              </p>
-              <Controller
-                name="location"
-                control={control}
-                render={({ field }) => (
-                  <CountryDropdown
-                    value={field?.value}
-                    onChange={field.onChange}
-                    className="w-full border h-[52px] !text-base border-grayout/50 rounded-md px-3 text-dark-primary"
-                  />
-                )}
-              />
-            </label>
-          </div>
-          <button
-            disabled={nameField === "" || isPending}
-            type="submit"
-            className={cn(
-              "flex items-center w-[176px] max-md:w-full justify-center h-12 px-6 font-bold uppercase rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover self-end disabled:bg-light-gray disabled:text-gray-500 disabled:hover:bg-light-gray"
-            )}
-          >
-            {isPending ? (
-              <IconLoader2 size={22} className="animate-spin" />
+      {(!page || page === "profile") && (
+        <div className="flex flex-col w-full gap-8 p-8 bg-white border rounded-lg">
+          <h1 className="text-xl font-bold">Profile</h1>
+          <div className="relative flex items-center gap-3">
+            {avatar ? (
+              <Avatar className="size-12">
+                <AvatarImage
+                  className="object-cover rounded-full size-12"
+                  src={URL.createObjectURL(avatar)}
+                />
+              </Avatar>
             ) : (
-              "Update profile"
+              <AvatarIcon
+                avatar={userData?.avatar}
+                name={userData?.name || ""}
+                id={userData?.id || ""}
+                collectionName={userData?.collectionName || ""}
+                className="rounded-full !size-12"
+              />
             )}
-          </button>
-        </form>
-      </div>
+            <input
+              onChange={handleAvatarChange}
+              accept="image/*"
+              type="file"
+              className="absolute bottom-0 left-0 right-0 z-10 w-full h-full -translate-y-1/2 opacity-0 cursor-pointer top-1/2"
+            />
+            <button
+              className="text-base font-bold text-link-blue"
+              type="submit"
+            >
+              Change profile photo
+            </button>
+          </div>
+
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col w-full gap-8"
+          >
+            <div className="flex flex-col w-full gap-5">
+              <label className="w-full">
+                <p className="text-sm font-medium text-grayout mb-0.5">
+                  Full name
+                </p>
+                <Input
+                  {...register("name")}
+                  defaultValue={userData?.name}
+                  className="w-full border h-[52px] !text-base border-grayout/50"
+                  placeholder="Full name"
+                />
+              </label>
+              <label className="w-full">
+                <p className="text-sm font-medium text-grayout mb-0.5">Bio</p>
+                <Textarea
+                  {...register("description")}
+                  defaultValue={userData?.description}
+                  className="w-full border h-20 !text-base border-grayout/50"
+                  placeholder="Bio"
+                />
+              </label>
+              <label className="w-full">
+                <p className="text-sm font-medium text-grayout mb-0.5">
+                  Location
+                </p>
+                <Controller
+                  name="location"
+                  control={control}
+                  render={({ field }) => (
+                    <CountryDropdown
+                      value={field?.value}
+                      onChange={field.onChange}
+                      className="w-full border h-[52px] !text-base border-grayout/50 rounded-md px-3 text-dark-primary"
+                    />
+                  )}
+                />
+              </label>
+            </div>
+            <button
+              disabled={nameField === "" || isPending}
+              type="submit"
+              className={cn(
+                "flex items-center w-[176px] max-md:w-full justify-center h-12 px-6 font-bold uppercase rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover self-end disabled:bg-light-gray disabled:text-gray-500 disabled:hover:bg-light-gray"
+              )}
+            >
+              {isPending ? (
+                <IconLoader2 size={22} className="animate-spin" />
+              ) : (
+                "Update profile"
+              )}
+            </button>
+          </form>
+        </div>
+      )}
     </div>
   );
 }
