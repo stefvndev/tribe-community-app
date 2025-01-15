@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { useListOfAllCommentsForSelectedPost } from "@/api/get";
 import AvatarIcon from "@/components/avatar/AvatarIcon";
 import PostCommentsLoader from "@/components/loaders/PostCommentsLoader";
@@ -24,9 +25,12 @@ const PostComments = ({ post_id }: TPostComments) => {
             className="self-start rounded-full"
           />
           <div className="flex flex-col w-full p-3 border rounded-xl bg-primary">
-            <p className="font-medium text-dark-primary">
+            <Link
+              to={`/profile/${item?.expand?.user?.id}`}
+              className="font-medium text-dark-primary hover:underline"
+            >
               {item?.expand?.user?.name}
-            </p>
+            </Link>
             <p className="text-dark-primary">{item?.content}</p>
           </div>
         </div>

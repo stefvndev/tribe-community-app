@@ -15,7 +15,7 @@ import {
 } from "@tabler/icons-react";
 import { toast } from "sonner";
 import { useCommunityData, useGetSelectedPost } from "@/api/get";
-import { useParams } from "@tanstack/react-router";
+import { Link, useParams } from "@tanstack/react-router";
 import PostContentLoader from "../loaders/PostContentLoader";
 
 type TPostContent = {
@@ -62,9 +62,12 @@ const PostContent = ({
             className="rounded-full"
           />
           <div className="flex flex-col">
-            <p className="font-medium text-dark-primary">
+            <Link
+              to={`/profile/${selectedPostData?.expand?.user?.id}`}
+              className="font-medium text-dark-primary hover:underline"
+            >
               {selectedPostData?.expand?.user?.name}
-            </p>
+            </Link>
             <span className="flex items-center text-grayout text-[13px] gap-1">
               <p>{dayjs(selectedPostData?.created).format("MMM. DD. YYYY.")}</p>
               in <p className="font-bold">{communityData?.name}</p>

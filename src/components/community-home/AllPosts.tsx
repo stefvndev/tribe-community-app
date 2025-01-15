@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import {
   IconMessageCircle,
@@ -57,9 +58,13 @@ const AllPosts = ({
                     className="rounded-full"
                   />
                   <div className="flex flex-col">
-                    <p className="font-medium text-dark-primary">
+                    <Link
+                      onClick={(e) => e.stopPropagation()}
+                      to={`/profile/${post?.expand?.user?.id}`}
+                      className="font-medium text-dark-primary hover:underline"
+                    >
                       {post?.expand?.user?.name}
-                    </p>
+                    </Link>
                     <span className="flex items-center text-grayout text-[13px] gap-1">
                       <p>{dayjs(post?.created).format("MMM. DD. YYYY.")}</p>
                       in <p className="font-bold">{communityData?.name}</p>
