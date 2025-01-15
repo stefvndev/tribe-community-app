@@ -69,3 +69,25 @@ export const useMutateLeaveCommunity = () => {
     },
   });
 };
+
+export const useMutateUpdateUserProfile = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      formData,
+      userId,
+    }: {
+      formData: FormData;
+      userId?: string;
+    }) => {
+      const response = await pb
+        .collection("users")
+        .update(userId as string, formData);
+      return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["user_data"] as InvalidateQueryFilters);
+    },
+  });
+};

@@ -15,6 +15,7 @@ import { Route as SignupImport } from './routes/signup'
 import { Route as LoginImport } from './routes/login'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as IndexImport } from './routes/index'
+import { Route as AuthenticatedSettingsImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedCreateCommunityImport } from './routes/_authenticated/create-community'
 import { Route as CommunitypreviewIdPreviewImport } from './routes/_community_preview/$id/preview'
 import { Route as AuthenticatedProfileIdIndexImport } from './routes/_authenticated/profile/$id/index'
@@ -47,6 +48,12 @@ const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const AuthenticatedSettingsRoute = AuthenticatedSettingsImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 
 const AuthenticatedCreateCommunityRoute =
@@ -143,6 +150,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCreateCommunityImport
       parentRoute: typeof AuthenticatedImport
     }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsImport
+      parentRoute: typeof AuthenticatedImport
+    }
     '/_community_preview/$id/preview': {
       id: '/_community_preview/$id/preview'
       path: '/$id/preview'
@@ -199,6 +213,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteChildren {
   AuthenticatedCreateCommunityRoute: typeof AuthenticatedCreateCommunityRoute
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedCommunityIdAboutRoute: typeof AuthenticatedCommunityIdAboutRoute
   AuthenticatedCommunityIdCalendarRoute: typeof AuthenticatedCommunityIdCalendarRoute
   AuthenticatedCommunityIdClassroomRoute: typeof AuthenticatedCommunityIdClassroomRoute
@@ -209,6 +224,7 @@ interface AuthenticatedRouteChildren {
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedCreateCommunityRoute: AuthenticatedCreateCommunityRoute,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedCommunityIdAboutRoute: AuthenticatedCommunityIdAboutRoute,
   AuthenticatedCommunityIdCalendarRoute: AuthenticatedCommunityIdCalendarRoute,
   AuthenticatedCommunityIdClassroomRoute:
@@ -228,6 +244,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/create-community': typeof AuthenticatedCreateCommunityRoute
+  '/settings': typeof AuthenticatedSettingsRoute
   '/$id/preview': typeof CommunitypreviewIdPreviewRoute
   '/$id/about': typeof AuthenticatedCommunityIdAboutRoute
   '/$id/calendar': typeof AuthenticatedCommunityIdCalendarRoute
@@ -243,6 +260,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/create-community': typeof AuthenticatedCreateCommunityRoute
+  '/settings': typeof AuthenticatedSettingsRoute
   '/$id/preview': typeof CommunitypreviewIdPreviewRoute
   '/$id/about': typeof AuthenticatedCommunityIdAboutRoute
   '/$id/calendar': typeof AuthenticatedCommunityIdCalendarRoute
@@ -259,6 +277,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/_authenticated/create-community': typeof AuthenticatedCreateCommunityRoute
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_community_preview/$id/preview': typeof CommunitypreviewIdPreviewRoute
   '/_authenticated/_community/$id/about': typeof AuthenticatedCommunityIdAboutRoute
   '/_authenticated/_community/$id/calendar': typeof AuthenticatedCommunityIdCalendarRoute
@@ -276,6 +295,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/create-community'
+    | '/settings'
     | '/$id/preview'
     | '/$id/about'
     | '/$id/calendar'
@@ -290,6 +310,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/create-community'
+    | '/settings'
     | '/$id/preview'
     | '/$id/about'
     | '/$id/calendar'
@@ -304,6 +325,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/_authenticated/create-community'
+    | '/_authenticated/settings'
     | '/_community_preview/$id/preview'
     | '/_authenticated/_community/$id/about'
     | '/_authenticated/_community/$id/calendar'
@@ -354,6 +376,7 @@ export const routeTree = rootRoute
       "filePath": "_authenticated.tsx",
       "children": [
         "/_authenticated/create-community",
+        "/_authenticated/settings",
         "/_authenticated/_community/$id/about",
         "/_authenticated/_community/$id/calendar",
         "/_authenticated/_community/$id/classroom",
@@ -370,6 +393,10 @@ export const routeTree = rootRoute
     },
     "/_authenticated/create-community": {
       "filePath": "_authenticated/create-community.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/settings": {
+      "filePath": "_authenticated/settings.tsx",
       "parent": "/_authenticated"
     },
     "/_community_preview/$id/preview": {

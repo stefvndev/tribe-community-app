@@ -29,6 +29,7 @@
     "pocketbase": "^0.24.0",
     "react": "^18.3.1",
     "react-big-calendar": "^1.17.1",
+    "react-country-region-selector": "^4.0.2",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.54.2",
     "sonner": "^1.7.1",
