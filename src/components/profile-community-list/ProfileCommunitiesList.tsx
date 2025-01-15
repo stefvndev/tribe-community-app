@@ -31,7 +31,7 @@ const ProfileCommunitiesList = () => {
                     id={item?.id || ""}
                     collectionName={item?.collectionName || ""}
                   />
-                  <div className="flex flex-col">
+                  <div className="flex flex-col whitespace-nowrap">
                     <p className="text-sm font-bold text-dark-primary">
                       {item.name}
                     </p>
@@ -49,7 +49,7 @@ const ProfileCommunitiesList = () => {
                 </div>
                 <Link
                   to={`/${item.id}`}
-                  className="flex items-center self-start justify-center h-8 gap-1 px-3 text-sm font-bold rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover max-sm:w-full max-sm:mt-2"
+                  className="flex items-center self-start justify-center h-8 gap-1 px-3 text-sm font-bold rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover max-md:w-full max-md:mt-2"
                   type="button"
                 >
                   Open
