@@ -1,10 +1,11 @@
 import { useGetUserData, useListOfAllCommunities } from "@/api/get";
+import { pb } from "@/api/pocketbase";
 import AvatarIcon from "@/components/avatar/AvatarIcon";
 import BackButton from "@/components/buttons/BackButton";
 import AppLayout from "@/components/layout/AppLayout";
 import MembershipsLoader from "@/components/loaders/MembershipsLoader";
 import { Skeleton } from "@/components/ui/skeleton";
-import { IconCalendar, IconMapPin } from "@tabler/icons-react";
+import { IconCalendar, IconMapPin, IconSettings } from "@tabler/icons-react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import dayjs from "dayjs";
 
@@ -20,6 +21,7 @@ function RouteComponent() {
   const { id } = Route.useParams();
   const { data, isLoading: isCommunitiesLoading } = useListOfAllCommunities();
   const { data: userData, isLoading: isUserDataLoading } = useGetUserData(id);
+  const userId = pb.authStore.record?.id;
 
   const usersCommunities = data?.filter((item) => item.members.includes(id));
 
@@ -67,7 +69,7 @@ function RouteComponent() {
                       </div>
                       <Link
                         to={`/${item.id}`}
-                        className="flex items-center self-start justify-center h-8 gap-1 px-3 text-sm font-bold uppercase rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover max-sm:w-full max-sm:mt-2"
+                        className="flex items-center self-start justify-center h-8 gap-1 px-3 text-sm font-bold rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover max-sm:w-full max-sm:mt-2"
                         type="button"
                       >
                         Open
@@ -172,6 +174,15 @@ function RouteComponent() {
             )}
             <p className="text-[13px] text-grayout">Communities</p>
           </div>
+          {userData?.id === userId && (
+            <Link
+              to="/settings"
+              className="flex items-center self-end justify-center w-full h-12 gap-1 px-6 mt-4 font-bold rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover"
+            >
+              <IconSettings size={22} />
+              Settings
+            </Link>
+          )}
         </div>
       </div>
     </main>
