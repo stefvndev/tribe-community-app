@@ -9,9 +9,7 @@ type TQueries = {
 
 const NavPostSearch = () => {
   const navigate = useNavigate({ from: "/$id" });
-  const { searchTerm } = useSearch({
-    from: "/_authenticated/_community/$id/",
-  });
+  const { searchTerm } = useSearch({ strict: false });
 
   const [inputValue, setInputValue] = useState(searchTerm || "");
 
