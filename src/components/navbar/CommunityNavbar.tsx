@@ -79,7 +79,7 @@ const CommunityNavbar = () => {
 
         <div className="flex items-center w-full gap-4 max-md:hidden">
           <div className="items-center w-full ml-4">
-            <NavPostSearch />
+            {selectedTab === "community" && <NavPostSearch />}
           </div>
           {isLogged() ? (
             <div className="flex items-center w-40 gap-2">

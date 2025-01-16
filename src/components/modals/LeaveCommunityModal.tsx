@@ -1,3 +1,4 @@
+import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import {
   Dialog,
@@ -22,6 +23,7 @@ const LeaveCommunityModal = ({ data, userId }: TModalProps) => {
     mutateAsync: mutateAsyncLeaveCommunity,
     isPending: isLeavingPending,
   } = useMutateLeaveCommunity();
+  const navigate = useNavigate();
 
   const handleLeaveCommunity = async (data: {
     communityId: string;
@@ -36,7 +38,7 @@ const LeaveCommunityModal = ({ data, userId }: TModalProps) => {
         communityId,
         newMembers: updatedMembers,
       });
-
+      navigate({ to: "/" });
       toast.success("You have left the community successfully!", {
         description:
           "Feel free to explore other communities or create a new one!",

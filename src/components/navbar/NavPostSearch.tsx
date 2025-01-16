@@ -12,6 +12,7 @@ const NavPostSearch = () => {
   const { searchTerm } = useSearch({
     from: "/_authenticated/_community/$id/",
   });
+
   const [inputValue, setInputValue] = useState(searchTerm || "");
 
   const handlePushQueryParams = (key: keyof TQueries, value: string | null) => {
