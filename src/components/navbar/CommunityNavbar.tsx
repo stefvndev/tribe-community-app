@@ -37,11 +37,13 @@ const CommunityNavbar = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  const isUserMember = data?.members.includes(userId as string);
+
   return (
     <header
       className={cn(
         "absolute top-0 left-0 right-0 flex flex-col w-full px-4 bg-white border-b",
-        id && isLogged() ? "h-28 pt-2" : "h-16"
+        id && isLogged() && isUserMember ? "h-28 pt-2" : "h-16"
       )}
     >
       <nav className="flex items-center justify-between w-full h-full mx-auto max-w-1075">
@@ -82,8 +84,8 @@ const CommunityNavbar = () => {
             {selectedTab === "community" && <NavPostSearch />}
           </div>
           {isLogged() ? (
-            <div className="flex items-center w-40 gap-2">
-              <NavbarMessagesDropdown />
+            <div className="flex items-center justify-end w-32 gap-2">
+              {id && isUserMember && <NavbarMessagesDropdown />}
               {/* <NavbarNotificationsDropdown /> */}
               <NavbarUserMenuDropdown />
             </div>
@@ -111,7 +113,7 @@ const CommunityNavbar = () => {
         </button>
       </nav>
 
-      {id && isLogged() && (
+      {id && isLogged() && isUserMember && (
         <div className="flex items-center w-full h-full mx-auto max-w-1075">
           <NavbarTabs selectedTab={selectedTab} />
         </div>

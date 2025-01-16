@@ -48,7 +48,7 @@ const AllPosts = ({
           {allPostsData?.length !== 0 ? (
             allPostsData?.map((post) => (
               <div
-                onClick={() => handlePushQueryParams("post_id", post?.id)}
+                onClick={() => handlePushQueryParams("postId", post?.id)}
                 key={post?.id}
                 className="flex flex-col w-full p-6 transition-all bg-white border rounded-lg cursor-pointer hover:shadow-custom"
               >

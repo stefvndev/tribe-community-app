@@ -6,12 +6,14 @@ import DefaultNotFoundComponent from "../notFound/DefaultNotFoundComponent";
 import { cn } from "@/lib/utils";
 import { useLoggedState } from "@/lib/useLoggedState";
 import CommunityInfoBox from "./CommunityInfoBox";
+import { pb } from "@/api/pocketbase";
 
 type TLayout = {
   children: React.ReactNode;
 };
 
 const CommunityLayout = ({ children }: TLayout) => {
+  const userId = pb.authStore.record?.id;
   const { id } = useParams({ strict: false });
   const { data, isLoading, isError } = useCommunityData(id as string);
   const { isLogged } = useLoggedState();
@@ -20,6 +22,7 @@ const CommunityLayout = ({ children }: TLayout) => {
     location?.href?.includes("calendar") ||
     location?.href?.includes("classroom")
   );
+  const isUserMember = data?.members.includes(userId as string);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -31,7 +34,7 @@ const CommunityLayout = ({ children }: TLayout) => {
     <div
       className={cn(
         "w-full h-full px-4 pt-16",
-        isLogged() && id ? "pt-28" : "pt-16"
+        isLogged() && id && isUserMember ? "pt-28" : "pt-16"
       )}
     >
       <CommunityNavbar />

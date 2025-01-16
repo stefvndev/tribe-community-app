@@ -42,8 +42,6 @@ const CommunityInfoBox = ({ data, isLoading }: TInfoBoxProps) => {
       toast.success(`Welcome to the "${data?.name}" community!`, {
         description: "You have successfully joined the community.",
       });
-
-      navigate({ to: "/$id" });
     } catch {
       toast.error("Failed to join the Community!", {
         description: "Please try again later.",
