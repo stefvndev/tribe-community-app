@@ -1,3 +1,4 @@
+import { Link, useParams } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { cn } from "@/lib/utils";
 import AvatarIcon from "@/components/avatar/AvatarIcon";
@@ -15,7 +16,6 @@ import {
 } from "@tabler/icons-react";
 import { toast } from "sonner";
 import { useCommunityData, useGetSelectedPost } from "@/api/get";
-import { Link, useParams } from "@tanstack/react-router";
 import PostContentLoader from "../loaders/PostContentLoader";
 
 type TPostContent = {

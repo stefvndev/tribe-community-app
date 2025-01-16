@@ -6,6 +6,7 @@ import { getPocketBaseFileUrl } from "@/lib/getPocketBaseFileUrl";
 import { IconCalendar, IconMapPin, IconMessage } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import MembersLoader from "@/components/loaders/MembersLoader";
+import { pb } from "@/api/pocketbase";
 
 export const Route = createFileRoute("/_authenticated/_community/$id/members")({
   component: () => (
@@ -18,8 +19,12 @@ export const Route = createFileRoute("/_authenticated/_community/$id/members")({
 function RouteComponent() {
   const { id } = useParams({ strict: false });
   const { data, isLoading } = useCommunityData(id as string);
+  const userId = pb.authStore.record?.id;
   const communityMembers = data?.expand?.members;
   const isOwner = (id: string) => data?.createdBy === id;
+  const isMember = communityMembers?.some(
+    (member) => member.id === (userId as string)
+  );
 
   return (
     <main className="w-full h-full">
@@ -29,6 +34,7 @@ function RouteComponent() {
           {isLoading ? (
             <MembersLoader />
           ) : (
+            isMember &&
             communityMembers?.map((member) => (
               <div
                 key={member.id}
@@ -100,6 +106,12 @@ function RouteComponent() {
                 </Link>
               </div>
             ))
+          )}
+
+          {!isMember && (
+            <p>
+              Join the community to access and view other community members.
+            </p>
           )}
         </div>
       </div>
