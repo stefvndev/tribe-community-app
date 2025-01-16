@@ -24,6 +24,7 @@ type TPostContent = {
   handleLikePost: (likes: string[], id: string) => void;
   commentsLength: (post_id: string) => number | undefined;
   handleCloseComment: () => void;
+  isMember?: boolean;
 };
 
 const PostContent = ({
@@ -32,6 +33,7 @@ const PostContent = ({
   handleLikePost,
   commentsLength,
   handleCloseComment,
+  isMember,
 }: TPostContent) => {
   const { id } = useParams({ from: "/_authenticated/_community/$id/" });
   const { data: selectedPostData, isLoading: isPostDataLoading } =
@@ -107,6 +109,7 @@ const PostContent = ({
       <div className="flex items-center w-full gap-5 mt-5 -ml-2">
         <div className="flex items-center gap-1">
           <Button
+            disabled={!isMember}
             onClick={(e) => {
               e.stopPropagation();
               handleLikePost(

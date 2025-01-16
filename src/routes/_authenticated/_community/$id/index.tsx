@@ -46,6 +46,7 @@ function RouteComponent() {
   const { data: allPostsData } = useListOfAllPosts(id);
   const { mutateAsync: mutateAsyncUpdateLikes } = useMutateUpdateLikes();
   const { data: allCommentsData } = useListOfAllComments();
+  const isMember = communityData?.members?.includes(userId as string);
 
   const searchedPostData = useMemo(() => {
     if (!searchTerm) return allPostsData;
@@ -96,6 +97,7 @@ function RouteComponent() {
           postId={postId}
           handleLikePost={handleLikePost}
           commentsLength={commentsLength}
+          isMember={isMember}
         />
       )}
 
@@ -104,6 +106,7 @@ function RouteComponent() {
         communityData={communityData}
         isUserDataLoading={isUserDataLoading}
         isCommunityDataLoading={isCommunityDataLoading}
+        isMember={isMember}
       />
 
       <AllPosts
@@ -115,6 +118,7 @@ function RouteComponent() {
         handleLikePost={handleLikePost}
         commentsLength={commentsLength}
         searchTerm={searchTerm}
+        isMember={isMember}
       />
     </main>
   );

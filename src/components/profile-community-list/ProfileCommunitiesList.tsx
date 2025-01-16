@@ -1,15 +1,14 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useParams } from "@tanstack/react-router";
 import MembershipsLoader from "@/components/loaders/MembershipsLoader";
 import AvatarIcon from "@/components/avatar/AvatarIcon";
 import { useListOfAllCommunities } from "@/api/get";
-import { pb } from "@/api/pocketbase";
 
 const ProfileCommunitiesList = () => {
-  const userId = pb.authStore.record?.id;
+  const { id } = useParams({ from: "/_authenticated/profile/$id/" });
   const { data, isLoading: isCommunitiesLoading } = useListOfAllCommunities();
 
   const usersCommunities = data?.filter((item) =>
-    item.members.includes(userId as string)
+    item.members.includes(id as string)
   );
 
   return (

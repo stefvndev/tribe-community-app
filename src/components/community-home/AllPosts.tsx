@@ -21,6 +21,7 @@ type TAllPosts = {
   handleLikePost: (likes: string[], id: string) => void;
   commentsLength: (post_id: string) => number | undefined;
   searchTerm?: string;
+  isMember?: boolean;
 };
 
 const AllPosts = ({
@@ -32,6 +33,7 @@ const AllPosts = ({
   handleLikePost,
   commentsLength,
   searchTerm,
+  isMember,
 }: TAllPosts) => {
   return (
     <div className="w-full h-full">
@@ -83,6 +85,7 @@ const AllPosts = ({
                 <div className="flex items-center w-full gap-5 mt-2 -ml-2">
                   <div className="flex items-center gap-1">
                     <Button
+                      disabled={!isMember}
                       onClick={(e) => {
                         e.stopPropagation();
                         handleLikePost(post?.likes, post?.id);

@@ -16,6 +16,7 @@ type TCreatePost = {
   communityData?: TCommunities;
   isUserDataLoading: boolean;
   isCommunityDataLoading: boolean;
+  isMember?: boolean;
 };
 
 type TSubmitData = {
@@ -33,6 +34,7 @@ const CreatePostInput = ({
   isCommunityDataLoading,
   isUserDataLoading,
   userData,
+  isMember,
 }: TCreatePost) => {
   const [isCommentBoxActive, setIsCommentBoxActive] = useState(false);
   const {
@@ -85,6 +87,7 @@ const CreatePostInput = ({
     <div className="relative w-full mb-10">
       {isCommentBoxActive && (
         <button
+          disabled={!isMember}
           type="button"
           onClick={handleCommentBox}
           className="fixed top-0 bottom-0 left-0 right-0 z-20 w-full h-full transition-all duration-500 ease-in-out cursor-default bg-grayout/60"
@@ -160,10 +163,12 @@ const CreatePostInput = ({
             </div>
           ) : (
             <button
-              disabled={isCommunityDataLoading || isUserDataLoading}
+              disabled={
+                isCommunityDataLoading || isUserDataLoading || !isMember
+              }
               onClick={handleCommentBox}
               type="button"
-              className="w-full bg-white gap-4 rounded-lg shadow-custom h-[60px] flex items-center py-2.5 px-4"
+              className="w-full disabled:cursor-not-allowed bg-white gap-4 rounded-lg shadow-custom h-[60px] flex items-center py-2.5 px-4"
             >
               <AvatarIcon
                 avatar={userData?.avatar}

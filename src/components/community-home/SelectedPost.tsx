@@ -10,6 +10,7 @@ type TSelectedPost = {
   userId?: string;
   handleLikePost: (likes: string[], id: string) => void;
   commentsLength: (post_id: string) => number | undefined;
+  isMember?: boolean;
 };
 
 const SelectedPost = ({
@@ -17,6 +18,7 @@ const SelectedPost = ({
   userId,
   commentsLength,
   handleLikePost,
+  isMember,
 }: TSelectedPost) => {
   const navigate = useNavigate({ from: "/$id" });
 
@@ -45,10 +47,11 @@ const SelectedPost = ({
           handleLikePost={handleLikePost}
           commentsLength={commentsLength}
           handleCloseComment={handleCloseComment}
+          isMember={isMember}
         />
         <hr className="w-full" />
         <PostComments postId={postId} />
-        <CommentInput userId={userId} postId={postId} />
+        {isMember && <CommentInput userId={userId} postId={postId} />}
       </div>
     </div>
   );
