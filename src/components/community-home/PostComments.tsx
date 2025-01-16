@@ -4,12 +4,12 @@ import AvatarIcon from "@/components/avatar/AvatarIcon";
 import PostCommentsLoader from "@/components/loaders/PostCommentsLoader";
 
 type TPostComments = {
-  post_id?: string;
+  postId?: string;
 };
 
-const PostComments = ({ post_id }: TPostComments) => {
+const PostComments = ({ postId }: TPostComments) => {
   const { data: selectedPostComments, isLoading } =
-    useListOfAllCommentsForSelectedPost(post_id as string);
+    useListOfAllCommentsForSelectedPost(postId as string);
 
   if (isLoading) return <PostCommentsLoader />;
 

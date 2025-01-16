@@ -20,14 +20,14 @@ import PostContentLoader from "../loaders/PostContentLoader";
 
 type TPostContent = {
   userId?: string;
-  post_id?: string;
+  postId?: string;
   handleLikePost: (likes: string[], id: string) => void;
   commentsLength: (post_id: string) => number | undefined;
   handleCloseComment: () => void;
 };
 
 const PostContent = ({
-  post_id,
+  postId,
   userId,
   handleLikePost,
   commentsLength,
@@ -35,7 +35,7 @@ const PostContent = ({
 }: TPostContent) => {
   const { id } = useParams({ from: "/_authenticated/_community/$id/" });
   const { data: selectedPostData, isLoading: isPostDataLoading } =
-    useGetSelectedPost(post_id as string);
+    useGetSelectedPost(postId as string);
   const { data: communityData, isLoading: isCommunityDataLoading } =
     useCommunityData(id);
   const isLoading = isPostDataLoading || isCommunityDataLoading;

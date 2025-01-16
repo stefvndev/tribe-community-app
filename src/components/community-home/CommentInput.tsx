@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 
 type TCommentInput = {
   userId?: string;
-  post_id?: string;
+  postId?: string;
 };
 
 type TSubmitData = {
@@ -22,7 +22,7 @@ const validationSchema = z.object({
   content: z.string().min(1, "Content is required"),
 });
 
-const CommentInput = ({ userId, post_id }: TCommentInput) => {
+const CommentInput = ({ userId, postId }: TCommentInput) => {
   const { data: userData } = useGetUserData(userId as string);
   const { mutateAsync: mutateAsyncCommentOnPost, isPending } =
     useMutateCommentOnPost();
@@ -39,7 +39,7 @@ const CommentInput = ({ userId, post_id }: TCommentInput) => {
 
   const onSubmit = async (data: TSubmitData) => {
     const formData = {
-      post: post_id,
+      post: postId,
       user: userId,
       ...data,
     };

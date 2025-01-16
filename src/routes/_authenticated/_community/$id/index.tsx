@@ -1,4 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
+import { createFileRoute } from "@tanstack/react-router";
+import { toast } from "sonner";
 import {
   useCommunityData,
   useGetUserData,
@@ -10,18 +12,18 @@ import { pb } from "@/api/pocketbase";
 import AllPosts from "@/components/community-home/AllPosts";
 import CreatePostInput from "@/components/community-home/CreatePostInput";
 import CommunityLayout from "@/components/layout/CommunityLayout";
-import { createFileRoute } from "@tanstack/react-router";
-import { toast } from "sonner";
 import SelectedPost from "@/components/community-home/SelectedPost";
 
 type TQueries = {
-  post_id?: string;
+  postId?: string;
+  searchTerm?: string;
 };
 
 export const Route = createFileRoute("/_authenticated/_community/$id/")({
   validateSearch: (search: Record<string, unknown>): TQueries => {
     return {
-      post_id: search.post_id as string,
+      postId: search.postId as string,
+      searchTerm: search.searchTerm as string,
     };
   },
   component: () => (
@@ -34,7 +36,7 @@ export const Route = createFileRoute("/_authenticated/_community/$id/")({
 function RouteComponent() {
   const { id } = Route.useParams();
   const navigate = Route.useNavigate();
-  const { post_id } = Route.useSearch();
+  const { postId, searchTerm } = Route.useSearch();
   const userId = pb.authStore.record?.id;
   const { data: userData, isLoading: isUserDataLoading } = useGetUserData(
     userId as string
@@ -44,6 +46,13 @@ function RouteComponent() {
   const { data: allPostsData } = useListOfAllPosts(id);
   const { mutateAsync: mutateAsyncUpdateLikes } = useMutateUpdateLikes();
   const { data: allCommentsData } = useListOfAllComments();
+
+  const searchedPostData = useMemo(() => {
+    if (!searchTerm) return allPostsData;
+    return allPostsData?.filter((post) =>
+      post?.title?.toLocaleLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [searchTerm, allPostsData]);
 
   const handleLikePost = async (currentLikes: string[], postId: string) => {
     try {
@@ -62,29 +71,29 @@ function RouteComponent() {
   const commentsLength = (post_id: string) =>
     allCommentsData?.filter((item) => item?.post === post_id)?.length;
 
-  const handleOpenComments = (postId: string) => {
+  const handlePushQueryParams = (key: string, postId: string) => {
     navigate({
       search: (prev) => ({
         ...prev,
-        post_id: postId,
+        [key]: postId,
       }),
     });
   };
 
   useEffect(() => {
-    if (post_id) {
+    if (postId) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
     }
-  }, [post_id, navigate]);
+  }, [postId, navigate]);
 
   return (
     <main className="w-full h-full">
-      {post_id && (
+      {postId && (
         <SelectedPost
           userId={userId}
-          post_id={post_id}
+          postId={postId}
           handleLikePost={handleLikePost}
           commentsLength={commentsLength}
         />
@@ -99,12 +108,13 @@ function RouteComponent() {
 
       <AllPosts
         userId={userId}
-        allPostsData={allPostsData}
+        allPostsData={searchedPostData}
         communityData={communityData}
         isUserDataLoading={isUserDataLoading}
-        handleOpenComments={handleOpenComments}
+        handlePushQueryParams={handlePushQueryParams}
         handleLikePost={handleLikePost}
         commentsLength={commentsLength}
+        searchTerm={searchTerm}
       />
     </main>
   );

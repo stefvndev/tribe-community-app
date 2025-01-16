@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { pb } from "@/api/pocketbase";
 import { Link, useLocation, useParams } from "@tanstack/react-router";
-import { IconMenu2, IconSearch, IconX } from "@tabler/icons-react";
+import { IconMenu2, IconX } from "@tabler/icons-react";
 import { useCommunityData } from "@/api/get";
 import { cn } from "@/lib/utils";
-import { Input } from "@/components/ui/input";
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 import NavbarMessagesDropdown from "./NavbarMessagesDropdown";
 // import NavbarNotificationsDropdown from "./NavbarNotificationsDropdown";
 import NavbarTabs from "./NavbarTabs";
@@ -14,7 +13,8 @@ import NavDropdown from "./NavDropdown";
 import { useLoggedState } from "@/lib/useLoggedState";
 import Logo from "@/assets/tribe-logo.png";
 import { mobileMenuLinks } from "./mobileMenuLinks";
-import AvatarIcon from "../avatar/AvatarIcon";
+import AvatarIcon from "@/components/avatar/AvatarIcon";
+import NavPostSearch from "./NavPostSearch";
 
 const getSelectedTab = (pathname: string, id: string) => {
   const basePath = pathname.split(`/${id}/`)[1];
@@ -79,11 +79,7 @@ const CommunityNavbar = () => {
 
         <div className="flex items-center w-full gap-4 max-md:hidden">
           <div className="items-center w-full ml-4">
-            <Input
-              icon={<IconSearch size={20} />}
-              className="h-12 bg-light-gray placeholder:text-grayout !text-base"
-              placeholder="Search"
-            />
+            <NavPostSearch />
           </div>
           {isLogged() ? (
             <div className="flex items-center w-40 gap-2">

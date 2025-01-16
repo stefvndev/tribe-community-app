@@ -5,7 +5,7 @@ import PostComments from "./PostComments";
 import PostContent from "./PostContent";
 
 type TSelectedPost = {
-  post_id?: string;
+  postId?: string;
   communityData?: TCommunities;
   userId?: string;
   handleLikePost: (likes: string[], id: string) => void;
@@ -13,7 +13,7 @@ type TSelectedPost = {
 };
 
 const SelectedPost = ({
-  post_id,
+  postId,
   userId,
   commentsLength,
   handleLikePost,
@@ -24,7 +24,7 @@ const SelectedPost = ({
     navigate({
       search: (prev) => {
         const newSearch = { ...prev };
-        delete newSearch.post_id;
+        delete newSearch.postId;
         return newSearch;
       },
     });
@@ -40,15 +40,15 @@ const SelectedPost = ({
         className="bg-white relative overflow-y-auto w-full max-md:mt-0 max-md:rounded-none h-[calc(100vh-64px)] mx-auto max-w-[790px] mt-16 rounded-b-none rounded-lg"
       >
         <PostContent
-          post_id={post_id}
+          postId={postId}
           userId={userId}
           handleLikePost={handleLikePost}
           commentsLength={commentsLength}
           handleCloseComment={handleCloseComment}
         />
         <hr className="w-full" />
-        <PostComments post_id={post_id} />
-        <CommentInput userId={userId} post_id={post_id} />
+        <PostComments postId={postId} />
+        <CommentInput userId={userId} postId={postId} />
       </div>
     </div>
   );

@@ -10,15 +10,17 @@ import { cn } from "@/lib/utils";
 import AvatarIcon from "@/components/avatar/AvatarIcon";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TCommunities, TPost } from "@/types/types";
+import highlightText from "@/lib/hightlightText";
 
 type TAllPosts = {
   allPostsData?: TPost[];
   isUserDataLoading: boolean;
   communityData?: TCommunities;
   userId?: string;
-  handleOpenComments: (e: string) => void;
+  handlePushQueryParams: (key: string, value: string) => void;
   handleLikePost: (likes: string[], id: string) => void;
   commentsLength: (post_id: string) => number | undefined;
+  searchTerm?: string;
 };
 
 const AllPosts = ({
@@ -26,9 +28,10 @@ const AllPosts = ({
   communityData,
   isUserDataLoading,
   userId,
-  handleOpenComments,
+  handlePushQueryParams,
   handleLikePost,
   commentsLength,
+  searchTerm,
 }: TAllPosts) => {
   return (
     <div className="w-full h-full">
@@ -45,7 +48,7 @@ const AllPosts = ({
           {allPostsData?.length !== 0 ? (
             allPostsData?.map((post) => (
               <div
-                onClick={() => handleOpenComments(post?.id)}
+                onClick={() => handlePushQueryParams("post_id", post?.id)}
                 key={post?.id}
                 className="flex flex-col w-full p-6 transition-all bg-white border rounded-lg cursor-pointer hover:shadow-custom"
               >
@@ -72,7 +75,9 @@ const AllPosts = ({
                   </div>
                 </div>
                 <div className="flex flex-col w-full gap-1">
-                  <p className="mt-2 text-xl font-bold">{post?.title}</p>
+                  <p className="mt-2 text-xl font-bold">
+                    {highlightText(post?.title || "", searchTerm || "")}
+                  </p>
                   <p className="w-full h-12 line-clamp-2">{post?.content}</p>
                 </div>
                 <div className="flex items-center w-full gap-5 mt-2 -ml-2">
