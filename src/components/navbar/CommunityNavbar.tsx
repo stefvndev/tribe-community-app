@@ -40,7 +40,7 @@ const CommunityNavbar = () => {
   return (
     <header
       className={cn(
-        "absolute top-0 left-0 right-0 flex flex-col w-full px-4 bg-white border-b",
+        "fixed top-0 left-0 right-0 z-40 flex flex-col w-full px-4 bg-white border-b",
         id && isLogged() ? "h-28 pt-2" : "h-16"
       )}
     >

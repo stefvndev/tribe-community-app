@@ -8,7 +8,7 @@ const Navbar = () => {
   const { isLogged } = useLoggedState();
 
   return (
-    <header className="absolute top-0 left-0 right-0 w-full h-16 px-4 bg-white border-b">
+    <header className="fixed top-0 left-0 right-0 w-full h-16 px-4 bg-white border-b">
       <nav className="flex items-center justify-between w-full h-full mx-auto max-w-1075">
         <div className="flex items-center gap-4">
           <Link to="/" className="text-4xl font-bold">
