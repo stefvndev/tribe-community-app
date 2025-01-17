@@ -1,5 +1,12 @@
 import { Link, useParams } from "@tanstack/react-router";
 import dayjs from "dayjs";
+import { toast } from "sonner";
+import {
+  IconDots,
+  IconMessageCircle,
+  IconThumbUp,
+  IconThumbUpFilled,
+} from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import AvatarIcon from "@/components/avatar/AvatarIcon";
 import { Button } from "@/components/ui/button";
@@ -8,16 +15,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import {
-  IconDots,
-  IconMessageCircle,
-  IconThumbUp,
-  IconThumbUpFilled,
-} from "@tabler/icons-react";
-import { toast } from "sonner";
 import { useCommunityData, useGetSelectedPost } from "@/api/get";
-import PostContentLoader from "../loaders/PostContentLoader";
+import PostContentLoader from "@/components/loaders/PostContentLoader";
 import { getPocketBaseFileUrl } from "@/lib/getPocketBaseFileUrl";
+import { useState } from "react";
+import FullScreenMediaPreview from "./FullScreenMediaPreview";
 
 type TPostContent = {
   userId?: string;
@@ -42,6 +44,11 @@ const PostContent = ({
   const { data: communityData, isLoading: isCommunityDataLoading } =
     useCommunityData(id);
   const isLoading = isPostDataLoading || isCommunityDataLoading;
+  const [openFullScreenMedia, setOpenFullScreenMedia] = useState(false);
+
+  const handleShowMedia = () => {
+    setOpenFullScreenMedia(!openFullScreenMedia);
+  };
 
   const handleCopyPostLink = () => {
     const currentUrl = window.location.href;
@@ -50,6 +57,14 @@ const PostContent = ({
   };
 
   if (isLoading) return <PostContentLoader />;
+
+  if (openFullScreenMedia)
+    return (
+      <FullScreenMediaPreview
+        handleShowMedia={handleShowMedia}
+        data={selectedPostData}
+      />
+    );
 
   return (
     <div className="flex flex-col w-full p-8 pb-4">
@@ -108,7 +123,7 @@ const PostContent = ({
         <p className="mt-1 text-dark-primary">{selectedPostData?.content}</p>
       </div>
       {selectedPostData?.media && (
-        <div className="mt-6">
+        <button type="button" onClick={handleShowMedia} className="mt-6 w-fit">
           <img
             src={getPocketBaseFileUrl({
               recordId: selectedPostData?.id,
@@ -117,7 +132,7 @@ const PostContent = ({
             })}
             className="object-cover border rounded-lg shadow size-40"
           />
-        </div>
+        </button>
       )}
       <div className="flex items-center w-full gap-5 mt-5 -ml-2">
         <div className="flex items-center gap-1">
