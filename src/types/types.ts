@@ -77,6 +77,7 @@ export type TPost = {
   updated: string;
   user: string;
   likes: string[];
+  media: string;
   expand: {
     user: {
       avatar: string;

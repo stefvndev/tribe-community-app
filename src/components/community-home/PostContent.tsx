@@ -17,6 +17,7 @@ import {
 import { toast } from "sonner";
 import { useCommunityData, useGetSelectedPost } from "@/api/get";
 import PostContentLoader from "../loaders/PostContentLoader";
+import { getPocketBaseFileUrl } from "@/lib/getPocketBaseFileUrl";
 
 type TPostContent = {
   userId?: string;
@@ -106,6 +107,18 @@ const PostContent = ({
         </p>
         <p className="mt-1 text-dark-primary">{selectedPostData?.content}</p>
       </div>
+      {selectedPostData?.media && (
+        <div className="mt-6">
+          <img
+            src={getPocketBaseFileUrl({
+              recordId: selectedPostData?.id,
+              filename: selectedPostData?.media,
+              collectionName: selectedPostData?.collectionName,
+            })}
+            className="object-cover border rounded-lg shadow size-40"
+          />
+        </div>
+      )}
       <div className="flex items-center w-full gap-5 mt-5 -ml-2">
         <div className="flex items-center gap-1">
           <Button

@@ -1,15 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { TCommunities, TUserData } from "@/types/types";
-import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 import { z } from "zod";
+import { IconLoader2, IconPhotoPlus, IconX } from "@tabler/icons-react";
+import { EmojiClickData } from "emoji-picker-react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutatePublishPost } from "@/api/post";
 import AvatarIcon from "@/components/avatar/AvatarIcon";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Textarea from "@/components/ui/textarea";
-import { useMutatePublishPost } from "@/api/post";
-import { toast } from "sonner";
-import { IconLoader2 } from "@tabler/icons-react";
+import { cn } from "@/lib/utils";
+import { TCommunities, TUserData } from "@/types/types";
+import EmojiButton from "@/components/buttons/EmojiButton";
 
 type TCreatePost = {
   userData?: TUserData;
@@ -22,11 +25,21 @@ type TCreatePost = {
 type TSubmitData = {
   title: string;
   content: string;
+  media?: File | null;
 };
+
+const MAX_FILE_SIZE = 5242880; // 5MB
 
 const validationSchema = z.object({
   title: z.string().min(1, "Title is required"),
   content: z.string().min(1, "Content is required"),
+  media: z
+    .instanceof(File)
+    .optional()
+    .nullable()
+    .refine((file) => !file || file.size <= MAX_FILE_SIZE, {
+      message: `Media file size should be less than 5MB`,
+    }),
 });
 
 const CreatePostInput = ({
@@ -42,11 +55,14 @@ const CreatePostInput = ({
     isPending: isPublishingPending,
   } = useMutatePublishPost();
 
+  const [postMedia, setPostMedia] = useState<File | null>(null);
+
   const {
     register,
     handleSubmit,
     watch,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<TSubmitData>({
     resolver: zodResolver(validationSchema),
@@ -55,11 +71,15 @@ const CreatePostInput = ({
   const onSubmit = async (data: TSubmitData) => {
     if (!data) return;
     try {
+      const formData = new FormData();
+      formData.append("content", data.content);
+      formData.append("title", data.title);
+      formData.append("user", userData?.id as string);
+      formData.append("community", communityData?.id as string);
+      if (data.media) formData.append("media", data.media as Blob);
+
       await mutateAsyncPublishPost({
-        content: data?.content,
-        title: data?.title,
-        user: userData?.id as string,
-        community: communityData?.id as string,
+        formData,
       });
       reset();
       setIsCommentBoxActive(false);
@@ -83,6 +103,44 @@ const CreatePostInput = ({
   const isSubmitDisabled =
     !title.trim() || !content.trim() || !!errors.title || !!errors.content;
 
+  const handleEmojiClick = (emojiData: EmojiClickData) => {
+    const emoji = emojiData.emoji;
+    const currentContent = content || "";
+    setValue("content", currentContent + emoji);
+  };
+
+  const handleMediaUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    setPostMedia(file);
+    setValue("media", file);
+  };
+
+  const handleRemoveMedia = () => {
+    setPostMedia(null);
+    setValue("media", null);
+    const fileInput = document.getElementById(
+      "mediaUpload"
+    ) as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = "";
+    }
+  };
+
+  useEffect(() => {
+    if (isCommentBoxActive) {
+      window.scrollTo(0, 0);
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  }, [isCommentBoxActive]);
+
+  useEffect(() => {
+    if (errors?.media?.message) {
+      toast.error(errors?.media?.message);
+    }
+  }, [errors]);
+
   return (
     <div className="relative w-full mb-10">
       {isCommentBoxActive && (
@@ -90,18 +148,19 @@ const CreatePostInput = ({
           disabled={!isMember}
           type="button"
           onClick={handleCommentBox}
-          className="fixed top-0 bottom-0 left-0 right-0 z-20 w-full h-full transition-all duration-500 ease-in-out cursor-default bg-grayout/60"
+          className="fixed top-0 bottom-0 left-0 right-0 z-40 w-full h-full transition-all duration-500 ease-in-out cursor-default bg-grayout/60"
         />
       )}
+
       <div className="flex items-center justify-center mx-auto mt-1 max-w-1075">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col w-full"
         >
           {isCommentBoxActive ? (
-            <div className="relative z-30 flex flex-col justify-between w-full gap-4 p-4 bg-white rounded-lg min-h-64 shadow-custom">
+            <div className="relative z-50 flex flex-col justify-between w-full gap-4 p-4 bg-white rounded-lg min-h-64 shadow-custom">
               <div className="flex flex-col w-full gap-4">
-                <div className="flex items-center gap-2.5">
+                <div className="flex items-center gap-2.5 whitespace-nowrap">
                   <AvatarIcon
                     avatar={userData?.avatar}
                     name={userData?.name || ""}
@@ -109,14 +168,16 @@ const CreatePostInput = ({
                     collectionName={userData?.collectionName || ""}
                     className="rounded-full min-w-8 min-h-8 size-8"
                   />
-                  <span className="flex items-center gap-1.5">
-                    <p className="font-medium text-dark-primary">
+                  <span className="flex items-center gap-1.5 max-sm:items-start max-sm:gap-0 max-sm:flex-col">
+                    <p className="font-medium truncate text-dark-primary max-sm:max-w-64">
                       {userData?.name}
                     </p>
-                    <p className="text-grayout">posting in</p>
-                    <p className="font-medium text-dark-primary">
-                      {communityData?.name}
-                    </p>
+                    <div className="flex items-center gap-1.5 max-sm:items-start">
+                      <p className="text-grayout">posting in</p>
+                      <p className="font-medium truncate text-dark-primary max-sm:max-w-48">
+                        {communityData?.name}
+                      </p>
+                    </div>
                   </span>
                 </div>
                 <div className="flex flex-col gap-1">
@@ -133,8 +194,47 @@ const CreatePostInput = ({
                   />
                 </div>
               </div>
-              <div className="flex items-center w-full">
-                <div className="flex items-center justify-end w-full gap-5">
+
+              {postMedia && (
+                <div className="relative flex items-center size-52">
+                  <div className="absolute top-0 bottom-0 left-0 right-0 flex justify-end w-full h-full transition-all opacity-0 hover:opacity-100">
+                    <button
+                      className="p-2 m-2 bg-white border rounded-full shadow size-fit"
+                      type="button"
+                      onClick={handleRemoveMedia}
+                    >
+                      <IconX size={20} />
+                    </button>
+                  </div>
+                  <img
+                    alt="attachment"
+                    className="object-cover border rounded-lg shadow size-52"
+                    src={URL.createObjectURL(postMedia as Blob)}
+                  />
+                </div>
+              )}
+
+              <div className="flex items-center w-full max-sm:gap-4 gap-14">
+                <div className="flex items-center w-full gap-0.5">
+                  <Button
+                    variant="ghost"
+                    className="relative rounded-full w-11 h-11"
+                    type="button"
+                  >
+                    <IconPhotoPlus className="!size-5" />
+                    <input
+                      id="mediaUpload"
+                      onChange={handleMediaUpload}
+                      type="file"
+                      accept="image/*"
+                      className="absolute top-0 bottom-0 left-0 right-0 z-10 w-full h-full opacity-0 cursor-pointer"
+                    />
+                  </Button>
+
+                  <EmojiButton handleEmojiClick={handleEmojiClick} />
+                </div>
+
+                <div className="flex items-center justify-end gap-5 w-fit max-sm:self-end">
                   <button
                     disabled={isPublishingPending}
                     onClick={handleCommentBox}
