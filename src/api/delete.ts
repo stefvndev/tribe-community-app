@@ -19,3 +19,17 @@ export const useMutateDeleteCommunity = () => {
     },
   });
 };
+
+export const useMutateDeletePost = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ postId }: { postId: string }) => {
+      const response = await pb.collection("posts").delete(postId);
+      return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries("all_posts" as InvalidateQueryFilters);
+    },
+  });
+};

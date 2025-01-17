@@ -20,6 +20,7 @@ import PostContentLoader from "@/components/loaders/PostContentLoader";
 import { getPocketBaseFileUrl } from "@/lib/getPocketBaseFileUrl";
 import { useState } from "react";
 import FullScreenMediaPreview from "./FullScreenMediaPreview";
+import { useMutateDeletePost } from "@/api/delete";
 
 type TPostContent = {
   userId?: string;
@@ -45,6 +46,8 @@ const PostContent = ({
     useCommunityData(id);
   const isLoading = isPostDataLoading || isCommunityDataLoading;
   const [openFullScreenMedia, setOpenFullScreenMedia] = useState(false);
+  const { mutateAsync: mutateAsyncDeletePost } = useMutateDeletePost();
+  const isUserOwner = communityData?.createdBy === userId;
 
   const handleShowMedia = () => {
     setOpenFullScreenMedia(!openFullScreenMedia);
@@ -54,6 +57,23 @@ const PostContent = ({
     const currentUrl = window.location.href;
     navigator.clipboard.writeText(currentUrl);
     toast.success("Link copied!");
+  };
+
+  const handleDeletePost = async () => {
+    try {
+      await mutateAsyncDeletePost({
+        postId: postId as string,
+      });
+      handleCloseComment();
+      toast("Post removed", {
+        description: "Your post was removed successfully!",
+      });
+    } catch {
+      toast.error("Post removal failed.", {
+        description:
+          "We couldn't remove your post at this time. Please try again later or check your connection.",
+      });
+    }
   };
 
   if (isLoading) return <PostContentLoader />;
@@ -99,19 +119,28 @@ const PostContent = ({
           <PopoverContent className="px-0 max-w-52" align="end">
             <div className="flex flex-col w-full">
               <button
-                onClick={handleCopyPostLink}
-                type="button"
-                className="flex items-center transition-all ease-in-out hover:bg-light-gray"
-              >
-                <p className="p-4 font-bold text-dark-primary">Copy link</p>
-              </button>
-              <button
                 onClick={handleCloseComment}
                 type="button"
                 className="flex items-center transition-all ease-in-out hover:bg-light-gray"
               >
                 <p className="p-4 font-bold text-dark-primary">Exit post</p>
               </button>
+              <button
+                onClick={handleCopyPostLink}
+                type="button"
+                className="flex items-center transition-all ease-in-out hover:bg-light-gray"
+              >
+                <p className="p-4 font-bold text-dark-primary">Copy link</p>
+              </button>
+              {(selectedPostData?.user === userId || isUserOwner) && (
+                <button
+                  onClick={handleDeletePost}
+                  type="button"
+                  className="flex items-center transition-all ease-in-out hover:text-white text-dark-primary hover:bg-red-600"
+                >
+                  <p className="p-4 font-bold">Delete post</p>
+                </button>
+              )}
             </div>
           </PopoverContent>
         </Popover>
