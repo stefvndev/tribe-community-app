@@ -36,7 +36,7 @@ const CommunitiesList = () => {
 
   if (isError) {
     return (
-      <p className="mt-4 font-medium">
+      <p className="mt-6 font-medium">
         Oops! We couldn&apos;t fetch the communities. Try again later — the
         internet gremlins are on it! 😢
       </p>
@@ -45,9 +45,17 @@ const CommunitiesList = () => {
 
   if (filteredList?.length === 0) {
     return (
-      <p className="mt-4 font-medium text-grayout">
-        Nothing here... your chance to shine starts now! ⭐
-      </p>
+      <div className="flex flex-col items-center gap-3 mx-auto mt-6 text-center">
+        <p className="font-medium text-grayout">
+          Nothing here... your chance to shine starts now! ⭐
+        </p>
+        <Link
+          to="/create-community"
+          className="px-6 py-2 font-medium rounded-md bg-yellow-primary hover:bg-yellow-primary-hover w-fit"
+        >
+          Create community
+        </Link>
+      </div>
     );
   }
 
