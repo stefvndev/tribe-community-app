@@ -49,8 +49,10 @@ function RouteComponent() {
         updatedMembers,
       });
       toast.success("Member is successfuly removed from the community.");
-    } catch (err) {
-      console.log(err);
+    } catch {
+      toast.error("Error", {
+        description: "Error. Please try again.",
+      });
     }
   };
 
