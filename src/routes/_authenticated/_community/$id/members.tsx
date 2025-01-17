@@ -1,12 +1,19 @@
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
+import dayjs from "dayjs";
 import { useCommunityData } from "@/api/get";
 import CommunityLayout from "@/components/layout/CommunityLayout";
 import { getInitials } from "@/lib/getInitials";
 import { getPocketBaseFileUrl } from "@/lib/getPocketBaseFileUrl";
-import { IconCalendar, IconMapPin, IconMessage } from "@tabler/icons-react";
-import dayjs from "dayjs";
+import {
+  IconCalendar,
+  IconLoader2,
+  IconMapPin,
+  IconMessage,
+} from "@tabler/icons-react";
 import MembersLoader from "@/components/loaders/MembersLoader";
 import { pb } from "@/api/pocketbase";
+import { useMutateRemoveUserFromCommunity } from "@/api/patch";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/_community/$id/members")({
   component: () => (
@@ -25,6 +32,27 @@ function RouteComponent() {
   const isMember = communityMembers?.some(
     (member) => member.id === (userId as string)
   );
+  const isUserOwner = userId === data?.createdBy;
+  const {
+    mutateAsync: mutateAsyncRemoveUser,
+    isPending: isRemovingUserPending,
+  } = useMutateRemoveUserFromCommunity();
+
+  const handleRemoveUserFromCommunity = async (removedMemberId: string) => {
+    try {
+      const updatedMembers = data?.members?.filter(
+        (member) => member !== removedMemberId
+      ) as string[];
+
+      await mutateAsyncRemoveUser({
+        communityId: data?.id as string,
+        updatedMembers,
+      });
+      toast.success("Member is successfuly removed from the community.");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <main className="w-full h-full">
@@ -38,7 +66,7 @@ function RouteComponent() {
             communityMembers?.map((member) => (
               <div
                 key={member.id}
-                className="flex justify-between w-full py-4 border-b max-sm:flex-col last:border-b-0 border-b-grayout/60"
+                className="flex justify-between w-full py-4 border-b max-lg:flex-col last:border-b-0 border-b-grayout/60"
               >
                 <div className="flex gap-4">
                   <div className="relative">
@@ -100,10 +128,29 @@ function RouteComponent() {
                     </div>
                   </div>
                 </div>
-                <Link className="flex items-center self-start justify-center h-10 gap-1 px-4 font-bold rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover max-sm:w-full max-sm:mt-2">
-                  <IconMessage size={20} />
-                  Chat
-                </Link>
+                <div className="flex items-center gap-3 max-lg:mt-10 max-lg:flex-col">
+                  {userId !== member?.id && (
+                    <Link className="flex items-center self-start justify-center h-10 gap-1 px-4 font-bold rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover max-lg:w-full">
+                      <IconMessage size={20} />
+                      Chat
+                    </Link>
+                  )}
+
+                  {isUserOwner && userId !== member?.id && (
+                    <button
+                      disabled={isRemovingUserPending}
+                      onClick={() => handleRemoveUserFromCommunity(member?.id)}
+                      type="button"
+                      className="flex items-center self-start justify-center h-10 gap-1 px-4 font-bold text-white bg-red-600 rounded-md hover:bg-red-700 max-lg:w-full disabled:bg-light-gray disabled:text-dark-primary"
+                    >
+                      {isRemovingUserPending ? (
+                        <IconLoader2 size={20} className="animate-spin" />
+                      ) : (
+                        "Remove"
+                      )}
+                    </button>
+                  )}
+                </div>
               </div>
             ))
           )}

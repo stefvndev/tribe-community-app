@@ -93,3 +93,24 @@ export const useMutateUpdateUserProfile = () => {
     },
   });
 };
+
+export const useMutateRemoveUserFromCommunity = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      communityId,
+      updatedMembers,
+    }: {
+      communityId: string;
+      updatedMembers: string[];
+    }) => {
+      await pb.collection("all_communities").update(communityId, {
+        members: updatedMembers,
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries("community_data" as InvalidateQueryFilters);
+    },
+  });
+};

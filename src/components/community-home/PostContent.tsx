@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, useParams } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { toast } from "sonner";
@@ -18,7 +19,6 @@ import {
 import { useCommunityData, useGetSelectedPost } from "@/api/get";
 import PostContentLoader from "@/components/loaders/PostContentLoader";
 import { getPocketBaseFileUrl } from "@/lib/getPocketBaseFileUrl";
-import { useState } from "react";
 import FullScreenMediaPreview from "./FullScreenMediaPreview";
 import { useMutateDeletePost } from "@/api/delete";
 
