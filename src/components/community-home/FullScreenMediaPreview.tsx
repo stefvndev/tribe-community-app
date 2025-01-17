@@ -23,6 +23,7 @@ const FullScreenMediaPreview = ({
       {data?.media && (
         <div className="z-[60] flex max-w-[80%] max-h-[80vh] max-sm:max-h-[50vh] h-full">
           <img
+            alt="post attachement"
             src={getPocketBaseFileUrl({
               recordId: data?.id,
               filename: data?.media,

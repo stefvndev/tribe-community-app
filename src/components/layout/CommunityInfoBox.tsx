@@ -62,7 +62,7 @@ const CommunityInfoBox = ({ data, isLoading }: TInfoBoxProps) => {
                 filename: data?.avatar,
                 collectionName: data?.collectionName,
               })}
-              alt="Community Banner"
+              alt="Community avatar"
               className="object-cover w-full h-36 max-md:h-48"
             />
           ) : (

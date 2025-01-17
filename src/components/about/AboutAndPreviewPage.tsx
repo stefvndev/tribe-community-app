@@ -46,6 +46,7 @@ const AboutAndPreviewPage = ({
           <>
             {data?.banner ? (
               <img
+                alt="Community banner"
                 src={getPocketBaseFileUrl({
                   recordId: data?.id,
                   filename: data?.banner,
@@ -100,7 +101,7 @@ const AboutAndPreviewPage = ({
                   filename: data?.expand?.createdBy?.avatar,
                   collectionName: data?.expand?.createdBy?.collectionName,
                 })}
-                alt="Community Banner"
+                alt="Community avatar"
                 className="object-cover rounded-full size-9 min-h-9 min-w-9"
               />
             ) : (

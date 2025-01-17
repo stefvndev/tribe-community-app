@@ -86,6 +86,7 @@ const AllPosts = ({
                     {/* small screen media */}
                     {post?.media && (
                       <img
+                        alt="Post media"
                         src={getPocketBaseFileUrl({
                           recordId: post.id,
                           filename: post.media,
@@ -141,6 +142,7 @@ const AllPosts = ({
                 {/* large screen media */}
                 {post?.media && (
                   <img
+                    alt="Post media"
                     src={getPocketBaseFileUrl({
                       recordId: post.id,
                       filename: post.media,

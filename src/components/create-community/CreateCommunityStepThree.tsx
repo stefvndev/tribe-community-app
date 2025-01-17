@@ -26,6 +26,7 @@ const CreateCommunityStepThree = ({
       <div className="relative flex items-center justify-center w-full h-40 overflow-hidden border rounded-lg bg-light-gray">
         {banner ? (
           <img
+            alt="banner"
             src={URL.createObjectURL(banner)}
             className="object-cover w-full h-full"
           />

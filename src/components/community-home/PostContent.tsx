@@ -154,6 +154,7 @@ const PostContent = ({
       {selectedPostData?.media && (
         <button type="button" onClick={handleShowMedia} className="mt-6 w-fit">
           <img
+            alt="attachement"
             src={getPocketBaseFileUrl({
               recordId: selectedPostData?.id,
               filename: selectedPostData?.media,

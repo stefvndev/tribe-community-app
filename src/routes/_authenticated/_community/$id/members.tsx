@@ -84,7 +84,7 @@ function RouteComponent() {
                           filename: member?.avatar,
                           collectionName: member?.collectionName,
                         })}
-                        alt="Community Banner"
+                        alt="Community avatar"
                         className="object-cover rounded-full size-12 min-h-12 min-w-12"
                       />
                     ) : (
