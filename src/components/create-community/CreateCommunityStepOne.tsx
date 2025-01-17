@@ -21,6 +21,7 @@ const CreateCommunityStepOne = ({
         Add community name and description
       </p>
       <Input
+        maxLength={20}
         {...register("name")}
         type="text"
         placeholder="Community name"
@@ -29,6 +30,7 @@ const CreateCommunityStepOne = ({
         errorMessage={errors?.name?.message}
       />
       <Textarea
+        maxLength={2000}
         {...register("description")}
         placeholder="Describe your community (you can change this later)"
         className="w-full h-full px-4 border rounded-md max-h-20 text-dark-primary font-base"

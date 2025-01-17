@@ -124,6 +124,7 @@ const SettingsProfile = ({ userData, userId }: TSettingsProfile) => {
           <label className="w-full">
             <p className="text-sm font-medium text-grayout mb-0.5">Full name</p>
             <Input
+              maxLength={28}
               {...register("name")}
               defaultValue={userData?.name}
               className="w-full border h-[52px] !text-base border-grayout/50"
@@ -133,6 +134,7 @@ const SettingsProfile = ({ userData, userId }: TSettingsProfile) => {
           <label className="w-full">
             <p className="text-sm font-medium text-grayout mb-0.5">Bio</p>
             <Textarea
+              maxLength={100}
               {...register("description")}
               defaultValue={userData?.description}
               className="w-full border h-20 !text-base border-grayout/50"

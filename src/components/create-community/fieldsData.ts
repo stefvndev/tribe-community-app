@@ -38,5 +38,5 @@ export const communityTypes = [
 
 export const communityPrices = [
   { value: ECommunityPrice.FREE, label: "Free" },
-  { value: ECommunityPrice.PAID, label: "Paid" },
+  { value: ECommunityPrice.PAID, label: "Paid (Comming soon)" },
 ];

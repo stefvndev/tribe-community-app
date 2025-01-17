@@ -99,6 +99,7 @@ function RouteComponent() {
           >
             <div className="flex flex-col w-full gap-6">
               <Input
+                maxLength={14}
                 {...register("name")}
                 type="name"
                 placeholder="First name"
@@ -107,6 +108,7 @@ function RouteComponent() {
                 errorMessage={errors?.name?.message}
               />
               <Input
+                maxLength={14}
                 {...register("last_name")}
                 type="last_name"
                 placeholder="Last name"

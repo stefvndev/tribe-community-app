@@ -1,13 +1,13 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useGetUserData } from "@/api/get";
+import { IconCalendar, IconMapPin, IconSettings } from "@tabler/icons-react";
+import dayjs from "dayjs";
 import { pb } from "@/api/pocketbase";
 import AvatarIcon from "@/components/avatar/AvatarIcon";
 import BackButton from "@/components/buttons/BackButton";
 import AppLayout from "@/components/layout/AppLayout";
 import ProfileCommunitiesList from "@/components/profile-community-list/ProfileCommunitiesList";
 import { Skeleton } from "@/components/ui/skeleton";
-import { IconCalendar, IconMapPin, IconSettings } from "@tabler/icons-react";
-import { createFileRoute, Link } from "@tanstack/react-router";
-import dayjs from "dayjs";
 
 export const Route = createFileRoute("/_authenticated/profile/$id/")({
   component: () => (
@@ -30,7 +30,7 @@ function RouteComponent() {
             <p className="font-medium text-dark-primary">Memberships</p>
             <BackButton />
           </div>
-          <ProfileCommunitiesList />
+          <ProfileCommunitiesList id={id} />
         </div>
 
         <div className="w-[400px] items-center p-4 max-md:w-full flex flex-col h-full max-md:h-full bg-white border rounded-xl">

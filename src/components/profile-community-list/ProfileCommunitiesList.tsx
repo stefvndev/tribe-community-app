@@ -1,10 +1,13 @@
-import { Link, useParams } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import MembershipsLoader from "@/components/loaders/MembershipsLoader";
 import AvatarIcon from "@/components/avatar/AvatarIcon";
 import { useListOfAllCommunities } from "@/api/get";
 
-const ProfileCommunitiesList = () => {
-  const { id } = useParams({ from: "/_authenticated/profile/$id/" });
+type TCommunitiesList = {
+  id?: string;
+};
+
+const ProfileCommunitiesList = ({ id }: TCommunitiesList) => {
   const { data, isLoading: isCommunitiesLoading } = useListOfAllCommunities();
 
   const usersCommunities = data?.filter((item) =>
