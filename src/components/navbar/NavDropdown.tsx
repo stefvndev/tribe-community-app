@@ -83,7 +83,7 @@ const NavDropdown = () => {
 
           <div className="flex flex-col w-full max-h-[500px] overflow-y-auto">
             {links.map((link) => (
-              <div key={link.id} className="w-full flex flex-col mt-1.5">
+              <div key={link.id} className="flex flex-col w-full mt-1">
                 <Link
                   to={link.url}
                   className="flex items-center gap-2 p-4 transition-all ease-in-out hover:bg-light-gray"
@@ -98,7 +98,7 @@ const NavDropdown = () => {
               </div>
             ))}
             {filteredCommunities?.map((community) => (
-              <div key={community.id} className="w-full flex flex-col mt-1.5">
+              <div key={community.id} className="flex flex-col w-full mt-1">
                 <Link
                   to={`/${community.id}`}
                   className={cn(
