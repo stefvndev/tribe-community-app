@@ -101,7 +101,7 @@ const CommunityInfoBox = ({ data, isLoading }: TInfoBoxProps) => {
           </p>
         )}
         <Link
-          to="/signup"
+          to={isLogged() ? "/create-community" : "/signup"}
           className="flex items-center gap-1.5 text-sm text-grayout truncate hover:text-dark-primary hover:underline transition-all ease-in-out"
         >
           <IconLink size={16} /> Lead Your Own Community
