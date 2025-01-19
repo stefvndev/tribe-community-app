@@ -47,7 +47,7 @@ const NavPostSearch = () => {
         onChange={(e) => setInputValue(e.target.value)}
         icon={<IconSearch size={20} />}
         className="h-12 bg-light-gray placeholder:text-grayout !text-base"
-        placeholder="Search"
+        placeholder="Search community posts"
       />
       {searchTerm && (
         <button
