@@ -24,18 +24,7 @@ export type TCommunities = {
   collectionName: string;
   createdBy: string;
   expand: {
-    createdBy: {
-      avatar: string;
-      collectionId: string;
-      collectionName: string;
-      created: string;
-      email: string;
-      emailVisibility: boolean;
-      id: string;
-      name: string;
-      updated: string;
-      verified: boolean;
-    };
+    createdBy: TUserData;
     members: TUserData[];
   };
 };
@@ -79,18 +68,7 @@ export type TPost = {
   likes: string[];
   media: string;
   expand: {
-    user: {
-      avatar: string;
-      collectionId: string;
-      collectionName: string;
-      created: string;
-      email: string;
-      emailVisibility: boolean;
-      id: string;
-      name: string;
-      updated: string;
-      verified: boolean;
-    };
+    user: TUserData;
   };
 };
 
@@ -103,4 +81,30 @@ export type TComment = {
   post: string;
   updated: string;
   user: string;
+};
+
+export type TMessage = {
+  id: string;
+  sender_id: string;
+  reciever_id: string;
+  community_id: string;
+  message: string;
+  created: string;
+  updated: string;
+  collectionId: string;
+  collectionName: string;
+};
+
+export type TConversation = {
+  id: string;
+  collectionId: string;
+  collectionName: string;
+  community_id: string;
+  created: string;
+  expand: {
+    users: TUserData[];
+    last_message: TMessage;
+  };
+  updated: string;
+  users: string[];
 };

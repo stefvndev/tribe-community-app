@@ -3,6 +3,7 @@ import { useLoggedState } from "@/lib/useLoggedState";
 import NavDropdown from "./NavDropdown";
 import Logo from "@/assets/tribe-logo.png";
 import NavbarUserMenuDropdown from "./NavbarUserMenuDropdown";
+import NavbarMessagesDropdown from "./NavbarMessagesDropdown";
 
 const Navbar = () => {
   const { isLogged } = useLoggedState();
@@ -24,7 +25,10 @@ const Navbar = () => {
             log in
           </Link>
         ) : (
-          <NavbarUserMenuDropdown />
+          <div className="flex items-center justify-end w-32 gap-2">
+            <NavbarMessagesDropdown />
+            <NavbarUserMenuDropdown />
+          </div>
         )}
       </nav>
     </header>

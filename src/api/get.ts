@@ -1,4 +1,10 @@
-import { TCommunities, TPost, TUserData } from "@/types/types";
+import {
+  TCommunities,
+  TConversation,
+  TMessage,
+  TPost,
+  TUserData,
+} from "@/types/types";
 import { useQuery } from "@tanstack/react-query";
 import { pb } from "./pocketbase";
 
@@ -85,6 +91,37 @@ export const useListOfAllComments = () => {
     queryKey: ["all_comments"],
     queryFn: async () => {
       const data: TPost[] = await pb.collection("comments").getFullList();
+      return data;
+    },
+  });
+};
+
+export const useConversationsData = (userId: string) => {
+  return useQuery({
+    queryKey: ["all_conversations", userId],
+    queryFn: async () => {
+      const data: TConversation[] = await pb
+        .collection("conversations")
+        .getFullList({
+          filter: `users ~ "${userId}"`,
+          sort: "-created",
+          expand: "users, last_message",
+        });
+      return data;
+    },
+  });
+};
+
+export const useSelectedConversationData = (conversation_id: string) => {
+  return useQuery({
+    queryKey: ["selected_conversation", conversation_id],
+    queryFn: async () => {
+      const data: TMessage = await pb
+        .collection("conversations")
+        .getOne(conversation_id, {
+          sort: "created",
+          expand: "messages",
+        });
       return data;
     },
   });

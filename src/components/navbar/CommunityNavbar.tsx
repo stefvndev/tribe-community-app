@@ -6,7 +6,6 @@ import { useCommunityData } from "@/api/get";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import NavbarMessagesDropdown from "./NavbarMessagesDropdown";
-// import NavbarNotificationsDropdown from "./NavbarNotificationsDropdown";
 import NavbarTabs from "./NavbarTabs";
 import NavbarUserMenuDropdown from "./NavbarUserMenuDropdown";
 import NavDropdown from "./NavDropdown";
@@ -83,8 +82,7 @@ const CommunityNavbar = () => {
           </div>
           {isLogged() ? (
             <div className="flex items-center justify-end w-32 gap-2">
-              {id && <NavbarMessagesDropdown />}
-              {/* <NavbarNotificationsDropdown /> */}
+              <NavbarMessagesDropdown />
               <NavbarUserMenuDropdown />
             </div>
           ) : (
