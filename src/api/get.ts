@@ -68,6 +68,7 @@ export const useGetSelectedPost = (id: string) => {
       });
       return data;
     },
+    enabled: !!id,
   });
 };
 
@@ -83,6 +84,7 @@ export const useListOfAllCommentsForSelectedPost = (post_id?: string) => {
       });
       return data;
     },
+    enabled: !!post_id,
   });
 };
 
