@@ -96,7 +96,7 @@ export const useListOfAllComments = () => {
   });
 };
 
-export const useConversationsData = (userId: string) => {
+export const useConversationsData = (userId: string, shouldFetch: boolean) => {
   return useQuery({
     queryKey: ["all_conversations", userId],
     queryFn: async () => {
@@ -109,6 +109,7 @@ export const useConversationsData = (userId: string) => {
         });
       return data;
     },
+    enabled: shouldFetch,
   });
 };
 
