@@ -44,7 +44,7 @@ const NavbarUserMenuDropdown = () => {
 
   return (
     <Popover>
-      <PopoverTrigger asChild>
+      <PopoverTrigger asChild className="max-md:hidden">
         <Button size="icon" variant="ghost" className="p-6 rounded-full">
           {!isLoading ? (
             <AvatarIcon

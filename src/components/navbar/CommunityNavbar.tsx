@@ -76,8 +76,8 @@ const CommunityNavbar = () => {
           </div>
         </div>
 
-        <div className="flex items-center w-full gap-4 max-md:hidden">
-          <div className="items-center w-full ml-4">
+        <div className="flex items-center w-full gap-4">
+          <div className="items-center w-full ml-4 max-md:hidden">
             {selectedTab === "community" && <NavPostSearch />}
           </div>
           {isLogged() ? (

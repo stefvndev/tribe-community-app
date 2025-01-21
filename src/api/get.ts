@@ -5,7 +5,7 @@ import {
   TPost,
   TUserData,
 } from "@/types/types";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { pb } from "./pocketbase";
 
 export const useGetUserData = (id: string) => {
@@ -115,17 +115,36 @@ export const useConversationsData = (userId: string, shouldFetch: boolean) => {
   });
 };
 
+export const useGetConversationMessages = (conversation_id: string) => {
+  const queryClient = useQueryClient();
+
+  const query = useQuery({
+    queryKey: ["messages", conversation_id],
+    queryFn: async () => {
+      const data: TMessage[] = await pb.collection("messages").getFullList({
+        filter: `conversation="${conversation_id}"`,
+        expand: "sender_id",
+      });
+      return data;
+    },
+    enabled: !!conversation_id,
+  });
+
+  return { ...query, queryClient };
+};
+
 export const useSelectedConversationData = (conversation_id: string) => {
   return useQuery({
     queryKey: ["selected_conversation", conversation_id],
     queryFn: async () => {
-      const data: TMessage = await pb
+      const data: TConversation = await pb
         .collection("conversations")
         .getOne(conversation_id, {
-          sort: "created",
-          expand: "messages",
+          sort: "-created",
+          expand: "users",
         });
       return data;
     },
+    enabled: !!conversation_id,
   });
 };

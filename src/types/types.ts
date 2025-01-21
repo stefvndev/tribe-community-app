@@ -9,6 +9,7 @@ export type TDiscoveryQueries = {
   type?: string;
   price?: string;
   search?: string;
+  chat?: string;
 };
 
 export type TCommunities = {
@@ -84,15 +85,19 @@ export type TComment = {
 };
 
 export type TMessage = {
-  id: string;
+  id?: string;
   sender_id: string;
   reciever_id: string;
-  community_id: string;
+  community_id?: string;
   message: string;
-  created: string;
-  updated: string;
-  collectionId: string;
-  collectionName: string;
+  created?: string;
+  updated?: string;
+  collectionId?: string;
+  collectionName?: string;
+  conversation: string;
+  expand?: {
+    sender_id: TUserData;
+  };
 };
 
 export type TConversation = {
