@@ -2,12 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import EmojiPicker, { EmojiClickData, EmojiStyle } from "emoji-picker-react";
 import { IconMoodSmile } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 type EmojiButtonProps = {
   handleEmojiClick: (e: EmojiClickData) => void;
+  className?: string;
 };
 
-const EmojiButton = ({ handleEmojiClick }: EmojiButtonProps) => {
+const EmojiButton = ({ handleEmojiClick, className }: EmojiButtonProps) => {
   const [isEmojiOpen, setIsEmojiOpen] = useState(false);
   const pickerRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
@@ -47,7 +49,10 @@ const EmojiButton = ({ handleEmojiClick }: EmojiButtonProps) => {
         <IconMoodSmile className="!size-5" />
       </Button>
       {isEmojiOpen && (
-        <div ref={pickerRef} className="absolute left-0 z-50 mb-1 bottom-full">
+        <div
+          ref={pickerRef}
+          className={cn("absolute left-0 z-50 mb-1 bottom-full", className)}
+        >
           <EmojiPicker
             height={300}
             searchDisabled

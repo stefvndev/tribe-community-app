@@ -180,7 +180,7 @@ const SelectedConversation = () => {
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="flex self-end items-center w-full h-[70px] border-t px-2 py-1 relative overflow-hidden">
+          <div className="flex self-end items-center w-full h-[70px] border-t px-2 py-1 relative">
             <input
               value={messageInput}
               onChange={handleMessageInput}
@@ -189,7 +189,10 @@ const SelectedConversation = () => {
               placeholder={`Message ${conversationUserData?.name}`}
               className="w-full h-full px-4 py-2 border-none outline-none"
             />
-            <EmojiButton handleEmojiClick={handleEmojiClick} />
+            <EmojiButton
+              handleEmojiClick={handleEmojiClick}
+              className="-left-[320px]"
+            />
           </div>
         </div>
       </div>
