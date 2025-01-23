@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useNavigate, useSearch } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import { IconLoader2, IconMessageCircle } from "@tabler/icons-react";
 import { useConversationsData } from "@/api/get";
 import { Button } from "@/components/ui/button";
@@ -10,39 +9,59 @@ import {
 } from "@/components/ui/popover";
 import AvatarIcon from "@/components/avatar/AvatarIcon";
 import { pb } from "@/api/pocketbase";
-import SelectedConversation from "../chat/SelectedConversation";
+import { cn } from "@/lib/utils";
+import { TConversation, TMessage } from "@/types/types";
 
 const NavbarMessagesDropdown = () => {
   const userId = pb.authStore.record?.id;
   const navigate = useNavigate({ from: "" });
-  const [isOpen, setIsOpen] = useState(false);
   const { data: allConversationsData, isLoading } = useConversationsData(
-    userId as string,
-    isOpen
+    userId as string
   );
 
-  const { chat } = useSearch({ strict: false });
-
-  const handlePushQueryParams = (key: string, postId: string) => {
-    navigate({
-      search: (prev) => ({
-        ...prev,
-        [key]: postId,
-      }),
-    });
+  const getUnreadMessagesCount = (conversation: TConversation) => {
+    return conversation.expand.messages.filter(
+      (message) => message.receiver_id === userId && !message.seen
+    ).length;
   };
 
-  if (chat) return <SelectedConversation />;
+  const isSentByCurrentUserAndUnseen = (lastMessage: TMessage) => {
+    return lastMessage.sender_id === userId && !lastMessage.seen;
+  };
+
+  const getTotalUnreadConversations = () => {
+    return allConversationsData?.reduce((acc, conversation) => {
+      const lastMessage = conversation.expand.messages.slice(-1)[0];
+      return (
+        acc +
+        (getUnreadMessagesCount(conversation) > 0 &&
+        !isSentByCurrentUserAndUnseen(lastMessage)
+          ? 1
+          : 0)
+      );
+    }, 0);
+  };
 
   return (
-    <Popover
-      onOpenChange={(open) => {
-        setIsOpen(open);
-      }}
-    >
-      <PopoverTrigger asChild className="max-md:hidden">
-        <Button size="icon" variant="ghost" className="p-6 rounded-full">
+    <Popover>
+      <PopoverTrigger asChild className="relative max-md:hidden">
+        <Button
+          size="icon"
+          variant="ghost"
+          className="relative p-6 rounded-full"
+        >
           <IconMessageCircle size={26} className="!size-6" />
+          {allConversationsData?.some((conversation) => {
+            const lastMessage = conversation.expand.messages.slice(-1)[0];
+            return (
+              getUnreadMessagesCount(conversation) > 0 &&
+              !isSentByCurrentUserAndUnseen(lastMessage)
+            );
+          }) && (
+            <span className="absolute top-1 right-1 flex items-center justify-center py-0.5 px-1.5 text-xs text-white bg-red-500 rounded-full">
+              {getTotalUnreadConversations()}
+            </span>
+          )}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[450px] mt-1 p-0 max-sm:w-[90vw] mx-3">
@@ -61,37 +80,59 @@ const NavbarMessagesDropdown = () => {
               />
             </div>
           ) : (
-            allConversationsData?.map((conversation) => {
-              const notYou = conversation?.expand?.users?.filter(
-                (user) => user?.id !== userId
-              )[0];
-              const lastMessage = conversation?.expand?.last_message?.message;
+            allConversationsData
+              ?.filter((conv) => conv?.messages?.length !== 0)
+              ?.map((conversation) => {
+                const notYou = conversation?.expand?.users?.filter(
+                  (user) => user?.id !== userId
+                )[0];
+                const lastMessage =
+                  conversation?.expand?.messages?.slice(-1)[0];
+                const isUnread = conversation?.expand?.messages?.some(
+                  (message) => message?.seen === false
+                );
+                const isSentByCurrentUserAndUnseen =
+                  lastMessage?.sender_id === userId && !lastMessage?.seen;
+                return (
+                  <button
+                    type="button"
+                    onClick={() => navigate({ to: `/chat/${conversation.id}` })}
+                    key={conversation.id}
+                    className={cn(
+                      "flex items-center w-full gap-3 px-4 py-3 h-[72px] border-b hover:bg-light-gray",
+                      (isSentByCurrentUserAndUnseen || !isUnread) &&
+                        "opacity-50"
+                    )}
+                  >
+                    <AvatarIcon
+                      avatar={notYou?.avatar}
+                      name={notYou?.name}
+                      id={notYou?.id}
+                      collectionName={notYou?.collectionName}
+                      className="rounded-full size-11 min-w-11 min-h-11"
+                    />
+                    <div className="flex flex-col items-start w-full">
+                      <p className="font-bold truncate text-dark-primary">
+                        {notYou?.name}
+                      </p>
+                      <p className="text-sm truncate max-w-80">
+                        {lastMessage?.message}
+                      </p>
+                    </div>
 
-              return (
-                <button
-                  onClick={() =>
-                    handlePushQueryParams("chat", conversation?.id)
-                  }
-                  key={conversation.id}
-                  type="button"
-                  className="flex items-center w-full gap-3 px-4 py-3 h-[72px] border-b hover:bg-light-gray"
-                >
-                  <AvatarIcon
-                    avatar={notYou?.avatar}
-                    name={notYou?.name}
-                    id={notYou?.id}
-                    collectionName={notYou?.collectionName}
-                    className="rounded-full size-11 min-w-11 min-h-11"
-                  />
-                  <div className="flex flex-col items-start w-full">
-                    <p className="font-bold truncate text-dark-primary">
-                      {notYou?.name}
-                    </p>
-                    <p className="text-sm truncate max-w-80">{lastMessage}</p>
-                  </div>
-                </button>
-              );
-            })
+                    {isUnread && !isSentByCurrentUserAndUnseen && (
+                      <span className="p-1 bg-blue-500 rounded-full animate-pulse" />
+                    )}
+                  </button>
+                );
+              })
+          )}
+
+          {allConversationsData?.length === 0 && (
+            <div className="flex flex-col items-center justify-center h-24">
+              <IconMessageCircle size={30} className="mb-2 text-gray-400" />
+              <p className="text-gray-500">No messages yet</p>
+            </div>
           )}
         </div>
       </PopoverContent>

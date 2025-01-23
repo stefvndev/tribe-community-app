@@ -19,6 +19,7 @@ import { Route as AuthenticatedSettingsImport } from './routes/_authenticated/se
 import { Route as AuthenticatedCreateCommunityImport } from './routes/_authenticated/create-community'
 import { Route as CommunitypreviewIdPreviewImport } from './routes/_community_preview/$id/preview'
 import { Route as AuthenticatedProfileIdIndexImport } from './routes/_authenticated/profile/$id/index'
+import { Route as AuthenticatedChatIdIndexImport } from './routes/_authenticated/chat/$id/index'
 import { Route as AuthenticatedCommunityIdIndexImport } from './routes/_authenticated/_community/$id/index'
 import { Route as AuthenticatedCommunityIdMembersImport } from './routes/_authenticated/_community/$id/members'
 import { Route as AuthenticatedCommunityIdClassroomImport } from './routes/_authenticated/_community/$id/classroom'
@@ -75,6 +76,12 @@ const AuthenticatedProfileIdIndexRoute =
     path: '/profile/$id/',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+
+const AuthenticatedChatIdIndexRoute = AuthenticatedChatIdIndexImport.update({
+  id: '/chat/$id/',
+  path: '/chat/$id/',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 
 const AuthenticatedCommunityIdIndexRoute =
   AuthenticatedCommunityIdIndexImport.update({
@@ -199,6 +206,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCommunityIdIndexImport
       parentRoute: typeof AuthenticatedImport
     }
+    '/_authenticated/chat/$id/': {
+      id: '/_authenticated/chat/$id/'
+      path: '/chat/$id'
+      fullPath: '/chat/$id'
+      preLoaderRoute: typeof AuthenticatedChatIdIndexImport
+      parentRoute: typeof AuthenticatedImport
+    }
     '/_authenticated/profile/$id/': {
       id: '/_authenticated/profile/$id/'
       path: '/profile/$id'
@@ -219,6 +233,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedCommunityIdClassroomRoute: typeof AuthenticatedCommunityIdClassroomRoute
   AuthenticatedCommunityIdMembersRoute: typeof AuthenticatedCommunityIdMembersRoute
   AuthenticatedCommunityIdIndexRoute: typeof AuthenticatedCommunityIdIndexRoute
+  AuthenticatedChatIdIndexRoute: typeof AuthenticatedChatIdIndexRoute
   AuthenticatedProfileIdIndexRoute: typeof AuthenticatedProfileIdIndexRoute
 }
 
@@ -231,6 +246,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
     AuthenticatedCommunityIdClassroomRoute,
   AuthenticatedCommunityIdMembersRoute: AuthenticatedCommunityIdMembersRoute,
   AuthenticatedCommunityIdIndexRoute: AuthenticatedCommunityIdIndexRoute,
+  AuthenticatedChatIdIndexRoute: AuthenticatedChatIdIndexRoute,
   AuthenticatedProfileIdIndexRoute: AuthenticatedProfileIdIndexRoute,
 }
 
@@ -251,6 +267,7 @@ export interface FileRoutesByFullPath {
   '/$id/classroom': typeof AuthenticatedCommunityIdClassroomRoute
   '/$id/members': typeof AuthenticatedCommunityIdMembersRoute
   '/$id': typeof AuthenticatedCommunityIdIndexRoute
+  '/chat/$id': typeof AuthenticatedChatIdIndexRoute
   '/profile/$id': typeof AuthenticatedProfileIdIndexRoute
 }
 
@@ -267,6 +284,7 @@ export interface FileRoutesByTo {
   '/$id/classroom': typeof AuthenticatedCommunityIdClassroomRoute
   '/$id/members': typeof AuthenticatedCommunityIdMembersRoute
   '/$id': typeof AuthenticatedCommunityIdIndexRoute
+  '/chat/$id': typeof AuthenticatedChatIdIndexRoute
   '/profile/$id': typeof AuthenticatedProfileIdIndexRoute
 }
 
@@ -284,6 +302,7 @@ export interface FileRoutesById {
   '/_authenticated/_community/$id/classroom': typeof AuthenticatedCommunityIdClassroomRoute
   '/_authenticated/_community/$id/members': typeof AuthenticatedCommunityIdMembersRoute
   '/_authenticated/_community/$id/': typeof AuthenticatedCommunityIdIndexRoute
+  '/_authenticated/chat/$id/': typeof AuthenticatedChatIdIndexRoute
   '/_authenticated/profile/$id/': typeof AuthenticatedProfileIdIndexRoute
 }
 
@@ -302,6 +321,7 @@ export interface FileRouteTypes {
     | '/$id/classroom'
     | '/$id/members'
     | '/$id'
+    | '/chat/$id'
     | '/profile/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -317,6 +337,7 @@ export interface FileRouteTypes {
     | '/$id/classroom'
     | '/$id/members'
     | '/$id'
+    | '/chat/$id'
     | '/profile/$id'
   id:
     | '__root__'
@@ -332,6 +353,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_community/$id/classroom'
     | '/_authenticated/_community/$id/members'
     | '/_authenticated/_community/$id/'
+    | '/_authenticated/chat/$id/'
     | '/_authenticated/profile/$id/'
   fileRoutesById: FileRoutesById
 }
@@ -382,6 +404,7 @@ export const routeTree = rootRoute
         "/_authenticated/_community/$id/classroom",
         "/_authenticated/_community/$id/members",
         "/_authenticated/_community/$id/",
+        "/_authenticated/chat/$id/",
         "/_authenticated/profile/$id/"
       ]
     },
@@ -420,6 +443,10 @@ export const routeTree = rootRoute
     },
     "/_authenticated/_community/$id/": {
       "filePath": "_authenticated/_community/$id/index.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/chat/$id/": {
+      "filePath": "_authenticated/chat/$id/index.tsx",
       "parent": "/_authenticated"
     },
     "/_authenticated/profile/$id/": {

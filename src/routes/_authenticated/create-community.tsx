@@ -116,7 +116,7 @@ function RouteComponent() {
   };
 
   return (
-    <main className="flex items-center justify-center flex-col w-full h-full min-h-[calc(100vh-64px)] pb-6">
+    <main className="flex items-center justify-center flex-col w-full h-full min-h-[calc(100dvh-64px)] pb-6">
       <h1 className="mb-5 text-2xl font-bold text-dark-primary">
         Create your community
       </h1>

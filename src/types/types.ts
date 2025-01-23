@@ -87,14 +87,14 @@ export type TComment = {
 export type TMessage = {
   id?: string;
   sender_id: string;
-  reciever_id: string;
+  receiver_id: string;
   community_id?: string;
   message: string;
   created?: string;
   updated?: string;
-  collectionId?: string;
   collectionName?: string;
   conversation: string;
+  seen?: boolean;
   expand?: {
     sender_id: TUserData;
   };
@@ -106,9 +106,11 @@ export type TConversation = {
   collectionName: string;
   community_id: string;
   created: string;
+  seen: boolean;
+  messages: string[];
   expand: {
     users: TUserData[];
-    last_message: TMessage;
+    messages: TMessage[];
   };
   updated: string;
   users: string[];

@@ -26,6 +26,7 @@ export const Route = createFileRoute("/_authenticated/_community/$id/members")({
 function RouteComponent() {
   const { id } = useParams({ strict: false });
   const { data, isLoading } = useCommunityData(id as string);
+  const navigate = Route.useNavigate();
   const userId = pb.authStore.record?.id;
   const communityMembers = data?.expand?.members;
   const isOwner = (id: string) => data?.createdBy === id;
@@ -37,6 +38,31 @@ function RouteComponent() {
     mutateAsync: mutateAsyncRemoveUser,
     isPending: isRemovingUserPending,
   } = useMutateRemoveUserFromCommunity();
+
+  const handleChatClick = async (memberId: string) => {
+    try {
+      const existingConversations = await pb
+        .collection("conversations")
+        .getFullList({
+          filter: `users ~ "${userId}" && users ~ "${memberId}"`,
+        });
+
+      let conversationId;
+
+      if (existingConversations.length > 0) {
+        conversationId = existingConversations[0].id;
+      } else {
+        const newConversation = await pb.collection("conversations").create({
+          users: [userId, memberId],
+        });
+        conversationId = newConversation.id;
+      }
+
+      navigate({ to: `/chat/${conversationId}` });
+    } catch (err) {
+      console.error("Error initiating chat:", err);
+    }
+  };
 
   const handleRemoveUserFromCommunity = async (removedMemberId: string) => {
     try {
@@ -132,10 +158,14 @@ function RouteComponent() {
                 </div>
                 <div className="flex items-center gap-3 max-lg:mt-10 max-lg:flex-col">
                   {userId !== member?.id && (
-                    <Link className="flex items-center self-start justify-center h-10 gap-1 px-4 font-bold rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover max-lg:w-full">
+                    <button
+                      onClick={() => handleChatClick(member?.id)}
+                      type="button"
+                      className="flex items-center self-start justify-center h-10 gap-1 px-4 font-bold rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover max-lg:w-full"
+                    >
                       <IconMessage size={20} />
                       Chat
-                    </Link>
+                    </button>
                   )}
 
                   {isUserOwner && userId !== member?.id && (

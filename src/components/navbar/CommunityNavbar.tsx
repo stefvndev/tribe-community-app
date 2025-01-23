@@ -118,7 +118,7 @@ const CommunityNavbar = () => {
       {/* mobile menu */}
       <nav
         className={cn(
-          "absolute h-[calc(100vh-112px)] flex flex-col w-full bg-white top-28 transition-all ease-in-out z-50 duration-300",
+          "absolute h-[calc(100dvh-112px)] flex flex-col w-full bg-white top-28 transition-all ease-in-out z-50 duration-300",
           isMobileMenuOpen ? "left-0" : "-left-full"
         )}
       >

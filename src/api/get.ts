@@ -1,3 +1,4 @@
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   TCommunities,
   TConversation,
@@ -5,7 +6,6 @@ import {
   TPost,
   TUserData,
 } from "@/types/types";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { pb } from "./pocketbase";
 
 export const useGetUserData = (id: string) => {
@@ -98,20 +98,20 @@ export const useListOfAllComments = () => {
   });
 };
 
-export const useConversationsData = (userId: string, shouldFetch: boolean) => {
+export const useConversationsData = (userId: string) => {
   return useQuery({
-    queryKey: ["all_conversations", userId],
+    queryKey: ["all_conversations"],
     queryFn: async () => {
       const data: TConversation[] = await pb
         .collection("conversations")
         .getFullList({
           filter: `users ~ "${userId}"`,
           sort: "-created",
-          expand: "users, last_message",
+          expand: "users, messages",
         });
       return data;
     },
-    enabled: shouldFetch,
+    refetchInterval: 15000,
   });
 };
 
@@ -125,6 +125,7 @@ export const useGetConversationMessages = (conversation_id: string) => {
         filter: `conversation="${conversation_id}"`,
         expand: "sender_id",
       });
+
       return data;
     },
     enabled: !!conversation_id,
@@ -133,7 +134,10 @@ export const useGetConversationMessages = (conversation_id: string) => {
   return { ...query, queryClient };
 };
 
-export const useSelectedConversationData = (conversation_id: string) => {
+export const useSelectedConversationData = (
+  conversation_id: string,
+  userId: string
+) => {
   return useQuery({
     queryKey: ["selected_conversation", conversation_id],
     queryFn: async () => {
@@ -143,6 +147,16 @@ export const useSelectedConversationData = (conversation_id: string) => {
           sort: "-created",
           expand: "users",
         });
+
+      const isUserAuthorized = data?.users?.includes(userId);
+
+      if (!isUserAuthorized) {
+        window.location.href = "/";
+        return;
+      }
+
+      if (!isUserAuthorized) return null;
+
       return data;
     },
     enabled: !!conversation_id,
