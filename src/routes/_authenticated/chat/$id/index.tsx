@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { InvalidateQueryFilters } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   useGetConversationMessages,
   useSelectedConversationData,
@@ -150,9 +150,12 @@ function RouteComponent() {
             className="rounded-full size-11 min-w-11 min-h-11"
           />
           <div className="flex flex-col items-start">
-            <p className="font-medium text-dark-primary">
+            <Link
+              to={`/profile/${conversationUserData?.id}`}
+              className="font-medium text-dark-primary hover:underline"
+            >
               {conversationUserData?.name}
-            </p>
+            </Link>
             <p className="text-sm text-grayout">
               {conversationUserData?.description || "No description yet."}
             </p>
@@ -177,9 +180,12 @@ function RouteComponent() {
                 message?.sender_id === userId ? "bg-primary" : "bg-white"
               )}
             >
-              <p className="text-sm font-medium text-dark-primary">
+              <Link
+                to={`/profile/${message?.sender_id}`}
+                className="text-sm font-medium text-dark-primary hover:underline"
+              >
                 {message?.expand?.sender_id?.name}
-              </p>
+              </Link>
               <p>{message?.message}</p>
             </div>
           </div>
