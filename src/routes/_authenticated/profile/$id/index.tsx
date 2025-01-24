@@ -1,6 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useGetUserData } from "@/api/get";
-import { IconCalendar, IconMapPin, IconSettings } from "@tabler/icons-react";
+import {
+  IconCalendar,
+  IconMapPin,
+  IconMessage,
+  IconSettings,
+} from "@tabler/icons-react";
 import dayjs from "dayjs";
 import { pb } from "@/api/pocketbase";
 import AvatarIcon from "@/components/avatar/AvatarIcon";
@@ -21,6 +26,32 @@ function RouteComponent() {
   const { id } = Route.useParams();
   const { data: userData, isLoading: isUserDataLoading } = useGetUserData(id);
   const userId = pb.authStore.record?.id;
+  const navigate = Route.useNavigate();
+
+  const handleChatClick = async (memberId: string) => {
+    try {
+      const existingConversations = await pb
+        .collection("conversations")
+        .getFullList({
+          filter: `users ~ "${userId}" && users ~ "${memberId}"`,
+        });
+
+      let conversationId;
+
+      if (existingConversations.length > 0) {
+        conversationId = existingConversations[0].id;
+      } else {
+        const newConversation = await pb.collection("conversations").create({
+          users: [userId, memberId],
+        });
+        conversationId = newConversation.id;
+      }
+
+      navigate({ to: `/chat/${conversationId}` });
+    } catch (err) {
+      console.error("Error initiating chat:", err);
+    }
+  };
 
   return (
     <main className="flex flex-col items-center justify-center w-full py-8 mx-auto max-w-1075">
@@ -105,11 +136,21 @@ function RouteComponent() {
           {userData?.id === userId && (
             <Link
               to="/settings"
-              className="flex items-center self-end justify-center w-full h-12 gap-1 px-6 mt-4 font-bold rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover"
+              className="flex items-center self-end justify-center w-full h-12 gap-1 px-6 font-bold rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover"
             >
               <IconSettings size={22} />
               Settings
             </Link>
+          )}
+          {userData?.id !== userId && (
+            <button
+              onClick={() => handleChatClick(userData?.id as string)}
+              type="button"
+              className="flex items-center self-end justify-center w-full h-12 gap-1 px-6 font-bold rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover"
+            >
+              <IconMessage size={22} />
+              Chat
+            </button>
           )}
         </div>
       </div>
