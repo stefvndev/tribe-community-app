@@ -15,8 +15,9 @@ const ChatLayout = ({ children }: TChatLayout) => {
   const { data: allConversationsData } = useConversationsData(userId as string);
 
   return (
-    <div className="flex items-center gap-6 py-6 w-full h-[calc(100dvh-64px)] mx-auto max-w-1075">
-      <div className="z-0 flex flex-col w-full h-full bg-white border rounded-lg shadow min-w-72 max-w-72">
+    <div className="flex items-center max-md:flex-col gap-6 py-6 w-full h-[calc(100dvh-64px)] mx-auto max-w-1075">
+      <div className="flex flex-col w-full h-full overflow-y-auto bg-white border rounded-lg shadow min-w-72 max-w-72 max-md:max-w-full max-md:max-h-56 max-md:min-h-56">
+        <h2 className="p-2 font-bold border-b">Conversations</h2>
         {allConversationsData?.map((conversation) => {
           const notYou = conversation?.expand?.users?.filter(
             (user) => user?.id !== userId
@@ -65,7 +66,9 @@ const ChatLayout = ({ children }: TChatLayout) => {
         })}
       </div>
 
-      <div className="w-full h-full">{children}</div>
+      <div className="w-full h-full max-md:max-h-[800px] max-md:pb-10">
+        {children}
+      </div>
     </div>
   );
 };
