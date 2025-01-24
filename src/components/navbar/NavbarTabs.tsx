@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 
 const TABS = [
   { id: 1, name: "Community", url: "/$id" },
-  { id: 2, name: "Classroom", url: "/$id/classroom" },
+  // { id: 2, name: "Classroom", url: "/$id/classroom" },
   { id: 3, name: "Calendar", url: "/$id/calendar" },
   { id: 4, name: "Members", url: "/$id/members" },
   { id: 5, name: "About", url: "/$id/about" },
