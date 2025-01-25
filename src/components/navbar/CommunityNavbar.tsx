@@ -2,7 +2,6 @@ import { useState } from "react";
 import { pb } from "@/api/pocketbase";
 import { Link, useLocation, useParams } from "@tanstack/react-router";
 import { IconMenu2, IconX } from "@tabler/icons-react";
-import { useCommunityData } from "@/api/get";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import NavbarMessagesDropdown from "./NavbarMessagesDropdown";
@@ -14,6 +13,7 @@ import Logo from "@/assets/tribe-logo.png";
 import { mobileMenuLinks } from "./mobileMenuLinks";
 import AvatarIcon from "@/components/avatar/AvatarIcon";
 import NavPostSearch from "./NavPostSearch";
+import useCommunityStore from "@/store/CommunityStore";
 
 const getSelectedTab = (pathname: string, id: string) => {
   const basePath = pathname.split(`/${id}/`)[1];
@@ -23,7 +23,7 @@ const getSelectedTab = (pathname: string, id: string) => {
 const CommunityNavbar = () => {
   const userId = pb.authStore.record?.id;
   const { id } = useParams({ strict: false });
-  const { data, isLoading } = useCommunityData(id as string);
+  const { data, isLoading } = useCommunityStore();
   const { isLogged } = useLoggedState();
   const location = useLocation();
   const selectedTab = getSelectedTab(location.pathname, id || "");

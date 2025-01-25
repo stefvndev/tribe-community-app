@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link, useParams } from "@tanstack/react-router";
+import { useCallback, useState } from "react";
+import { Link } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { toast } from "sonner";
 import {
@@ -16,17 +16,18 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useCommunityData, useGetSelectedPost } from "@/api/get";
+import { useGetSelectedPost } from "@/api/get";
 import PostContentLoader from "@/components/loaders/PostContentLoader";
 import { getPocketBaseFileUrl } from "@/lib/getPocketBaseFileUrl";
 import FullScreenMediaPreview from "./FullScreenMediaPreview";
 import { useMutateDeletePost } from "@/api/delete";
+import usePostStore from "@/store/PostStore";
+import { useMutateUpdateLikes } from "@/api/patch";
+import useCommunityStore from "@/store/CommunityStore";
 
 type TPostContent = {
   userId?: string;
   postId?: string;
-  handleLikePost: (likes: string[], id: string) => void;
-  commentsLength: (post_id: string) => number | undefined;
   handleCloseComment: () => void;
   isMember?: boolean;
 };
@@ -34,20 +35,36 @@ type TPostContent = {
 const PostContent = ({
   postId,
   userId,
-  handleLikePost,
-  commentsLength,
   handleCloseComment,
   isMember,
 }: TPostContent) => {
-  const { id } = useParams({ from: "/_authenticated/_community/$id/" });
   const { data: selectedPostData, isLoading: isPostDataLoading } =
     useGetSelectedPost(postId as string);
   const { data: communityData, isLoading: isCommunityDataLoading } =
-    useCommunityData(id);
+    useCommunityStore();
   const isLoading = isPostDataLoading || isCommunityDataLoading;
   const [openFullScreenMedia, setOpenFullScreenMedia] = useState(false);
   const { mutateAsync: mutateAsyncDeletePost } = useMutateDeletePost();
   const isUserOwner = communityData?.createdBy === userId;
+  const { handleLikePost, commentsLength, comments } = usePostStore();
+  const { mutateAsync: mutateAsyncUpdateLikes } = useMutateUpdateLikes();
+
+  const commentsLengthCallback = useCallback(
+    (post_id: string) => commentsLength(post_id, comments),
+    [commentsLength, comments]
+  );
+
+  const handleLikePostCallback = useCallback(
+    (currentLikes: string[], postId: string) => {
+      handleLikePost(
+        currentLikes,
+        postId,
+        userId as string,
+        mutateAsyncUpdateLikes
+      );
+    },
+    [handleLikePost, userId, mutateAsyncUpdateLikes]
+  );
 
   const handleShowMedia = () => {
     setOpenFullScreenMedia(!openFullScreenMedia);
@@ -170,7 +187,7 @@ const PostContent = ({
             disabled={!isMember}
             onClick={(e) => {
               e.stopPropagation();
-              handleLikePost(
+              handleLikePostCallback(
                 selectedPostData?.likes || [],
                 selectedPostData?.id || ""
               );
@@ -199,7 +216,8 @@ const PostContent = ({
             <IconMessageCircle size={22} />
           </button>
           <p className="font-medium text-grayout">
-            {commentsLength(selectedPostData?.id as string) || "0"} comments
+            {commentsLengthCallback(selectedPostData?.id as string) || "0"}{" "}
+            comments
           </p>
         </div>
       </div>

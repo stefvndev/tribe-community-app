@@ -1,6 +1,5 @@
-import { createFileRoute, Link, useParams } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import dayjs from "dayjs";
-import { useCommunityData } from "@/api/get";
 import CommunityLayout from "@/components/layout/CommunityLayout";
 import { getInitials } from "@/lib/getInitials";
 import { getPocketBaseFileUrl } from "@/lib/getPocketBaseFileUrl";
@@ -14,6 +13,7 @@ import MembersLoader from "@/components/loaders/MembersLoader";
 import { pb } from "@/api/pocketbase";
 import { useMutateRemoveUserFromCommunity } from "@/api/patch";
 import { toast } from "sonner";
+import useCommunityStore from "@/store/CommunityStore";
 
 export const Route = createFileRoute("/_authenticated/_community/$id/members")({
   component: () => (
@@ -24,8 +24,7 @@ export const Route = createFileRoute("/_authenticated/_community/$id/members")({
 });
 
 function RouteComponent() {
-  const { id } = useParams({ strict: false });
-  const { data, isLoading } = useCommunityData(id as string);
+  const { data, isLoading } = useCommunityStore();
   const navigate = Route.useNavigate();
   const userId = pb.authStore.record?.id;
   const communityMembers = data?.expand?.members;

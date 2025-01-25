@@ -1,26 +1,18 @@
-import { TCommunities } from "@/types/types";
 import { useNavigate } from "@tanstack/react-router";
 import CommentInput from "./CommentInput";
 import PostComments from "./PostComments";
 import PostContent from "./PostContent";
+import useCommunityStore from "@/store/CommunityStore";
 
 type TSelectedPost = {
   postId?: string;
-  communityData?: TCommunities;
   userId?: string;
-  handleLikePost: (likes: string[], id: string) => void;
-  commentsLength: (post_id: string) => number | undefined;
-  isMember?: boolean;
 };
 
-const SelectedPost = ({
-  postId,
-  userId,
-  commentsLength,
-  handleLikePost,
-  isMember,
-}: TSelectedPost) => {
+const SelectedPost = ({ postId, userId }: TSelectedPost) => {
   const navigate = useNavigate({ from: "/$id" });
+  const { data: communityData } = useCommunityStore();
+  const isMember = communityData?.members?.includes(userId as string);
 
   const handleCloseComment = () => {
     navigate({
@@ -44,8 +36,6 @@ const SelectedPost = ({
         <PostContent
           postId={postId}
           userId={userId}
-          handleLikePost={handleLikePost}
-          commentsLength={commentsLength}
           handleCloseComment={handleCloseComment}
           isMember={isMember}
         />

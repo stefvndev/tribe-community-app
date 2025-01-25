@@ -11,14 +11,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Textarea from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-import { TCommunities, TUserData } from "@/types/types";
+import { TUserData } from "@/types/types";
 import EmojiButton from "@/components/buttons/EmojiButton";
+import useCommunityStore from "@/store/CommunityStore";
 
 type TCreatePost = {
   userData?: TUserData;
-  communityData?: TCommunities;
   isUserDataLoading: boolean;
-  isCommunityDataLoading: boolean;
   isMember?: boolean;
 };
 
@@ -42,18 +41,15 @@ const validationSchema = z.object({
     }),
 });
 
-const CreatePostInput = ({
-  communityData,
-  isCommunityDataLoading,
-  isUserDataLoading,
-  userData,
-  isMember,
-}: TCreatePost) => {
+const CreatePostInput = ({ isUserDataLoading, userData }: TCreatePost) => {
+  const { data: communityData, isLoading: isCommunityDataLoading } =
+    useCommunityStore();
   const [isCommentBoxActive, setIsCommentBoxActive] = useState(false);
   const {
     mutateAsync: mutateAsyncPublishPost,
     isPending: isPublishingPending,
   } = useMutatePublishPost();
+  const isMember = communityData?.members?.includes(userData?.id as string);
 
   const [postMedia, setPostMedia] = useState<File | null>(null);
 
@@ -93,9 +89,7 @@ const CreatePostInput = ({
     }
   };
 
-  const handleCommentBox = () => {
-    setIsCommentBoxActive(!isCommentBoxActive);
-  };
+  const handleCommentBox = () => setIsCommentBoxActive((prev) => !prev);
 
   const title = watch("title", "");
   const content = watch("content", "");
@@ -105,8 +99,7 @@ const CreatePostInput = ({
 
   const handleEmojiClick = (emojiData: EmojiClickData) => {
     const emoji = emojiData.emoji;
-    const currentContent = content || "";
-    setValue("content", currentContent + emoji);
+    setValue("content", content + emoji);
   };
 
   const handleMediaUpload = (e: React.ChangeEvent<HTMLInputElement>) => {

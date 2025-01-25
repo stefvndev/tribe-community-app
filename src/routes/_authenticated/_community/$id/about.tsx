@@ -1,8 +1,8 @@
-import { useCommunityData } from "@/api/get";
+import { createFileRoute } from "@tanstack/react-router";
 import AboutAndPreviewPage from "@/components/about/AboutAndPreviewPage";
 import CommunityLayout from "@/components/layout/CommunityLayout";
 import DefaultNotFoundComponent from "@/components/notFound/DefaultNotFoundComponent";
-import { createFileRoute } from "@tanstack/react-router";
+import useCommunityStore from "@/store/CommunityStore";
 
 export const Route = createFileRoute("/_authenticated/_community/$id/about")({
   component: () => (
@@ -13,8 +13,7 @@ export const Route = createFileRoute("/_authenticated/_community/$id/about")({
 });
 
 function RouteComponent() {
-  const { id } = Route.useParams();
-  const { data, isError, isLoading } = useCommunityData(id);
+  const { data, isError, isLoading } = useCommunityStore();
 
   if (isError) return <DefaultNotFoundComponent />;
 

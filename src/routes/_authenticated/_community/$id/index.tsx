@@ -1,18 +1,17 @@
 import { useEffect, useMemo } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { toast } from "sonner";
 import {
-  useCommunityData,
   useGetUserData,
   useListOfAllComments,
   useListOfAllPosts,
 } from "@/api/get";
-import { useMutateUpdateLikes } from "@/api/patch";
 import { pb } from "@/api/pocketbase";
 import AllPosts from "@/components/community-home/AllPosts";
 import CreatePostInput from "@/components/community-home/CreatePostInput";
 import CommunityLayout from "@/components/layout/CommunityLayout";
 import SelectedPost from "@/components/community-home/SelectedPost";
+import usePostStore from "@/store/PostStore";
+import { TComment } from "@/types/types";
 
 type TQueries = {
   postId?: string;
@@ -35,18 +34,14 @@ export const Route = createFileRoute("/_authenticated/_community/$id/")({
 
 function RouteComponent() {
   const { id } = Route.useParams();
-  const navigate = Route.useNavigate();
   const { postId, searchTerm } = Route.useSearch();
   const userId = pb.authStore.record?.id;
   const { data: userData, isLoading: isUserDataLoading } = useGetUserData(
     userId as string
   );
-  const { data: communityData, isLoading: isCommunityDataLoading } =
-    useCommunityData(id);
   const { data: allPostsData } = useListOfAllPosts(id);
-  const { mutateAsync: mutateAsyncUpdateLikes } = useMutateUpdateLikes();
   const { data: allCommentsData } = useListOfAllComments();
-  const isMember = communityData?.members?.includes(userId as string);
+  const { setComments } = usePostStore();
 
   const searchedPostData = useMemo(() => {
     if (!searchTerm) return allPostsData;
@@ -55,70 +50,26 @@ function RouteComponent() {
     );
   }, [searchTerm, allPostsData]);
 
-  const handleLikePost = async (currentLikes: string[], postId: string) => {
-    try {
-      const updatedLikes = (currentLikes || []).includes(userId as string)
-        ? (currentLikes || []).filter((id) => id !== userId)
-        : ([...(currentLikes || []), userId] as string[]);
-
-      await mutateAsyncUpdateLikes({ updatedLikes, postId });
-    } catch {
-      toast.error("Error!", {
-        description: "Error, please try again.",
-      });
-    }
-  };
-
-  const commentsLength = (post_id: string) =>
-    allCommentsData?.filter((item) => item?.post === post_id)?.length;
-
-  const handlePushQueryParams = (key: string, postId: string) => {
-    navigate({
-      search: (prev) => ({
-        ...prev,
-        [key]: postId,
-      }),
-    });
-  };
+  useEffect(() => {
+    setComments(allCommentsData as TComment[]);
+  }, [allCommentsData]);
 
   useEffect(() => {
-    if (postId) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-  }, [postId, navigate]);
+    document.body.style.overflow = postId ? "hidden" : "";
+  }, [postId]);
 
   return (
     <main className="w-full h-full">
-      {postId && (
-        <SelectedPost
-          userId={userId}
-          postId={postId}
-          handleLikePost={handleLikePost}
-          commentsLength={commentsLength}
-          isMember={isMember}
-        />
-      )}
+      {postId && <SelectedPost userId={userId} postId={postId} />}
 
       <CreatePostInput
         userData={userData}
-        communityData={communityData}
         isUserDataLoading={isUserDataLoading}
-        isCommunityDataLoading={isCommunityDataLoading}
-        isMember={isMember}
       />
 
       <AllPosts
-        userId={userId}
         allPostsData={searchedPostData}
-        communityData={communityData}
         isUserDataLoading={isUserDataLoading}
-        handlePushQueryParams={handlePushQueryParams}
-        handleLikePost={handleLikePost}
-        commentsLength={commentsLength}
-        searchTerm={searchTerm}
-        isMember={isMember}
       />
     </main>
   );

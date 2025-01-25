@@ -1,5 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  TComment,
   TCommunities,
   TConversation,
   TMessage,
@@ -92,7 +93,7 @@ export const useListOfAllComments = () => {
   return useQuery({
     queryKey: ["all_comments"],
     queryFn: async () => {
-      const data: TPost[] = await pb.collection("comments").getFullList();
+      const data: TComment[] = await pb.collection("comments").getFullList();
       return data;
     },
   });

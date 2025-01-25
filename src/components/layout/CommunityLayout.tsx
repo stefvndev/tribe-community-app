@@ -6,6 +6,7 @@ import DefaultNotFoundComponent from "../notFound/DefaultNotFoundComponent";
 import { cn } from "@/lib/utils";
 import { useLoggedState } from "@/lib/useLoggedState";
 import CommunityInfoBox from "./CommunityInfoBox";
+import useCommunityStore from "@/store/CommunityStore";
 
 type TLayout = {
   children: React.ReactNode;
@@ -14,6 +15,8 @@ type TLayout = {
 const CommunityLayout = ({ children }: TLayout) => {
   const { id } = useParams({ strict: false });
   const { data, isLoading, isError } = useCommunityData(id as string);
+  const { setData, setLoading, setError } = useCommunityStore();
+
   const { isLogged } = useLoggedState();
   const location = useLocation();
   const hideInfoBox = !(
@@ -24,6 +27,12 @@ const CommunityLayout = ({ children }: TLayout) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  useEffect(() => {
+    setData(data);
+    setLoading(isLoading);
+    setError(isError);
+  }, [data, isError, isLoading, setData, setError, setLoading]);
 
   if (id && isError) return <DefaultNotFoundComponent />;
 
