@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import DiscoveryFilterByPriceAndType from "./DiscoveryFilterByPriceAndType";
 import { discoveryFiltersData } from "./discoveryFiltersData";
 import { useNavigate, useSearch } from "@tanstack/react-router";
@@ -11,27 +11,34 @@ const DiscoveryFilters = () => {
   const navigate = useNavigate({ from: Route.fullPath });
   const { category } = useSearch({ from: Route.fullPath });
 
-  const filtersList = showAllFilters
-    ? discoveryFiltersData
-    : discoveryFiltersData?.filter((item) => item.id <= 6);
+  const filtersList = useMemo(
+    () =>
+      showAllFilters
+        ? discoveryFiltersData
+        : discoveryFiltersData.filter((item) => item.id <= 6),
+    [showAllFilters]
+  );
 
-  const handleShowHideFilters = () => {
-    setShowAllFIlters(!showAllFilters);
-  };
+  const handleShowHideFilters = useCallback(() => {
+    setShowAllFIlters((prev) => !prev);
+  }, []);
 
-  const handlePushQuery = (name: keyof TDiscoveryQueries, value: unknown) => {
-    navigate({
-      search: (prev) => {
-        const newSearch = { ...prev } as TDiscoveryQueries;
-        if (name === "category" && value === "all") {
-          delete newSearch[name];
-        } else {
-          newSearch[name] = value as string;
-        }
-        return newSearch;
-      },
-    });
-  };
+  const handlePushQuery = useCallback(
+    (name: keyof TDiscoveryQueries, value: unknown) => {
+      navigate({
+        search: (prev) => {
+          const newSearch = { ...prev } as TDiscoveryQueries;
+          if (name === "category" && value === "all") {
+            delete newSearch[name];
+          } else {
+            newSearch[name] = value as string;
+          }
+          return newSearch;
+        },
+      });
+    },
+    [navigate]
+  );
 
   return (
     <div className="flex items-center justify-between w-full max-sm:flex-col-reverse max-sm:gap-4">

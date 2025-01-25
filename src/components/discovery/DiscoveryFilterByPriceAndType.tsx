@@ -1,4 +1,3 @@
-import { useNavigate, useSearch } from "@tanstack/react-router";
 import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
 import {
   discoveryFiltersPrice,
@@ -9,53 +8,18 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Route } from "@/routes";
-import { useEffect, useState } from "react";
-import { ECommunityPrice, ECommunityType } from "@/enums/enums";
-import { TDiscoveryQueries } from "@/types/types";
 import { cn } from "@/lib/utils";
+import { useDiscoveryPriceAndTypeFilters } from "@/lib/useDiscoveryPriceAndTypeFilters";
 
 const DiscoveryFilterByPriceAndType = () => {
-  const navigate = useNavigate({ from: Route.fullPath });
-  const { type, price } = useSearch({ from: Route.fullPath });
-
-  const [selectedType, setSelectedType] = useState<string>(
-    type || ECommunityType.ALL
-  );
-  const [selectedPrice, setSelectedPrice] = useState<string>(
-    price || ECommunityPrice.ALL
-  );
-
-  const handleTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setSelectedType(value);
-    handlePushQuery("type", value);
-  };
-
-  const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setSelectedPrice(value);
-    handlePushQuery("price", value);
-  };
-
-  useEffect(() => {
-    setSelectedType(type || ECommunityType.ALL);
-    setSelectedPrice(price || ECommunityPrice.ALL);
-  }, [type, price]);
-
-  const handlePushQuery = (name: keyof TDiscoveryQueries, value: unknown) => {
-    navigate({
-      search: (prev) => {
-        const newSearch = { ...prev } as TDiscoveryQueries;
-        if ((name === "type" || name === "price") && value === "all") {
-          delete newSearch[name];
-        } else {
-          newSearch[name] = value as string;
-        }
-        return newSearch;
-      },
-    });
-  };
+  const {
+    type,
+    price,
+    selectedType,
+    selectedPrice,
+    handlePriceChange,
+    handleTypeChange,
+  } = useDiscoveryPriceAndTypeFilters();
 
   return (
     <Popover>
