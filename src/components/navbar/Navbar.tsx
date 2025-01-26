@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { useLoggedState } from "@/lib/useLoggedState";
+import { useLoggedState } from "@/lib/hooks/useLoggedState";
 import NavDropdown from "./NavDropdown";
 import Logo from "@/assets/tribe-logo.png";
 import NavbarUserMenuDropdown from "./NavbarUserMenuDropdown";

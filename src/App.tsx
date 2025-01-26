@@ -5,7 +5,7 @@ import "./index.css";
 import DefaultNotFoundComponent from "@/components/notFound/DefaultNotFoundComponent";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { routeTree } from "./routeTree.gen";
-import { useLoggedState } from "./lib/useLoggedState";
+import { useLoggedState } from "./lib/hooks/useLoggedState";
 
 // Create a new router instance
 const queryClient = new QueryClient();

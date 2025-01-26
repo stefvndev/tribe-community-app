@@ -3,7 +3,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { useMutateUpdateUserProfile } from "@/api/patch";
 import { Input } from "@/components/ui/input";
-import useSignOut from "@/lib/useSignOut";
+import useSignOut from "@/lib/hooks/useSignOut";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconLoader2 } from "@tabler/icons-react";

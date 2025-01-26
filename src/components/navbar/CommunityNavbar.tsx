@@ -8,7 +8,7 @@ import NavbarMessagesDropdown from "./NavbarMessagesDropdown";
 import NavbarTabs from "./NavbarTabs";
 import NavbarUserMenuDropdown from "./NavbarUserMenuDropdown";
 import NavDropdown from "./NavDropdown";
-import { useLoggedState } from "@/lib/useLoggedState";
+import { useLoggedState } from "@/lib/hooks/useLoggedState";
 import Logo from "@/assets/tribe-logo.png";
 import { mobileMenuLinks } from "./mobileMenuLinks";
 import AvatarIcon from "@/components/avatar/AvatarIcon";

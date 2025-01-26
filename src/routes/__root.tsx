@@ -1,7 +1,7 @@
 import React from "react";
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { Toaster } from "@/components/ui/sonner";
-import { AuthContext } from "@/lib/useLoggedState";
+import { AuthContext } from "@/lib/hooks/useLoggedState";
 import { QueryClient } from "@tanstack/react-query";
 
 type RouterContext = {

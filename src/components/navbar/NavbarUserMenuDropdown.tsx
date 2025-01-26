@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/popover";
 import { Link } from "@tanstack/react-router";
 import { Skeleton } from "../ui/skeleton";
-import useSignOut from "@/lib/useSignOut";
+import useSignOut from "@/lib/hooks/useSignOut";
 import { pb } from "@/api/pocketbase";
 import AvatarIcon from "../avatar/AvatarIcon";
 

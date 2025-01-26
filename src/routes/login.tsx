@@ -5,7 +5,7 @@ import { z } from "zod";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { IconLoader2 } from "@tabler/icons-react";
-import { useAuth } from "@/lib/useAuth";
+import { useAuth } from "@/lib/hooks/useAuth";
 import Logo from "@/assets/tribe-logo.png";
 
 type TSubmitData = {

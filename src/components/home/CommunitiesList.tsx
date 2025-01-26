@@ -4,7 +4,7 @@ import { Route } from "@/routes";
 import { useListOfAllCommunities } from "@/api/get";
 import CommunitiesLoader from "./CommunitiesLoader";
 import CommunityCard from "./CommunityCard";
-import { useLoggedState } from "@/lib/useLoggedState";
+import { useLoggedState } from "@/lib/hooks/useLoggedState";
 import { pb } from "@/api/pocketbase";
 
 const CommunitiesList = () => {

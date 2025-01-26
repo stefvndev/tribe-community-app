@@ -9,7 +9,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { useDiscoveryPriceAndTypeFilters } from "@/lib/useDiscoveryPriceAndTypeFilters";
+import { useDiscoveryPriceAndTypeFilters } from "@/lib/hooks/useDiscoveryPriceAndTypeFilters";
 
 const DiscoveryFilterByPriceAndType = () => {
   const {

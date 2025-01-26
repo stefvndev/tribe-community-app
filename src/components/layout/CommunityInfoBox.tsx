@@ -2,7 +2,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { useMutateJoinCommunity } from "@/api/patch";
 import { pb } from "@/api/pocketbase";
 import { getPocketBaseFileUrl } from "@/lib/getPocketBaseFileUrl";
-import { useLoggedState } from "@/lib/useLoggedState";
+import { useLoggedState } from "@/lib/hooks/useLoggedState";
 import { cn } from "@/lib/utils";
 import { Route } from "@/routes/_community_preview/$id/preview";
 import { TCommunities } from "@/types/types";

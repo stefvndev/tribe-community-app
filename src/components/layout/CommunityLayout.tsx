@@ -4,7 +4,7 @@ import { useCommunityData } from "@/api/get";
 import CommunityNavbar from "../navbar/CommunityNavbar";
 import DefaultNotFoundComponent from "../notFound/DefaultNotFoundComponent";
 import { cn } from "@/lib/utils";
-import { useLoggedState } from "@/lib/useLoggedState";
+import { useLoggedState } from "@/lib/hooks/useLoggedState";
 import CommunityInfoBox from "./CommunityInfoBox";
 import useCommunityStore from "@/store/CommunityStore";
 
