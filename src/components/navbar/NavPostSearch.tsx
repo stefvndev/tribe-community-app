@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { IconSearch, IconX } from "@tabler/icons-react";
 import { Input } from "@/components/ui/input";
+import MainButton from "@/components/buttons/MainButton";
 
 type TQueries = {
   searchTerm?: string;
@@ -50,13 +51,13 @@ const NavPostSearch = () => {
         placeholder="Search community posts"
       />
       {searchTerm && (
-        <button
+        <MainButton
           onClick={handleClearSearch}
           type="button"
-          className="absolute p-2 -translate-y-1/2 rounded-lg right-3 top-1/2 bg-yellow-primary hover:bg-yellow-primary-hover"
+          className="absolute px-2 -translate-y-1/2 rounded-lg h-9 right-3 top-1/2"
         >
           <IconX size={18} />
-        </button>
+        </MainButton>
       )}
     </form>
   );

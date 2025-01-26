@@ -1,3 +1,4 @@
+import { pb } from "@/api/pocketbase";
 import { create } from "zustand";
 
 interface UserStore {
@@ -7,7 +8,7 @@ interface UserStore {
 }
 
 const useUserStore = create<UserStore>((set) => ({
-  userId: undefined,
+  userId: pb.authStore.record?.id,
   setUserId: (userId) => set({ userId }),
   clearUserId: () => set({ userId: undefined }),
 }));

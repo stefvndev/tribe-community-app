@@ -2,11 +2,11 @@ import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { IconLoader2 } from "@tabler/icons-react";
 import { useAuth } from "@/lib/hooks/useAuth";
 import Logo from "@/assets/tribe-logo.png";
+import MainButton from "@/components/buttons/MainButton";
 
 type TSubmitData = {
   email: string;
@@ -73,20 +73,17 @@ function RouteComponent() {
             hasError={!!errors?.password?.message}
             errorMessage={errors?.password?.message}
           />
-          <button
+          <MainButton
             disabled={isLoading}
             type="submit"
-            className={cn(
-              "flex items-center justify-center w-full h-12 px-4 mt-2 font-bold uppercase rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover",
-              isLoading && "bg-light-gray text-gray-500 hover:bg-light-gray"
-            )}
+            className="w-full h-12 mt-4"
           >
             {isLoading ? (
               <IconLoader2 className="animate-spin" size={22} />
             ) : (
               "Log in"
             )}
-          </button>
+          </MainButton>
         </form>
         <p className="mt-5">
           Don't have an account?{" "}

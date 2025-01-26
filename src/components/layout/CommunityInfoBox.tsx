@@ -2,7 +2,6 @@ import { useMutateJoinCommunity } from "@/api/patch";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getPocketBaseFileUrl } from "@/lib/getPocketBaseFileUrl";
 import { useLoggedState } from "@/lib/hooks/useLoggedState";
-import { cn } from "@/lib/utils";
 import { Route } from "@/routes/_community_preview/$id/preview";
 import useUserStore from "@/store/UserStore";
 import { TCommunities } from "@/types/types";
@@ -11,6 +10,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import DeleteCommunityModal from "../modals/DeleteCommunityModal";
 import LeaveCommunityModal from "../modals/LeaveCommunityModal";
+import MainButton from "../buttons/MainButton";
 
 type TInfoBoxProps = {
   data?: TCommunities;
@@ -143,22 +143,18 @@ const CommunityInfoBox = ({ data, isLoading }: TInfoBoxProps) => {
         ) : (
           <>
             {!isMember && (
-              <button
+              <MainButton
                 onClick={() => handleJoinToCommunity(data?.id as string)}
                 disabled={isJoiningPending}
                 type="submit"
-                className={cn(
-                  "flex items-center justify-center w-full h-12 px-4 mt-4 font-bold uppercase rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover",
-                  isJoiningPending &&
-                    "bg-light-gray text-gray-500 hover:bg-light-gray"
-                )}
+                className="w-full h-12 mt-4"
               >
                 {isJoiningPending ? (
                   <IconLoader2 className="animate-spin" size={22} />
                 ) : (
                   "Join Group"
                 )}
-              </button>
+              </MainButton>
             )}
 
             {isOwner && <DeleteCommunityModal data={data} isOwner={isOwner} />}

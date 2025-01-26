@@ -14,6 +14,7 @@ import {
   IconMessage,
   IconSettings,
 } from "@tabler/icons-react";
+import MainButton from "@/components/buttons/MainButton";
 
 export const Route = createFileRoute("/_authenticated/profile/$id/")({
   component: () => (
@@ -144,14 +145,14 @@ function RouteComponent() {
             </Link>
           )}
           {userData?.id !== userId && (
-            <button
+            <MainButton
               onClick={() => handleChatClick(userData?.id as string)}
               type="button"
-              className="flex items-center self-end justify-center w-full h-12 gap-1 px-6 font-bold rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover"
+              className="w-full px-6 "
             >
               <IconMessage size={22} />
               Chat
-            </button>
+            </MainButton>
           )}
         </div>
       </div>

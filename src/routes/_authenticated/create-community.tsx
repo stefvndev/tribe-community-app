@@ -1,19 +1,19 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { toast } from "sonner";
 import Logo from "@/assets/tribe-logo.png";
 import CreateCommunityStepOne from "@/components/create-community/CreateCommunityStepOne";
 import CreateCommunityStepThree from "@/components/create-community/CreateCommunityStepThree";
 import CreateCommunityStepTwo from "@/components/create-community/CreateCommunityStepTwo";
 import AppLayout from "@/components/layout/AppLayout";
-import { cn } from "@/lib/utils";
 import { TCreateCommunitySubmitData } from "@/types/types";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
-import { z } from "zod";
 import { useMutateCreateCommunity } from "@/api/post";
 import { IconLoader2 } from "@tabler/icons-react";
 import useUserStore from "@/store/UserStore";
+import MainButton from "@/components/buttons/MainButton";
 
 const MAX_FILE_SIZE = 5242880; // 5MB
 
@@ -160,20 +160,17 @@ function RouteComponent() {
           )}
 
           {step === 3 && (
-            <button
+            <MainButton
               disabled={isPending}
               type="submit"
-              className={cn(
-                "flex items-center justify-center w-full h-12 px-4 mt-2 font-bold rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover",
-                isPending && "bg-light-gray text-gray-500 hover:bg-light-gray"
-              )}
+              className="w-full h-12 mt-2 capitalize"
             >
               {isPending ? (
                 <IconLoader2 className="animate-spin" size={22} />
               ) : (
                 "Create community"
               )}
-            </button>
+            </MainButton>
           )}
         </form>
       </div>

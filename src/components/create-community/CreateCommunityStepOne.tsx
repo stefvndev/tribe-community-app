@@ -1,8 +1,8 @@
-import { cn } from "@/lib/utils";
 import { Input } from "../ui/input";
 import Textarea from "../ui/textarea";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { TCreateCommunitySubmitData } from "@/types/types";
+import MainButton from "../buttons/MainButton";
 
 type TStepOneProps = {
   register: UseFormRegister<TCreateCommunitySubmitData>;
@@ -38,15 +38,13 @@ const CreateCommunityStepOne = ({
         errorMessage={errors?.description?.message}
       />
 
-      <button
-        onClick={handleFormSteps}
+      <MainButton
+        className="w-full h-12 mt-2 capitalize"
         type="button"
-        className={cn(
-          "flex items-center justify-center w-full h-12 px-4 mt-2 font-bold rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover"
-        )}
+        onClick={handleFormSteps}
       >
         Next step
-      </button>
+      </MainButton>
     </div>
   );
 };

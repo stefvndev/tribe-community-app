@@ -1,5 +1,5 @@
-import { TCreateCommunitySubmitData } from "@/types/types";
 import { Control, Controller, FieldErrors } from "react-hook-form";
+import { TCreateCommunitySubmitData } from "@/types/types";
 import {
   Select,
   SelectContent,
@@ -12,7 +12,7 @@ import {
   communityPrices,
   communityTypes,
 } from "@/components/create-community/fieldsData";
-import { cn } from "@/lib/utils";
+import MainButton from "@/components/buttons/MainButton";
 
 type TStepTwoProps = {
   control: Control<TCreateCommunitySubmitData>;
@@ -98,15 +98,13 @@ const CreateCommunityStepTwo = ({
           </Select>
         )}
       />
-      <button
-        onClick={handleFormSteps}
+      <MainButton
+        className="w-full h-12 mt-2 capitalize"
         type="button"
-        className={cn(
-          "flex items-center justify-center w-full h-12 px-4 mt-2 font-bold rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover"
-        )}
+        onClick={handleFormSteps}
       >
         Next step
-      </button>
+      </MainButton>
     </div>
   );
 };

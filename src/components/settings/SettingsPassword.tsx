@@ -4,9 +4,9 @@ import { z } from "zod";
 import { useMutateUpdateUserProfile } from "@/api/patch";
 import { Input } from "@/components/ui/input";
 import useSignOut from "@/lib/hooks/useSignOut";
-import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconLoader2 } from "@tabler/icons-react";
+import MainButton from "../buttons/MainButton";
 
 type TSubmitData = {
   oldPassword: string;
@@ -133,19 +133,17 @@ const SettingsPassword = ({ userId }: TSettingsPassword) => {
           />
         </label>
       </div>
-      <button
+      <MainButton
         disabled={isPending}
         type="submit"
-        className={cn(
-          "flex items-center mt-8 w-full justify-center h-12 px-6 font-bold uppercase rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover self-end disabled:bg-light-gray disabled:text-gray-500 disabled:hover:bg-light-gray"
-        )}
+        className="self-end w-full h-12 px-6 mt-8"
       >
         {isPending ? (
           <IconLoader2 size={22} className="animate-spin" />
         ) : (
           "Update profile"
         )}
-      </button>
+      </MainButton>
     </form>
   );
 };

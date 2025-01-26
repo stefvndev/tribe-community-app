@@ -52,6 +52,7 @@ function RouteComponent() {
 
   useEffect(() => {
     setComments(allCommentsData as TComment[]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allCommentsData]);
 
   useEffect(() => {

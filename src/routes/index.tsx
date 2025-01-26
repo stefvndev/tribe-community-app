@@ -2,8 +2,8 @@ import {
   createFileRoute,
   useNavigate,
   useSearch,
+  Link,
 } from "@tanstack/react-router";
-import { Link } from "@tanstack/react-router";
 import { Input } from "@/components/ui/input";
 import { IconSearch } from "@tabler/icons-react";
 import DiscoveryFilters from "@/components/discovery/DiscoveryFilters";

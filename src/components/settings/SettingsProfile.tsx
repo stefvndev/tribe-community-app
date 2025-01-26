@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { IconLoader2 } from "@tabler/icons-react";
 import { CountryDropdown } from "react-country-region-selector";
 import { useMutateUpdateUserProfile } from "@/api/patch";
-import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import AvatarIcon from "@/components/avatar/AvatarIcon";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
@@ -12,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import Textarea from "@/components/ui/textarea";
 import { z } from "zod";
 import { TUserData } from "@/types/types";
+import MainButton from "../buttons/MainButton";
 
 type TSubmitData = {
   avatar?: File | null;
@@ -156,19 +156,17 @@ const SettingsProfile = ({ userData, userId }: TSettingsProfile) => {
             />
           </label>
         </div>
-        <button
+        <MainButton
           disabled={nameField === "" || isPending}
           type="submit"
-          className={cn(
-            "flex items-center w-[176px] max-md:w-full justify-center h-12 px-6 font-bold uppercase rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover self-end disabled:bg-light-gray disabled:text-gray-500 disabled:hover:bg-light-gray"
-          )}
+          className="self-end h-12 px-6 w-[177px] max-md:w-full "
         >
           {isPending ? (
             <IconLoader2 size={22} className="animate-spin" />
           ) : (
             "Update profile"
           )}
-        </button>
+        </MainButton>
       </form>
     </div>
   );

@@ -1,13 +1,13 @@
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { IconLoader2, IconSend } from "@tabler/icons-react";
 import AvatarIcon from "@/components/avatar/AvatarIcon";
 import { Input } from "@/components/ui/input";
 import { useGetUserData } from "@/api/get";
 import { useMutateCommentOnPost } from "@/api/post";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
-import { cn } from "@/lib/utils";
+import MainButton from "@/components/buttons/MainButton";
 
 type TCommentInput = {
   userId?: string;
@@ -75,14 +75,11 @@ const CommentInput = ({ userId, postId }: TCommentInput) => {
           className="w-full border rounded-xl border-grayout h-11 bg-primary"
           placeholder="Your comment..."
         />
-        <button
+        <MainButton
+          type="submit"
           disabled={
             commentField === "" || isPending || !!errors?.content?.message
           }
-          className={cn(
-            "flex items-center self-start justify-center gap-1 px-4 font-bold uppercase border rounded-lg h-11 bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover disabled:bg-light-gray w-32"
-          )}
-          type="submit"
         >
           {isPending ? (
             <IconLoader2 className="animate-spin" size={20} />
@@ -92,7 +89,7 @@ const CommentInput = ({ userId, postId }: TCommentInput) => {
               comment
             </span>
           )}
-        </button>
+        </MainButton>
       </form>
     </div>
   );

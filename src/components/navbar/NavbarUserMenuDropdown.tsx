@@ -28,6 +28,7 @@ const NavbarUserMenuDropdown = () => {
   const { userId } = useUserStore();
   const { data, isLoading } = useGetUserData(userId as string);
   const { signOut } = useSignOut();
+  console.log(userId);
 
   const mainLinks = [
     {

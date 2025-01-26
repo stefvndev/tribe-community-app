@@ -15,6 +15,7 @@ import {
   IconMapPin,
   IconMessage,
 } from "@tabler/icons-react";
+import MainButton from "@/components/buttons/MainButton";
 
 export const Route = createFileRoute("/_authenticated/_community/$id/members")({
   component: () => (
@@ -158,14 +159,14 @@ function RouteComponent() {
                 </div>
                 <div className="flex items-center gap-3 max-lg:mt-10 max-lg:flex-col">
                   {userId !== member?.id && (
-                    <button
+                    <MainButton
                       onClick={() => handleChatClick(member?.id)}
                       type="button"
-                      className="flex items-center self-start justify-center h-10 gap-1 px-4 font-bold rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover max-lg:w-full"
+                      className="self-start w-full h-10 capitalize max-lg:w-full"
                     >
                       <IconMessage size={20} />
                       Chat
-                    </button>
+                    </MainButton>
                   )}
 
                   {isUserOwner && userId !== member?.id && (

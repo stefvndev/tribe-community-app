@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { IconLoader2, IconPhotoPlus, IconX } from "@tabler/icons-react";
 import { EmojiClickData } from "emoji-picker-react";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutatePublishPost } from "@/api/post";
 import AvatarIcon from "@/components/avatar/AvatarIcon";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Textarea from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
 import { TUserData } from "@/types/types";
 import EmojiButton from "@/components/buttons/EmojiButton";
 import useCommunityStore from "@/store/CommunityStore";
+import MainButton from "@/components/buttons/MainButton";
 
 type TCreatePost = {
   userData?: TUserData;
@@ -236,21 +236,17 @@ const CreatePostInput = ({ isUserDataLoading, userData }: TCreatePost) => {
                   >
                     Cancel
                   </button>
-                  <button
-                    disabled={isSubmitDisabled || isPublishingPending}
+                  <MainButton
                     type="submit"
-                    className={cn(
-                      "flex items-center justify-center h-12 px-7 font-bold uppercase rounded-md bg-yellow-primary text-dark-primary hover:bg-yellow-primary-hover",
-                      (isSubmitDisabled || isPublishingPending) &&
-                        "bg-light-gray text-gray-500 hover:bg-light-gray"
-                    )}
+                    disabled={isSubmitDisabled || isPublishingPending}
+                    className="h-12 px-7"
                   >
                     {isPublishingPending ? (
                       <IconLoader2 className="animate-spin" size={18} />
                     ) : (
                       "post"
                     )}
-                  </button>
+                  </MainButton>
                 </div>
               </div>
             </div>
