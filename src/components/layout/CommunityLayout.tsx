@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils";
 import { useLoggedState } from "@/lib/hooks/useLoggedState";
 import CommunityInfoBox from "./CommunityInfoBox";
 import useCommunityStore from "@/store/CommunityStore";
+import useUserStore from "@/store/UserStore";
+import { pb } from "@/api/pocketbase";
 
 type TLayout = {
   children: React.ReactNode;
@@ -16,6 +18,8 @@ const CommunityLayout = ({ children }: TLayout) => {
   const { id } = useParams({ strict: false });
   const { data, isLoading, isError } = useCommunityData(id as string);
   const { setData, setLoading, setError } = useCommunityStore();
+  const { setUserId } = useUserStore();
+  const userId = pb.authStore.record?.id;
 
   const { isLogged } = useLoggedState();
   const location = useLocation();
@@ -33,6 +37,10 @@ const CommunityLayout = ({ children }: TLayout) => {
     setLoading(isLoading);
     setError(isError);
   }, [data, isError, isLoading, setData, setError, setLoading]);
+
+  useEffect(() => {
+    setUserId(userId);
+  }, [userId]);
 
   if (id && isError) return <DefaultNotFoundComponent />;
 
