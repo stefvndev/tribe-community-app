@@ -1,18 +1,18 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { createFileRoute } from "@tanstack/react-router";
 import { InvalidateQueryFilters } from "@tanstack/react-query";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { EmojiClickData } from "emoji-picker-react";
 import {
   useGetConversationMessages,
   useSelectedConversationData,
 } from "@/api/get";
 import { pb } from "@/api/pocketbase";
-import AvatarIcon from "@/components/avatar/AvatarIcon";
 import EmojiButton from "@/components/buttons/EmojiButton";
+import ChatHeader from "@/components/chat/ChatHeader";
+import ChatMessages from "@/components/chat/ChatMessages";
 import AppLayout from "@/components/layout/AppLayout";
 import ChatLayout from "@/components/layout/ChatLayout";
-import { cn } from "@/lib/utils";
 import useUserStore from "@/store/UserStore";
-import { EmojiClickData } from "emoji-picker-react";
 
 export const Route = createFileRoute("/_authenticated/chat/$id/")({
   component: () => (
@@ -36,7 +36,6 @@ function RouteComponent() {
     queryClient,
     refetch,
   } = useGetConversationMessages(id as string);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
   const [messageInput, setMessageInput] = useState("");
 
   const conversationUserData = useMemo(() => {
@@ -133,66 +132,11 @@ function RouteComponent() {
     markMessagesAsRead();
   }, [id, messagesData, queryClient, refetch, userId]);
 
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView();
-    }
-  }, [messagesData]);
-
   return (
     <main className="relative flex flex-col h-full overflow-hidden bg-white border rounded-lg shadow">
-      <div className="relative flex items-center justify-between w-full gap-2 p-4 border-b">
-        <div className="flex items-center gap-4">
-          <AvatarIcon
-            avatar={conversationUserData?.avatar as string}
-            name={conversationUserData?.name as string}
-            id={conversationUserData?.id as string}
-            collectionName={conversationUserData?.collectionName as string}
-            className="rounded-full size-11 min-w-11 min-h-11"
-          />
-          <div className="flex flex-col items-start">
-            <Link
-              to={`/profile/${conversationUserData?.id}`}
-              className="font-medium text-dark-primary hover:underline"
-            >
-              {conversationUserData?.name}
-            </Link>
-            <p className="text-sm text-grayout">
-              {conversationUserData?.description || "No description yet."}
-            </p>
-          </div>
-        </div>
-      </div>
-      <div className="flex flex-col w-full h-full gap-4 px-4 pt-6 overflow-y-auto max-h-[80%]">
-        {messagesData?.map((message) => (
-          <div key={message.id} className="flex items-start gap-3">
-            <AvatarIcon
-              avatar={message?.expand?.sender_id?.avatar as string}
-              name={message?.expand?.sender_id?.name as string}
-              id={message?.expand?.sender_id?.id as string}
-              collectionName={
-                message?.expand?.sender_id?.collectionName as string
-              }
-              className="rounded-full size-11 min-w-11 min-h-11"
-            />
-            <div
-              className={cn(
-                "flex flex-col items-start gap-1 border w-full rounded-xl px-3 py-2",
-                message?.sender_id === userId ? "bg-primary" : "bg-white"
-              )}
-            >
-              <Link
-                to={`/profile/${message?.sender_id}`}
-                className="text-sm font-medium text-dark-primary hover:underline"
-              >
-                {message?.expand?.sender_id?.name}
-              </Link>
-              <p>{message?.message}</p>
-            </div>
-          </div>
-        ))}
-        <div ref={messagesEndRef} />
-      </div>
+      <ChatHeader conversationUserData={conversationUserData} />
+
+      <ChatMessages messagesData={messagesData} />
 
       <div className="bottom-0 flex items-center self-end w-full h-20 px-2 py-1 bg-white border-t">
         <input
