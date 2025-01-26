@@ -11,6 +11,7 @@
 - React Hook Form
 - Zod
 - Vercel
+- Zustand
 
 ## Back-end
 - Pocketbase
