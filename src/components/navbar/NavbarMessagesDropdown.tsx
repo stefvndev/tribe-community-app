@@ -1,19 +1,19 @@
-import { useNavigate } from "@tanstack/react-router";
-import { IconLoader2, IconMessageCircle } from "@tabler/icons-react";
 import { useConversationsData } from "@/api/get";
+import AvatarIcon from "@/components/avatar/AvatarIcon";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import AvatarIcon from "@/components/avatar/AvatarIcon";
-import { pb } from "@/api/pocketbase";
 import { cn } from "@/lib/utils";
+import useUserStore from "@/store/UserStore";
 import { TConversation, TMessage } from "@/types/types";
+import { IconLoader2, IconMessageCircle } from "@tabler/icons-react";
+import { useNavigate } from "@tanstack/react-router";
 
 const NavbarMessagesDropdown = () => {
-  const userId = pb.authStore.record?.id;
+  const { userId } = useUserStore();
   const navigate = useNavigate({ from: "" });
   const { data: allConversationsData, isLoading } = useConversationsData(
     userId as string

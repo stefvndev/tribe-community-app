@@ -1,11 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useGetUserData } from "@/api/get";
-import { pb } from "@/api/pocketbase";
 import AppLayout from "@/components/layout/AppLayout";
+import SettingsCommunities from "@/components/settings/SettingsCommunities";
+import SettingsPassword from "@/components/settings/SettingsPassword";
 import SettingsProfile from "@/components/settings/SettingsProfile";
 import { cn } from "@/lib/utils";
-import SettingsPassword from "@/components/settings/SettingsPassword";
-import SettingsCommunities from "@/components/settings/SettingsCommunities";
+import useUserStore from "@/store/UserStore";
+import { createFileRoute } from "@tanstack/react-router";
 
 type TQueries = {
   page?: string;
@@ -42,7 +42,7 @@ const settingsList = [
 function RouteComponent() {
   const navigate = Route.useNavigate();
   const { page } = Route.useSearch();
-  const userId = pb.authStore.record?.id;
+  const { userId } = useUserStore();
   const { data: userData } = useGetUserData(userId as string);
 
   const handleOpenSetting = (name: string) => {

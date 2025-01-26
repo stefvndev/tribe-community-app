@@ -12,17 +12,17 @@ import {
   IconThumbUp,
   IconThumbUpFilled,
 } from "@tabler/icons-react";
-import { pb } from "@/api/pocketbase";
 import useCommunityStore from "@/store/CommunityStore";
 import usePostStore from "@/store/PostStore";
 import { useMutateUpdateLikes } from "@/api/patch";
+import useUserStore from "@/store/UserStore";
 
 type TPostCard = {
   post: TPost;
 };
 
 const PostCard = ({ post }: TPostCard) => {
-  const userId = pb.authStore.record?.id;
+  const { userId } = useUserStore();
   const navigate = useNavigate({ from: "/$id" });
   const { searchTerm } = useSearch({ strict: false });
   const { data: communityData } = useCommunityStore();

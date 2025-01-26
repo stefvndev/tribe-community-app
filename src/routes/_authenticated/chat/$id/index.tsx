@@ -11,6 +11,7 @@ import EmojiButton from "@/components/buttons/EmojiButton";
 import AppLayout from "@/components/layout/AppLayout";
 import ChatLayout from "@/components/layout/ChatLayout";
 import { cn } from "@/lib/utils";
+import useUserStore from "@/store/UserStore";
 import { EmojiClickData } from "emoji-picker-react";
 
 export const Route = createFileRoute("/_authenticated/chat/$id/")({
@@ -25,7 +26,7 @@ export const Route = createFileRoute("/_authenticated/chat/$id/")({
 
 function RouteComponent() {
   const { id } = Route.useParams();
-  const userId = pb.authStore.record?.id;
+  const { userId } = useUserStore();
   const { data: conversationData } = useSelectedConversationData(
     id as string,
     userId as string

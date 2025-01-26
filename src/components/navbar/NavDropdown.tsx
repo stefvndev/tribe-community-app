@@ -1,21 +1,21 @@
-import { ReactNode, useMemo, useState } from "react";
-import { Link, useParams } from "@tanstack/react-router";
+import { useListOfAllCommunities } from "@/api/get";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import useUserStore from "@/store/UserStore";
 import {
   IconBrandSafari,
   IconPlus,
   IconSearch,
   IconSelector,
 } from "@tabler/icons-react";
-import { Input } from "@/components/ui/input";
-import { useListOfAllCommunities } from "@/api/get";
-import { pb } from "@/api/pocketbase";
-import { cn } from "@/lib/utils";
+import { Link, useParams } from "@tanstack/react-router";
+import { ReactNode, useMemo, useState } from "react";
 import AvatarIcon from "../avatar/AvatarIcon";
 
 type TLinks = {
@@ -44,7 +44,7 @@ const links: TLinks[] = [
 
 const NavDropdown = () => {
   const { id: communityId } = useParams({ strict: false });
-  const userId = pb.authStore.record?.id;
+  const { userId } = useUserStore();
   const { data } = useListOfAllCommunities();
   const usersCommunities = data?.filter((item) =>
     item?.members?.includes(userId as string)

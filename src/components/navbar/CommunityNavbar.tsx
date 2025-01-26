@@ -1,19 +1,19 @@
 import { useState } from "react";
-import { pb } from "@/api/pocketbase";
 import { Link, useLocation, useParams } from "@tanstack/react-router";
-import { IconMenu2, IconX } from "@tabler/icons-react";
-import { cn } from "@/lib/utils";
+import useCommunityStore from "@/store/CommunityStore";
+import useUserStore from "@/store/UserStore";
+import { useLoggedState } from "@/lib/hooks/useLoggedState";
+import Logo from "@/assets/tribe-logo.png";
+import AvatarIcon from "@/components/avatar/AvatarIcon";
 import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
+import { IconMenu2, IconX } from "@tabler/icons-react";
+import { mobileMenuLinks } from "./mobileMenuLinks";
 import NavbarMessagesDropdown from "./NavbarMessagesDropdown";
 import NavbarTabs from "./NavbarTabs";
 import NavbarUserMenuDropdown from "./NavbarUserMenuDropdown";
 import NavDropdown from "./NavDropdown";
-import { useLoggedState } from "@/lib/hooks/useLoggedState";
-import Logo from "@/assets/tribe-logo.png";
-import { mobileMenuLinks } from "./mobileMenuLinks";
-import AvatarIcon from "@/components/avatar/AvatarIcon";
 import NavPostSearch from "./NavPostSearch";
-import useCommunityStore from "@/store/CommunityStore";
 
 const getSelectedTab = (pathname: string, id: string) => {
   const basePath = pathname.split(`/${id}/`)[1];
@@ -21,7 +21,7 @@ const getSelectedTab = (pathname: string, id: string) => {
 };
 
 const CommunityNavbar = () => {
-  const userId = pb.authStore.record?.id;
+  const { userId } = useUserStore();
   const { id } = useParams({ strict: false });
   const { data, isLoading } = useCommunityStore();
   const { isLogged } = useLoggedState();

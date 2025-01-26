@@ -5,11 +5,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Link } from "@tanstack/react-router";
-import { Skeleton } from "../ui/skeleton";
 import useSignOut from "@/lib/hooks/useSignOut";
-import { pb } from "@/api/pocketbase";
+import useUserStore from "@/store/UserStore";
+import { Link } from "@tanstack/react-router";
 import AvatarIcon from "../avatar/AvatarIcon";
+import { Skeleton } from "../ui/skeleton";
 
 const secondaryLinks = [
   {
@@ -25,7 +25,7 @@ const secondaryLinks = [
 ];
 
 const NavbarUserMenuDropdown = () => {
-  const userId = pb.authStore.record?.id;
+  const { userId } = useUserStore();
   const { data, isLoading } = useGetUserData(userId as string);
   const { signOut } = useSignOut();
 

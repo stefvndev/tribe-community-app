@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { pb } from "@/api/pocketbase";
 import Logo from "@/assets/tribe-logo.png";
 import CreateCommunityStepOne from "@/components/create-community/CreateCommunityStepOne";
 import CreateCommunityStepThree from "@/components/create-community/CreateCommunityStepThree";
@@ -14,6 +13,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { useMutateCreateCommunity } from "@/api/post";
 import { IconLoader2 } from "@tabler/icons-react";
+import useUserStore from "@/store/UserStore";
 
 const MAX_FILE_SIZE = 5242880; // 5MB
 
@@ -49,7 +49,7 @@ function RouteComponent() {
   const [step, setStep] = useState(1);
   const [banner, setBanner] = useState<File | null>(null);
   const [avatar, setAvatar] = useState<File | null>(null);
-  const userId = pb?.authStore?.record?.id;
+  const { userId } = useUserStore();
   const navigate = useNavigate({ from: Route.fullPath });
   const { mutateAsync: mutateAsyncCreateCommunity, isPending } =
     useMutateCreateCommunity();

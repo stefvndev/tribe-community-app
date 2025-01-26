@@ -1,8 +1,8 @@
 import { useNavigate, useParams } from "@tanstack/react-router";
 import { useConversationsData } from "@/api/get";
-import { pb } from "@/api/pocketbase";
 import AvatarIcon from "@/components/avatar/AvatarIcon";
 import { cn } from "@/lib/utils";
+import useUserStore from "@/store/UserStore";
 
 type TChatLayout = {
   children: React.ReactNode;
@@ -10,7 +10,7 @@ type TChatLayout = {
 
 const ChatLayout = ({ children }: TChatLayout) => {
   const { id } = useParams({ from: "/_authenticated/chat/$id/" });
-  const userId = pb.authStore.record?.id;
+  const { userId } = useUserStore();
   const navigate = useNavigate({ from: "" });
   const { data: allConversationsData } = useConversationsData(userId as string);
 

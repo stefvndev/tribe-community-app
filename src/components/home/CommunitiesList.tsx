@@ -5,11 +5,11 @@ import { useListOfAllCommunities } from "@/api/get";
 import CommunitiesLoader from "./CommunitiesLoader";
 import CommunityCard from "./CommunityCard";
 import { useLoggedState } from "@/lib/hooks/useLoggedState";
-import { pb } from "@/api/pocketbase";
+import useUserStore from "@/store/UserStore";
 
 const CommunitiesList = () => {
   const { isLogged } = useLoggedState();
-  const userId = pb.authStore.record?.id;
+  const { userId } = useUserStore();
   const { data, isLoading, isError } = useListOfAllCommunities();
   const { category, type, price, search } = useSearch({ from: Route.fullPath });
 

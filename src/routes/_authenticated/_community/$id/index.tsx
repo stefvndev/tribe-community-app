@@ -1,17 +1,17 @@
-import { useEffect, useMemo } from "react";
-import { createFileRoute } from "@tanstack/react-router";
 import {
   useGetUserData,
   useListOfAllComments,
   useListOfAllPosts,
 } from "@/api/get";
-import { pb } from "@/api/pocketbase";
 import AllPosts from "@/components/community-home/AllPosts";
 import CreatePostInput from "@/components/community-home/CreatePostInput";
-import CommunityLayout from "@/components/layout/CommunityLayout";
 import SelectedPost from "@/components/community-home/SelectedPost";
+import CommunityLayout from "@/components/layout/CommunityLayout";
 import usePostStore from "@/store/PostStore";
+import useUserStore from "@/store/UserStore";
 import { TComment } from "@/types/types";
+import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useMemo } from "react";
 
 type TQueries = {
   postId?: string;
@@ -35,7 +35,7 @@ export const Route = createFileRoute("/_authenticated/_community/$id/")({
 function RouteComponent() {
   const { id } = Route.useParams();
   const { postId, searchTerm } = Route.useSearch();
-  const userId = pb.authStore.record?.id;
+  const { userId } = useUserStore();
   const { data: userData, isLoading: isUserDataLoading } = useGetUserData(
     userId as string
   );

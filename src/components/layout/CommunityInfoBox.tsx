@@ -1,15 +1,15 @@
-import { Link, useNavigate } from "@tanstack/react-router";
 import { useMutateJoinCommunity } from "@/api/patch";
-import { pb } from "@/api/pocketbase";
+import { Skeleton } from "@/components/ui/skeleton";
 import { getPocketBaseFileUrl } from "@/lib/getPocketBaseFileUrl";
 import { useLoggedState } from "@/lib/hooks/useLoggedState";
 import { cn } from "@/lib/utils";
 import { Route } from "@/routes/_community_preview/$id/preview";
+import useUserStore from "@/store/UserStore";
 import { TCommunities } from "@/types/types";
 import { IconLink, IconLoader2 } from "@tabler/icons-react";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import DeleteCommunityModal from "../modals/DeleteCommunityModal";
-import { Skeleton } from "@/components/ui/skeleton";
 import LeaveCommunityModal from "../modals/LeaveCommunityModal";
 
 type TInfoBoxProps = {
@@ -19,7 +19,7 @@ type TInfoBoxProps = {
 
 const CommunityInfoBox = ({ data, isLoading }: TInfoBoxProps) => {
   const { isLogged } = useLoggedState();
-  const userId = pb.authStore.record?.id;
+  const { userId } = useUserStore();
   const navigate = useNavigate({ from: Route.fullPath });
   const isMember = data?.members?.includes(userId as string);
   const isOwner = data?.createdBy === userId;

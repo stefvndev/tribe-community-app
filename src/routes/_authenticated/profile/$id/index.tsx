@@ -1,18 +1,19 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useGetUserData } from "@/api/get";
-import {
-  IconCalendar,
-  IconMapPin,
-  IconMessage,
-  IconSettings,
-} from "@tabler/icons-react";
 import dayjs from "dayjs";
+import useUserStore from "@/store/UserStore";
+import { useGetUserData } from "@/api/get";
 import { pb } from "@/api/pocketbase";
 import AvatarIcon from "@/components/avatar/AvatarIcon";
 import BackButton from "@/components/buttons/BackButton";
 import AppLayout from "@/components/layout/AppLayout";
 import ProfileCommunitiesList from "@/components/profile-community-list/ProfileCommunitiesList";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  IconCalendar,
+  IconMapPin,
+  IconMessage,
+  IconSettings,
+} from "@tabler/icons-react";
 
 export const Route = createFileRoute("/_authenticated/profile/$id/")({
   component: () => (
@@ -25,7 +26,7 @@ export const Route = createFileRoute("/_authenticated/profile/$id/")({
 function RouteComponent() {
   const { id } = Route.useParams();
   const { data: userData, isLoading: isUserDataLoading } = useGetUserData(id);
-  const userId = pb.authStore.record?.id;
+  const { userId } = useUserStore();
   const navigate = Route.useNavigate();
 
   const handleChatClick = async (memberId: string) => {
