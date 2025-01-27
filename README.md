@@ -9,7 +9,8 @@ The inspiration for this app came from Skool.com.
 
 ## Tech Stack
 
-**Front-end:** React,
+**Front-end:** 
+React,
 TypeScript,
 Tailwind,
 Tanstack Query,
@@ -20,6 +21,7 @@ React Hook Form,
 Zod,
 Vercel,
 Zustand,
+Cypress
 
 **Back-end:** Pocketbase
 
