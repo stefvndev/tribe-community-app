@@ -17,6 +17,7 @@ const MainButton = ({
 }: MainButtonProps) => {
   return (
     <button
+      data-testid="submit-button"
       onClick={onClick}
       type={type}
       disabled={disabled}

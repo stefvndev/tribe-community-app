@@ -54,10 +54,12 @@ function RouteComponent() {
           <img src={Logo} alt="Tribe" width={150} />
         </Link>
         <form
+          data-testid="login-form"
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col items-center w-full h-full gap-6"
         >
           <Input
+            data-testid="email-input"
             {...register("email")}
             type="email"
             placeholder="Email"
@@ -66,6 +68,7 @@ function RouteComponent() {
             errorMessage={errors?.email?.message}
           />
           <Input
+            data-testid="password-input"
             {...register("password")}
             type="password"
             placeholder="Password"
