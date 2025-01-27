@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/4c25f13e-345e-47a7-aa99-3542944ae408)
+<img src="https://github.com/user-attachments/assets/afdf54bc-f6e8-461f-9129-a6fb77758c04" alt="logo" width="350" />
 
 
 # Tribe - Discover & Create communities!
