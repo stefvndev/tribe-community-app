@@ -71,6 +71,7 @@ const CommentInput = ({ userId, postId }: TCommentInput) => {
           className="rounded-full min-w-11 min-h-11 size-11"
         />
         <Input
+          data-testid="comment-input"
           {...register("content")}
           className="w-full border rounded-xl border-grayout h-11 bg-primary"
           placeholder="Your comment..."

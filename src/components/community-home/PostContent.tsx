@@ -130,7 +130,10 @@ const PostContent = ({
           </div>
         </div>
         <Popover>
-          <PopoverTrigger className="p-2 rounded-full hover:bg-light-gray/50">
+          <PopoverTrigger
+            data-testid="popover-trigger-button"
+            className="p-2 rounded-full hover:bg-light-gray/50"
+          >
             <IconDots size={22} />
           </PopoverTrigger>
           <PopoverContent className="px-0 max-w-52" align="end">
@@ -151,6 +154,7 @@ const PostContent = ({
               </button>
               {(selectedPostData?.user === userId || isUserOwner) && (
                 <button
+                  data-testid="delete-post-button"
                   onClick={handleDeletePost}
                   type="button"
                   className="flex items-center transition-all ease-in-out hover:text-white text-dark-primary hover:bg-red-600"

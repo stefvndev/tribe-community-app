@@ -55,7 +55,10 @@ const CommunityNavbar = () => {
                     id={data?.id || ""}
                     collectionName={data?.collectionName || ""}
                   />
-                  <h1 className="w-full text-lg font-medium truncate text-dark-primary">
+                  <h1
+                    data-testid="community-name"
+                    className="w-full text-lg font-medium truncate text-dark-primary"
+                  >
                     {data?.name}
                   </h1>
                 </>

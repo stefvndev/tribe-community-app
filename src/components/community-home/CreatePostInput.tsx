@@ -175,12 +175,14 @@ const CreatePostInput = ({ isUserDataLoading, userData }: TCreatePost) => {
                 </div>
                 <div className="flex flex-col gap-1">
                   <Input
+                    data-testid="post-title-input"
                     {...register("title")}
                     type="text"
                     placeholder="Title"
                     className="pl-0 bg-white shadow-none placeholder:text-grayout h-[35px] font-bold !text-2xl"
                   />
                   <Textarea
+                    data-testid="post-description-input"
                     {...register("content")}
                     placeholder="Write something..."
                     className="pl-0 scrollbar-hide bg-white shadow-none border-none placeholder:text-grayout !text-base min-h-5 h-fit"
@@ -252,6 +254,7 @@ const CreatePostInput = ({ isUserDataLoading, userData }: TCreatePost) => {
             </div>
           ) : (
             <button
+              data-testid="create-post-button"
               disabled={
                 isCommunityDataLoading || isUserDataLoading || !isMember
               }

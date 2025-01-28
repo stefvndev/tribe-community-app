@@ -58,6 +58,7 @@ const PostCard = ({ post }: TPostCard) => {
 
   return (
     <div
+      data-testid="post-card"
       key={post?.id}
       onClick={() => handlePushQueryParams("postId", post?.id)}
       className="flex items-center w-full gap-10 p-6 transition-all bg-white border rounded-lg cursor-pointer max-sm:items-start max-sm:flex-col hover:shadow-custom max-sm:gap-4"
@@ -86,7 +87,7 @@ const PostCard = ({ post }: TPostCard) => {
           </div>
         </div>
         <div className="flex flex-col w-full gap-1">
-          <p className="mt-2 text-xl font-bold">
+          <p data-testid="post-card-title" className="mt-2 text-xl font-bold">
             {highlightText(post?.title || "", searchTerm || "")}
           </p>
           <p className="w-full h-12 line-clamp-2">{post?.content}</p>
@@ -106,6 +107,7 @@ const PostCard = ({ post }: TPostCard) => {
         <div className="flex items-center w-full gap-5 mt-2 -ml-2">
           <div className="flex items-center gap-1">
             <Button
+              data-testid="like-button"
               disabled={!isMember}
               onClick={(e) => {
                 e.stopPropagation();
