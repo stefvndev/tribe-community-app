@@ -64,6 +64,7 @@ function RouteComponent() {
         </span>
         <div className="w-full max-w-[650px] relative">
           <Input
+            data-testid="search-input"
             defaultValue={search}
             onChange={handleSearch}
             placeholder="Search for anything"

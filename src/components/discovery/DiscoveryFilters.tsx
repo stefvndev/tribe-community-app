@@ -45,6 +45,7 @@ const DiscoveryFilters = () => {
       <div className="flex flex-wrap items-center w-full gap-2">
         {filtersList.map((item) => (
           <button
+            data-testid={`filter-button-${item.query}`}
             type="button"
             className={cn(
               "h-10 flex items-center gap-2 text-sm bg-white border rounded-full text-grayout w-fit px-[14px] hover:text-white transition-all ease-in-out hover:bg-dark-gray",

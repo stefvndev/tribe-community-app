@@ -13,6 +13,7 @@ type TCommunityCard = {
 const CommunityCard = ({ item, communityRedirection }: TCommunityCard) => {
   return (
     <Link
+      data-testid={`community-card-${item?.name?.toLowerCase().replace(/\s+/g, "-")}`}
       to={communityRedirection(item?.members)}
       params={{
         id: item?.id,
