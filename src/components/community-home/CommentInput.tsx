@@ -47,7 +47,9 @@ const CommentInput = ({ userId, postId }: TCommentInput) => {
     try {
       await mutateAsyncCommentOnPost({ formData });
       reset();
-      toast.success("Comment posted successfully! 🙌");
+      toast.success("Comment posted successfully! 🙌", {
+        position: "top-right",
+      });
     } catch {
       toast.error("Uh-oh! The post didn't go through. 😕", {
         description: "Try again in a moment!",

@@ -82,6 +82,7 @@ function RouteComponent() {
       navigate({ to: `/${response?.id}` });
       toast("Congratulations!", {
         description: "Your community was created successfully",
+        position: "top-right",
       });
     } catch {
       toast.error("Error!", {

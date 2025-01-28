@@ -51,6 +51,7 @@ const DeleteCommunityModal = ({ data, isOwner }: TModalProps) => {
     <Dialog>
       <DialogTrigger asChild>
         <button
+          data-testid="delete-community-button"
           disabled={isDeletingPending}
           type="submit"
           className={cn(
@@ -76,6 +77,7 @@ const DeleteCommunityModal = ({ data, isOwner }: TModalProps) => {
               Type "{`${data?.name}`}" below to confirm deletion
             </p>
             <Input
+              data-testid="delete-community-input"
               defaultValue={validName}
               onChange={(e) => setValidName(e?.target?.value)}
               className="w-full h-10 border bg-gray-50"
@@ -83,6 +85,7 @@ const DeleteCommunityModal = ({ data, isOwner }: TModalProps) => {
             />
           </label>
           <button
+            data-testid="delete-community-submit-button"
             onClick={() => handleDeleteCommunity(data?.id as string)}
             disabled={isDeletingPending || validName !== data?.name}
             type="submit"

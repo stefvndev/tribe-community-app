@@ -31,3 +31,7 @@ body {
 body.no-scroll {
   overflow: hidden;
 }
+
+.pointer-events-auto {
+  pointer-events: auto !important;
+}

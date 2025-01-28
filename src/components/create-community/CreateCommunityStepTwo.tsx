@@ -36,6 +36,7 @@ const CreateCommunityStepTwo = ({
         render={({ field }) => (
           <Select onValueChange={field.onChange} value={field.value}>
             <SelectTrigger
+              data-testid="community-category-option"
               hasError={!!errors?.category?.message}
               errorMessage={errors?.category?.message}
               className="w-full h-[52px] border text-dark-primary font-base px-4 rounded-md"
@@ -44,7 +45,11 @@ const CreateCommunityStepTwo = ({
             </SelectTrigger>
             <SelectContent className="max-h-64">
               {communityCategories.map((category) => (
-                <SelectItem key={category.value} value={category.value}>
+                <SelectItem
+                  data-testid={`option-${category.value}`}
+                  key={category.value}
+                  value={category.value}
+                >
                   {category.label}
                 </SelectItem>
               ))}
@@ -59,6 +64,7 @@ const CreateCommunityStepTwo = ({
         render={({ field }) => (
           <Select onValueChange={field.onChange} value={field.value}>
             <SelectTrigger
+              data-testid="community-type-option"
               hasError={!!errors?.type?.message}
               errorMessage={errors?.type?.message}
               className="w-full h-[52px] border text-dark-primary font-base px-4 rounded-md"
@@ -67,7 +73,11 @@ const CreateCommunityStepTwo = ({
             </SelectTrigger>
             <SelectContent className="max-h-64">
               {communityTypes.map((type) => (
-                <SelectItem key={type.value} value={type.value}>
+                <SelectItem
+                  data-testid={`option-${type.value}`}
+                  key={type.value}
+                  value={type.value}
+                >
                   {type.label}
                 </SelectItem>
               ))}
@@ -82,6 +92,7 @@ const CreateCommunityStepTwo = ({
         render={({ field }) => (
           <Select onValueChange={field.onChange} value={field.value}>
             <SelectTrigger
+              data-testid="community-pricing-option"
               hasError={!!errors?.price?.message}
               errorMessage={errors?.price?.message}
               className="w-full h-[52px] border text-dark-primary font-base px-4 rounded-md"
@@ -90,7 +101,11 @@ const CreateCommunityStepTwo = ({
             </SelectTrigger>
             <SelectContent className="max-h-64">
               {communityPrices.map((price) => (
-                <SelectItem key={price.value} value={price.value}>
+                <SelectItem
+                  data-testid={`option-${price.value}`}
+                  key={price.value}
+                  value={price.value}
+                >
                   {price.label}
                 </SelectItem>
               ))}

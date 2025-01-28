@@ -34,6 +34,7 @@ const CreateCommunityStepThree = ({
           <IconPhotoScan size={60} className="text-grayout" />
         )}
         <input
+          data-testid="community-banner-input"
           onChange={handleBannerChange}
           type="file"
           accept="image/*"
@@ -51,6 +52,7 @@ const CreateCommunityStepThree = ({
           <IconUserFilled className="text-grayout" size={25} />
         </AvatarFallback>
         <input
+          data-testid="community-image-input"
           onChange={handleAvatarChange}
           accept="image/*"
           type="file"

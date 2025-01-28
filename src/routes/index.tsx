@@ -56,6 +56,7 @@ function RouteComponent() {
         <span className="flex max-sm:mt-4 items-center gap-1.5 text-xl font-medium text-dark-primary">
           <p>or</p>
           <Link
+            data-testid="create-community-link"
             to="/create-community"
             className="text-link-blue hover:underline"
           >

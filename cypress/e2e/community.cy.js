@@ -42,7 +42,7 @@ describe("Community page", () => {
     cy.get('[data-testid="comment-input"]').click().type("Nice post!");
     cy.get('[data-testid="submit-button"]').click();
 
-    // Delete post
+    // Delete post (To prevent cluttering the database)
     cy.get('[data-testid="popover-trigger-button"]').click();
     cy.get('[data-testid="delete-post-button"]').click();
   });
