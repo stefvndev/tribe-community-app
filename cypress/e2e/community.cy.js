@@ -3,8 +3,8 @@ describe("Community page", () => {
     // Login user
     cy.visit("http://localhost:5173/login");
     cy.url().should("include", "/login");
-    cy.get('[data-testid="email-input"]').type("stefan@gmail.com");
-    cy.get('[data-testid="password-input"]').type("Password1!");
+    cy.get('[data-testid="email-input"]').type("test@test.com");
+    cy.get('[data-testid="password-input"]').type("TestPassword123!");
     cy.get('[data-testid="submit-button"]').click();
     cy.url().should("eq", "http://localhost:5173/");
 
