@@ -53,7 +53,7 @@ const ChatLayout = ({ children }: TChatLayout) => {
                 <p className="font-bold truncate text-dark-primary">
                   {notYou?.name}
                 </p>
-                <p className="text-sm truncate max-w-80">
+                <p className="w-full text-sm truncate max-w-48">
                   {lastMessage?.message}
                 </p>
               </div>
