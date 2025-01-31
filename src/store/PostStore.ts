@@ -46,7 +46,7 @@ const usePostStore = create<TPostState>((set) => ({
     mutateAsyncUpdateLikes
   ) => {
     const updatedLikes = currentLikes?.includes(userId)
-      ? currentLikes.filter((id) => id !== userId)
+      ? currentLikes?.filter((id) => id !== userId)
       : ([...currentLikes, userId] as string[]);
 
     try {

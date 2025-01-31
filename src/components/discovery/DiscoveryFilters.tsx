@@ -15,7 +15,7 @@ const DiscoveryFilters = () => {
     () =>
       showAllFilters
         ? discoveryFiltersData
-        : discoveryFiltersData.filter((item) => item.id <= 6),
+        : discoveryFiltersData?.filter((item) => item.id <= 6),
     [showAllFilters]
   );
 

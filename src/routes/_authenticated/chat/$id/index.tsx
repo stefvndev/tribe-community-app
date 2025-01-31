@@ -108,7 +108,7 @@ function RouteComponent() {
   useEffect(() => {
     const markMessagesAsRead = async () => {
       if (messagesData) {
-        const unreadMessages = messagesData.filter(
+        const unreadMessages = messagesData?.filter(
           (message) => message.receiver_id === userId && !message.seen
         );
 

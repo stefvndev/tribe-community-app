@@ -20,7 +20,7 @@ const NavbarMessagesDropdown = () => {
   );
 
   const getUnreadMessagesCount = (conversation: TConversation) => {
-    return conversation.expand.messages.filter(
+    return conversation?.expand?.messages?.filter(
       (message) => message.receiver_id === userId && !message.seen
     ).length;
   };
@@ -31,7 +31,7 @@ const NavbarMessagesDropdown = () => {
 
   const getTotalUnreadConversations = () => {
     return allConversationsData?.reduce((acc, conversation) => {
-      const lastMessage = conversation.expand.messages.slice(-1)[0];
+      const lastMessage = conversation?.expand?.messages?.slice(-1)[0];
       return (
         acc +
         (getUnreadMessagesCount(conversation) > 0 &&
@@ -52,7 +52,7 @@ const NavbarMessagesDropdown = () => {
         >
           <IconMessageCircle size={26} className="!size-6" />
           {allConversationsData?.some((conversation) => {
-            const lastMessage = conversation.expand.messages.slice(-1)[0];
+            const lastMessage = conversation?.expand?.messages?.slice(-1)[0];
             return (
               getUnreadMessagesCount(conversation) > 0 &&
               !isSentByCurrentUserAndUnseen(lastMessage)
