@@ -20,7 +20,7 @@ const ChatMessages: React.FC<MessageListProps> = ({ messagesData }) => {
   }, [messagesData]);
 
   return (
-    <div className="flex flex-col w-full h-full gap-4 px-4 pt-6 overflow-y-auto max-h-[80%]">
+    <div className="flex flex-col w-full h-full gap-4 px-4 pt-6 overflow-y-auto max-h-[80%] max-md:h-dvh">
       {messagesData?.map((message) => (
         <div key={message.id} className="flex items-start gap-3">
           <AvatarIcon
