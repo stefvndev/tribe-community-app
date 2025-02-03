@@ -112,7 +112,7 @@ export const useConversationsData = (userId: string) => {
         });
       return data;
     },
-    refetchInterval: 15000,
+    refetchInterval: 10000,
   });
 };
 

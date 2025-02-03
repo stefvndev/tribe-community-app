@@ -43,6 +43,7 @@ export type TUserData = {
   verified: boolean;
   description: string;
   location: string;
+  firstLogin: boolean;
 };
 
 export type TCreateCommunitySubmitData = {
