@@ -52,8 +52,13 @@ const NavbarMessagesDropdown = () => {
         >
           <IconMessageCircle size={26} className="!size-6" />
           {allConversationsData?.some((conversation) => {
-            const messages = conversation?.expand?.messages;
-            const lastMessage = messages?.length
+            const messages = Array.isArray(conversation?.expand?.messages)
+              ? conversation?.expand?.messages
+              : conversation?.expand?.messages
+                ? [conversation?.expand?.messages]
+                : [];
+
+            const lastMessage = messages.length
               ? messages[messages.length - 1]
               : undefined;
 
@@ -90,8 +95,12 @@ const NavbarMessagesDropdown = () => {
                 const notYou = conversation?.expand?.users?.filter(
                   (user) => user?.id !== userId
                 )[0];
-                const messages = conversation?.expand?.messages;
-                const lastMessage = messages?.length
+                const messages = Array.isArray(conversation?.expand?.messages)
+                  ? conversation?.expand?.messages
+                  : conversation?.expand?.messages
+                    ? [conversation?.expand?.messages]
+                    : [];
+                const lastMessage = messages.length
                   ? messages[messages.length - 1]
                   : undefined;
                 const isUnread =

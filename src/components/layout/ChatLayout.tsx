@@ -33,16 +33,11 @@ const ChatLayout = ({ children }: TChatLayout) => {
             ? messages[messages.length - 1]
             : undefined;
 
-          console.log("messages", messages);
-          console.log("last msg", lastMessage);
+          const isUnread =
+            messages?.find((message) => message?.seen === false) !== undefined;
 
-          // const isUnread =
-          //   conversation?.expand?.messages?.find(
-          //     (message) => message?.seen === false
-          //   ) !== undefined;
-
-          // const isSentByCurrentUserAndUnseen =
-          //   lastMessage?.sender_id === userId && !lastMessage?.seen;
+          const isSentByCurrentUserAndUnseen =
+            lastMessage?.sender_id === userId && !lastMessage?.seen;
 
           return (
             <button
@@ -51,9 +46,9 @@ const ChatLayout = ({ children }: TChatLayout) => {
               type="button"
               className={cn(
                 "flex items-center w-full gap-3 px-4 py-3 h-[72px] border-b hover:bg-light-gray",
-                // (isSentByCurrentUserAndUnseen || !isUnread) &&
-                //   id !== conversation.id &&
-                //   "opacity-60",
+                (isSentByCurrentUserAndUnseen || !isUnread) &&
+                  id !== conversation.id &&
+                  "opacity-60",
                 id === conversation.id && "bg-light-gray/50"
               )}
             >
@@ -73,9 +68,9 @@ const ChatLayout = ({ children }: TChatLayout) => {
                 </p>
               </div>
 
-              {/* {isUnread && !isSentByCurrentUserAndUnseen && (
+              {isUnread && !isSentByCurrentUserAndUnseen && (
                 <span className="p-1 bg-blue-500 rounded-full animate-pulse" />
-              )} */}
+              )}
             </button>
           );
         })}
