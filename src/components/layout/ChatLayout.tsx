@@ -22,7 +22,12 @@ const ChatLayout = ({ children }: TChatLayout) => {
           const notYou = conversation?.expand?.users?.filter(
             (user) => user?.id !== userId
           )[0];
-          const lastMessage = conversation?.expand?.messages?.slice(-1)[0];
+
+          const messages = conversation?.expand?.messages;
+          const lastMessage = messages?.length
+            ? messages[messages.length - 1]
+            : undefined;
+
           const isUnread = conversation?.expand?.messages?.some(
             (message) => message?.seen === false
           );
