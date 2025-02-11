@@ -23,10 +23,10 @@ const ChatLayout = ({ children }: TChatLayout) => {
             (user) => user?.id !== userId
           )[0];
 
-          // const messages = conversation?.expand?.messages;
-          // const lastMessage = messages?.length
-          //   ? messages[messages.length - 1]
-          //   : undefined;
+          const messages = conversation?.expand?.messages;
+          const lastMessage = messages?.length
+            ? messages[messages.length - 1]
+            : undefined;
 
           // const isUnread =
           //   conversation?.expand?.messages?.find(
@@ -61,7 +61,7 @@ const ChatLayout = ({ children }: TChatLayout) => {
                   {notYou?.name}
                 </p>
                 <p className="w-full text-sm truncate text-start max-w-48">
-                  {/* {lastMessage?.message} */}
+                  {lastMessage?.message}
                 </p>
               </div>
 
