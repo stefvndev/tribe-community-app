@@ -27,6 +27,8 @@ const ChatLayout = ({ children }: TChatLayout) => {
           const lastMessage = messages?.length
             ? messages[messages.length - 1]
             : undefined;
+          console.log("messages", messages);
+          console.log("last msg", lastMessage);
 
           // const isUnread =
           //   conversation?.expand?.messages?.find(
