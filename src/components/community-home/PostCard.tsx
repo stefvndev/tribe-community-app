@@ -94,6 +94,7 @@ const PostCard = ({ post }: TPostCard) => {
           {/* small screen media */}
           {post?.media && (
             <img
+              loading="lazy"
               alt="Post media"
               src={getPocketBaseFileUrl({
                 recordId: post.id,
@@ -145,6 +146,7 @@ const PostCard = ({ post }: TPostCard) => {
       {/* large screen media */}
       {post?.media && (
         <img
+          loading="lazy"
           alt="Post media"
           src={getPocketBaseFileUrl({
             recordId: post.id,
