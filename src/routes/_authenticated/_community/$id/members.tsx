@@ -188,7 +188,7 @@ function RouteComponent() {
             ))
           )}
 
-          {!isMember && (
+          {!isMember && !isLoading && (
             <p>
               Join the community to access and view other community members.
             </p>
