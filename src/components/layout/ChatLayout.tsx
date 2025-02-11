@@ -28,9 +28,11 @@ const ChatLayout = ({ children }: TChatLayout) => {
             ? messages[messages.length - 1]
             : undefined;
 
-          const isUnread = conversation?.expand?.messages?.some(
-            (message) => message?.seen === false
-          );
+          const isUnread =
+            conversation?.expand?.messages?.find(
+              (message) => message?.seen === false
+            ) !== undefined;
+
           const isSentByCurrentUserAndUnseen =
             lastMessage?.sender_id === userId && !lastMessage?.seen;
 

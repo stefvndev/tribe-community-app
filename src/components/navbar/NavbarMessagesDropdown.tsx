@@ -86,11 +86,14 @@ const NavbarMessagesDropdown = () => {
                 const notYou = conversation?.expand?.users?.filter(
                   (user) => user?.id !== userId
                 )[0];
-                const lastMessage =
-                  conversation?.expand?.messages?.slice(-1)[0];
-                const isUnread = conversation?.expand?.messages?.some(
-                  (message) => message?.seen === false
-                );
+                const messages = conversation?.expand?.messages;
+                const lastMessage = messages?.length
+                  ? messages[messages.length - 1]
+                  : undefined;
+                const isUnread =
+                  conversation?.expand?.messages?.find(
+                    (message) => message?.seen === false
+                  ) !== undefined;
                 const isSentByCurrentUserAndUnseen =
                   lastMessage?.sender_id === userId && !lastMessage?.seen;
                 return (
