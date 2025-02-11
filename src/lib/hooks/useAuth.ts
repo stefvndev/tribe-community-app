@@ -16,10 +16,7 @@ const SIGNUP_ERRORS = {
   VALIDATION_NOT_UNIQUE: "validation_not_unique",
 };
 
-const welcomeMessage = `Welcome to the Tribe! 🎉
-We're excited to have you on board! If you have any questions or need help getting started, feel free to reach out.
-You can contact me directly at stefan.topallovic@gmail.com - I'm happy to assist!
-Enjoy using Tribe and have a great day! 🚀`;
+const welcomeMessage = `Welcome to the Tribe! 🎉 We're excited to have you on board! This is a portfolio project, a recreation of the popular website called Skool. If you have any questions or need help getting started, feel free to reach out. You can contact me directly at stefan.topallovic@gmail.com – I'm happy to assist! Enjoy using Tribe and have a great day!  🚀`;
 
 const appOwnerId = import.meta.env.VITE_APP_OWNER_ID;
 
