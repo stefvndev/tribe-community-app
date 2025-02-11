@@ -23,10 +23,16 @@ const ChatLayout = ({ children }: TChatLayout) => {
             (user) => user?.id !== userId
           )[0];
 
-          const messages = conversation?.expand?.messages;
-          const lastMessage = messages?.length
+          const messages = Array.isArray(conversation?.expand?.messages)
+            ? conversation?.expand?.messages
+            : conversation?.expand?.messages
+              ? [conversation?.expand?.messages]
+              : [];
+
+          const lastMessage = messages.length
             ? messages[messages.length - 1]
             : undefined;
+
           console.log("messages", messages);
           console.log("last msg", lastMessage);
 
