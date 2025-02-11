@@ -9,7 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import { mobileMenuLinks } from "./mobileMenuLinks";
-// import NavbarMessagesDropdown from "./NavbarMessagesDropdown";
+import NavbarMessagesDropdown from "./NavbarMessagesDropdown";
 import NavbarTabs from "./NavbarTabs";
 import NavbarUserMenuDropdown from "./NavbarUserMenuDropdown";
 import NavDropdown from "./NavDropdown";
@@ -85,7 +85,7 @@ const CommunityNavbar = () => {
           </div>
           {isLogged() ? (
             <div className="flex items-center justify-end w-32 gap-2">
-              {/* <NavbarMessagesDropdown /> */}
+              <NavbarMessagesDropdown />
               <NavbarUserMenuDropdown />
             </div>
           ) : (

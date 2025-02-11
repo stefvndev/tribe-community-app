@@ -20,18 +20,32 @@ const NavbarMessagesDropdown = () => {
   );
 
   const getUnreadMessagesCount = (conversation: TConversation) => {
-    return conversation?.expand?.messages?.filter(
+    const messages = Array.isArray(conversation?.expand?.messages)
+      ? conversation?.expand?.messages
+      : conversation?.expand?.messages
+        ? [conversation?.expand?.messages]
+        : [];
+
+    return messages?.filter(
       (message) => message.receiver_id === userId && !message.seen
     ).length;
   };
 
-  const isSentByCurrentUserAndUnseen = (lastMessage: TMessage) => {
-    return lastMessage.sender_id === userId && !lastMessage.seen;
+  const isSentByCurrentUserAndUnseen = (lastMessage: TMessage | undefined) => {
+    return lastMessage?.sender_id === userId && !lastMessage?.seen;
   };
 
   const getTotalUnreadConversations = () => {
     return allConversationsData?.reduce((acc, conversation) => {
-      const lastMessage = conversation?.expand?.messages?.slice(-1)[0];
+      const messages = Array.isArray(conversation?.expand?.messages)
+        ? conversation?.expand?.messages
+        : conversation?.expand?.messages
+          ? [conversation?.expand?.messages]
+          : [];
+
+      const lastMessage = messages.length
+        ? messages[messages.length - 1]
+        : undefined;
       return (
         acc +
         (getUnreadMessagesCount(conversation) > 0 &&
