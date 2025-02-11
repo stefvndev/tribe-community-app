@@ -52,10 +52,14 @@ const NavbarMessagesDropdown = () => {
         >
           <IconMessageCircle size={26} className="!size-6" />
           {allConversationsData?.some((conversation) => {
-            const lastMessage = conversation?.expand?.messages?.slice(-1)[0];
+            const messages = conversation?.expand?.messages;
+            const lastMessage = messages?.length
+              ? messages[messages.length - 1]
+              : undefined;
+
             return (
               getUnreadMessagesCount(conversation) > 0 &&
-              !isSentByCurrentUserAndUnseen(lastMessage)
+              !isSentByCurrentUserAndUnseen(lastMessage as TMessage)
             );
           }) && (
             <span className="absolute top-1 right-1 flex items-center justify-center py-0.5 px-1.5 text-xs text-white bg-red-500 rounded-full">
@@ -91,9 +95,8 @@ const NavbarMessagesDropdown = () => {
                   ? messages[messages.length - 1]
                   : undefined;
                 const isUnread =
-                  conversation?.expand?.messages?.find(
-                    (message) => message?.seen === false
-                  ) !== undefined;
+                  messages?.find((message) => message?.seen === false) !==
+                  undefined;
                 const isSentByCurrentUserAndUnseen =
                   lastMessage?.sender_id === userId && !lastMessage?.seen;
                 return (
