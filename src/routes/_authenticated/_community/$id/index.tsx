@@ -39,7 +39,8 @@ function RouteComponent() {
   const { data: userData, isLoading: isUserDataLoading } = useGetUserData(
     userId as string
   );
-  const { data: allPostsData } = useListOfAllPosts(id);
+  const { data: allPostsData, isLoading: isPostsLoading } =
+    useListOfAllPosts(id);
   const { data: allCommentsData } = useListOfAllComments();
   const { setComments } = usePostStore();
 
@@ -70,7 +71,7 @@ function RouteComponent() {
 
       <AllPosts
         allPostsData={searchedPostData}
-        isUserDataLoading={isUserDataLoading}
+        isPostsLoading={isPostsLoading}
       />
     </main>
   );
