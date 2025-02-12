@@ -14,6 +14,7 @@ import AppLayout from "@/components/layout/AppLayout";
 import ChatLayout from "@/components/layout/ChatLayout";
 import useUserStore from "@/store/UserStore";
 import { IconLoader2 } from "@tabler/icons-react";
+import debounce from "lodash/debounce";
 
 export const Route = createFileRoute("/_authenticated/chat/$id/")({
   component: () => (
@@ -58,22 +59,26 @@ function RouteComponent() {
   const handleSendMessage = async () => {
     if (!messageInput.trim() || !id) return;
     setIsMessageSending(true);
-    try {
-      const newMessage = await pb.collection("messages").create({
-        message: messageInput,
-        sender_id: userId as string,
-        conversation: id as string,
-        receiver_id: conversationUserData?.id as string,
-      });
 
-      await pb.collection("conversations").update(id as string, {
-        messages: [...(conversationData?.messages || []), newMessage.id],
-        seen: false,
+    try {
+      await retryWithBackoff(async () => {
+        const newMessage = await pb.collection("messages").create({
+          message: messageInput,
+          sender_id: userId as string,
+          conversation: id as string,
+          receiver_id: conversationUserData?.id as string,
+        });
+
+        await pb.collection("conversations").update(id as string, {
+          messages: [...(conversationData?.messages || []), newMessage.id],
+          seen: false,
+        });
       });
 
       setMessageInput("");
       queryClient.invalidateQueries([
-        "conversations",
+        "conversation_messages",
+        id,
       ] as InvalidateQueryFilters);
     } catch (err) {
       console.error("Error sending message:", err);
@@ -82,12 +87,25 @@ function RouteComponent() {
     }
   };
 
+  async function retryWithBackoff(fn: () => void, retries = 3, delay = 500) {
+    for (let i = 0; i < retries; i++) {
+      try {
+        return await fn();
+      } catch (err) {
+        if (i === retries - 1) throw err;
+        await new Promise((resolve) => setTimeout(resolve, delay * 2 ** i));
+      }
+    }
+  }
+
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
       handleSendMessage();
     }
   };
+
+  const debouncedRefetch = useMemo(() => debounce(refetch, 2000), [refetch]);
 
   useEffect(() => {
     let unsubscribe: (() => void) | null = null;
@@ -96,7 +114,7 @@ function RouteComponent() {
       try {
         unsubscribe = await pb.collection("messages").subscribe("*", (e) => {
           if (e.action === "create" && e.record.conversation === id) {
-            refetch();
+            debouncedRefetch();
           }
         });
       } catch (error) {
@@ -111,7 +129,7 @@ function RouteComponent() {
         unsubscribe();
       }
     };
-  }, [id, queryClient, refetch]);
+  }, [id, debouncedRefetch]);
 
   useEffect(() => {
     const markMessagesAsRead = async () => {
