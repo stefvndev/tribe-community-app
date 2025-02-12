@@ -144,20 +144,19 @@ function RouteComponent() {
 
       <div className="bottom-0 flex items-center self-end w-full h-20 px-2 py-1 bg-white border-t">
         <input
-          disabled={isMessageSending}
+          disabled={!isMessageSending}
           value={messageInput}
           onChange={handleMessageInput}
           onKeyDown={handleKeyPress}
           type="text"
-          placeholder={
-            isMessageSending
-              ? `Sending...`
-              : `Message ${conversationUserData?.name}`
-          }
+          placeholder={`Message ${conversationUserData?.name}`}
           className="w-full h-full px-4 py-2 border-none rounded-md outline-none"
         />
-        {isMessageSending ? (
-          <IconLoader2 size={24} className="mx-2 animate-spin" />
+        {!isMessageSending ? (
+          <div className="flex items-center gap-1 px-4 py-2 mx-2 text-sm rounded-lg bg-yellow-primary">
+            <IconLoader2 size={18} className="animate-spin" />
+            Sending...
+          </div>
         ) : (
           <EmojiButton
             handleEmojiClick={handleEmojiClick}
