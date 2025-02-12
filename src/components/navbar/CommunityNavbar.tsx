@@ -14,6 +14,7 @@ import NavbarTabs from "./NavbarTabs";
 import NavbarUserMenuDropdown from "./NavbarUserMenuDropdown";
 import NavDropdown from "./NavDropdown";
 import NavPostSearch from "./NavPostSearch";
+import useSignOut from "@/lib/hooks/useSignOut";
 
 const getSelectedTab = (pathname: string, id: string) => {
   const basePath = pathname.split(`/${id}/`)[1];
@@ -28,6 +29,7 @@ const CommunityNavbar = () => {
   const location = useLocation();
   const selectedTab = getSelectedTab(location.pathname, id || "");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { signOut } = useSignOut();
 
   const profileUrl = (link: { name: string; url: string }) =>
     link.name === "Profile" ? `${link.url}/${userId}` : `${link.url}`;
@@ -91,7 +93,7 @@ const CommunityNavbar = () => {
           ) : (
             <Link
               to="/login"
-              className="flex items-center justify-center px-5 py-[11px] border font-bold min-w-[116px] text-grayout rounded-md hover:text-black transition-opacity uppercase whitespace-nowrap"
+              className="flex items-center max-md:hidden justify-center px-5 py-[11px] border font-bold min-w-[116px] text-grayout rounded-md hover:text-black transition-opacity uppercase whitespace-nowrap"
             >
               log in
             </Link>
@@ -121,21 +123,47 @@ const CommunityNavbar = () => {
       {/* mobile menu */}
       <nav
         className={cn(
-          "absolute h-[calc(100dvh-112px)] flex flex-col w-full bg-white top-28 transition-all ease-in-out z-50 duration-300",
-          isMobileMenuOpen ? "left-0" : "-left-full"
+          "absolute flex flex-col w-full bg-white transition-all ease-in-out z-50 duration-300",
+          isMobileMenuOpen ? "left-0" : "-left-full",
+          isLogged()
+            ? "top-28 h-[calc(100dvh-112px)]"
+            : "top-16 h-[calc(100dvh-64px)]"
         )}
       >
         <ul className="flex flex-col w-full h-full">
-          {mobileMenuLinks.map((link) => (
-            <li key={link.id} className="flex w-full">
+          {!isLogged() ? (
+            <li className="flex w-full">
               <Link
-                to={profileUrl(link)}
+                to="/login"
                 className="flex items-center w-full px-4 font-medium h-14 text-dark-primary hover:bg-light-gray"
               >
-                <p>{link.name}</p>
+                <p>Login</p>
               </Link>
             </li>
-          ))}
+          ) : (
+            <div className="flex flex-col">
+              {mobileMenuLinks.map((link) => (
+                <li key={link.id} className="flex w-full">
+                  <Link
+                    onClick={handleMobileMenu}
+                    to={profileUrl(link)}
+                    className="flex items-center w-full px-4 font-medium h-14 text-dark-primary hover:bg-light-gray"
+                  >
+                    <p>{link.name}</p>
+                  </Link>
+                </li>
+              ))}
+              <li className="flex w-full">
+                <Link
+                  onClick={signOut}
+                  to="/login"
+                  className="flex items-center w-full px-4 font-medium text-red-500 h-14 hover:bg-light-gray"
+                >
+                  <p>Sign out</p>
+                </Link>
+              </li>
+            </div>
+          )}
         </ul>
       </nav>
     </header>
