@@ -44,7 +44,7 @@ const ChatMessages: React.FC<MessageListProps> = ({ messagesData }) => {
             >
               {message?.expand?.sender_id?.name}
             </Link>
-            <p>{message?.message}</p>
+            <p className="break-all">{message?.message}</p>
           </div>
         </div>
       ))}
