@@ -88,11 +88,16 @@ function RouteComponent() {
   };
 
   async function retryWithBackoff(fn: () => void, retries = 3, delay = 500) {
+    // Loop to attempt the function call up to the specified number of retries
     for (let i = 0; i < retries; i++) {
       try {
+        // Try executing the function; if successful, return the result
         return await fn();
       } catch (err) {
+        // If it's the last attempt and the function still fails, throw the error
         if (i === retries - 1) throw err;
+
+        // Wait for a delay before retrying, increasing the wait time exponentially
         await new Promise((resolve) => setTimeout(resolve, delay * 2 ** i));
       }
     }
