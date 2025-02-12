@@ -90,22 +90,26 @@ function RouteComponent() {
   };
 
   useEffect(() => {
+    let unsubscribe: (() => void) | null = null;
+
     const subscribeToMessages = async () => {
-      const unsubscribe = await pb
-        .collection("messages")
-        .subscribe("*", (e) => {
+      try {
+        unsubscribe = await pb.collection("messages").subscribe("*", (e) => {
           if (e.action === "create" && e.record.conversation === id) {
             refetch();
           }
         });
-
-      return unsubscribe;
+      } catch (error) {
+        console.error("PocketBase subscription error:", error);
+      }
     };
 
-    const unsubscribePromise = subscribeToMessages();
+    subscribeToMessages();
 
     return () => {
-      unsubscribePromise.then((unsubscribe) => unsubscribe());
+      if (unsubscribe) {
+        unsubscribe();
+      }
     };
   }, [id, queryClient, refetch]);
 
@@ -149,7 +153,7 @@ function RouteComponent() {
           onChange={handleMessageInput}
           onKeyDown={handleKeyPress}
           type="text"
-          placeholder={`Message ${conversationUserData?.name}`}
+          placeholder={`Message ${conversationUserData?.name || ""}`}
           className="w-full h-full px-4 py-2 border-none rounded-md outline-none"
         />
         {isMessageSending ? (
