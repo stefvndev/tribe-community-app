@@ -13,6 +13,7 @@ import ChatMessages from "@/components/chat/ChatMessages";
 import AppLayout from "@/components/layout/AppLayout";
 import ChatLayout from "@/components/layout/ChatLayout";
 import useUserStore from "@/store/UserStore";
+import { IconLoader2 } from "@tabler/icons-react";
 
 export const Route = createFileRoute("/_authenticated/chat/$id/")({
   component: () => (
@@ -37,6 +38,7 @@ function RouteComponent() {
     refetch,
   } = useGetConversationMessages(id as string);
   const [messageInput, setMessageInput] = useState("");
+  const [isMessageSending, setIsMessageSending] = useState(false);
 
   const conversationUserData = useMemo(() => {
     return conversationData?.expand?.users?.filter(
@@ -55,7 +57,7 @@ function RouteComponent() {
 
   const handleSendMessage = async () => {
     if (!messageInput.trim() || !id) return;
-
+    setIsMessageSending(true);
     try {
       const newMessage = await pb.collection("messages").create({
         message: messageInput,
@@ -75,6 +77,8 @@ function RouteComponent() {
       ] as InvalidateQueryFilters);
     } catch (err) {
       console.error("Error sending message:", err);
+    } finally {
+      setIsMessageSending(false);
     }
   };
 
@@ -140,17 +144,26 @@ function RouteComponent() {
 
       <div className="bottom-0 flex items-center self-end w-full h-20 px-2 py-1 bg-white border-t">
         <input
+          disabled={isMessageSending}
           value={messageInput}
           onChange={handleMessageInput}
           onKeyDown={handleKeyPress}
           type="text"
-          placeholder={`Message ${conversationUserData?.name}`}
-          className="w-full h-full px-4 py-2 border-none outline-none"
+          placeholder={
+            isMessageSending
+              ? `Sending...`
+              : `Message ${conversationUserData?.name}`
+          }
+          className="w-full h-full px-4 py-2 border-none rounded-md outline-none"
         />
-        <EmojiButton
-          handleEmojiClick={handleEmojiClick}
-          className="-left-[320px]"
-        />
+        {isMessageSending ? (
+          <IconLoader2 size={24} className="mx-2 animate-spin" />
+        ) : (
+          <EmojiButton
+            handleEmojiClick={handleEmojiClick}
+            className="-left-[320px]"
+          />
+        )}
       </div>
     </main>
   );
