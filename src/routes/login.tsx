@@ -59,6 +59,7 @@ function RouteComponent() {
           className="flex flex-col items-center w-full h-full gap-6"
         >
           <Input
+            autoComplete="off"
             data-testid="email-input"
             {...register("email")}
             type="email"

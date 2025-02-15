@@ -99,6 +99,7 @@ function RouteComponent() {
           >
             <div className="flex flex-col w-full gap-6">
               <Input
+                autoComplete="off"
                 data-testid="name-input"
                 maxLength={14}
                 {...register("name")}
@@ -109,6 +110,7 @@ function RouteComponent() {
                 errorMessage={errors?.name?.message}
               />
               <Input
+                autoComplete="off"
                 data-testid="lastname-input"
                 maxLength={14}
                 {...register("last_name")}
@@ -119,6 +121,7 @@ function RouteComponent() {
                 errorMessage={errors?.last_name?.message}
               />
               <Input
+                autoComplete="off"
                 data-testid="email-input"
                 {...register("email")}
                 type="email"
