@@ -26,6 +26,9 @@ Cypress
 **Back-end:** Pocketbase
 
 ## Demo
+
+Video - https://www.youtube.com/watch?v=gKtcJ9Fn6KU
+
 ![image](https://github.com/user-attachments/assets/e8e229b1-4e66-4db1-aba6-c74ef52ea36c)
 
 ![image](https://github.com/user-attachments/assets/30d0e3fa-a984-4a3f-9be1-d24b7304abfe)
